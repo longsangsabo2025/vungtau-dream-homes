@@ -1,4 +1,4 @@
-import { Building2, Mail, Phone, MapPin, Facebook, Youtube } from "lucide-react";
+import { Building, Mail, Phone, MapPin, Facebook, Youtube } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -7,13 +7,13 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* About */}
           <div>
-            <div className="flex items-center space-x-2 mb-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
-                <Building2 className="h-6 w-6 text-primary-foreground" />
+            <div className="flex items-center space-x-2.5 mb-4">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl gradient-primary shadow-lg">
+                <Building className="h-6 w-6 text-primary-foreground" strokeWidth={2.5} />
               </div>
               <div className="flex flex-col">
-                <span className="text-lg font-bold leading-none">VungTauLand</span>
-                <span className="text-xs text-muted-foreground">BĐS Vũng Tàu</span>
+                <span className="text-lg font-bold leading-none tracking-tight">VungTauLand</span>
+                <span className="text-[11px] text-muted-foreground font-medium">BĐS Vũng Tàu</span>
               </div>
             </div>
             <p className="text-sm text-muted-foreground mb-4">
@@ -94,19 +94,19 @@ const Footer = () => {
             <h3 className="text-sm font-semibold mb-4">Liên hệ</h3>
             <ul className="space-y-3">
               <li className="flex items-start gap-2">
-                <MapPin className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
+                <MapPin className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" strokeWidth={2.5} />
                 <span className="text-sm text-muted-foreground">
                   123 Đường Trương Công Định, Phường 1, Vũng Tàu
                 </span>
               </li>
               <li className="flex items-center gap-2">
-                <Phone className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                <Phone className="h-4 w-4 text-primary flex-shrink-0" strokeWidth={2.5} />
                 <a href="tel:0254123456" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                   0254 123 456
                 </a>
               </li>
               <li className="flex items-center gap-2">
-                <Mail className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                <Mail className="h-4 w-4 text-primary flex-shrink-0" strokeWidth={2.5} />
                 <a href="mailto:contact@vungtauland.vn" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                   contact@vungtauland.vn
                 </a>

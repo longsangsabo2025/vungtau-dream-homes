@@ -1,4 +1,4 @@
-import { Bed, Bath, Ruler, MapPin, Heart } from "lucide-react";
+import { BedDouble, Bath, Maximize2, MapPin, Heart } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -74,9 +74,9 @@ const PropertyCard = ({
         <Button
           size="icon"
           variant="ghost"
-          className="absolute top-3 right-3 h-9 w-9 bg-background/80 backdrop-blur-sm hover:bg-background/90 hover:text-destructive"
+          className="absolute top-3 right-3 h-9 w-9 bg-background/80 backdrop-blur-sm hover:bg-background/90 hover:text-destructive transition-all"
         >
-          <Heart className="h-4 w-4" />
+          <Heart className="h-4 w-4" strokeWidth={2.5} />
         </Button>
       </div>
 
@@ -95,27 +95,27 @@ const PropertyCard = ({
         </h3>
 
         {/* Location */}
-        <div className="mb-3 flex items-center gap-1 text-sm text-muted-foreground">
-          <MapPin className="h-4 w-4 flex-shrink-0" />
+        <div className="mb-3 flex items-center gap-1.5 text-sm text-muted-foreground">
+          <MapPin className="h-4 w-4 flex-shrink-0" strokeWidth={2.5} />
           <span className="line-clamp-1">{location}</span>
         </div>
 
         {/* Details */}
         <div className="flex items-center gap-4 border-t pt-3">
           <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
-            <Ruler className="h-4 w-4" />
-            <span>{area}m²</span>
+            <Maximize2 className="h-4 w-4" strokeWidth={2.5} />
+            <span className="font-medium">{area}m²</span>
           </div>
           {bedrooms && (
             <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
-              <Bed className="h-4 w-4" />
-              <span>{bedrooms} PN</span>
+              <BedDouble className="h-4 w-4" strokeWidth={2.5} />
+              <span className="font-medium">{bedrooms} PN</span>
             </div>
           )}
           {bathrooms && (
             <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
-              <Bath className="h-4 w-4" />
-              <span>{bathrooms} WC</span>
+              <Bath className="h-4 w-4" strokeWidth={2.5} />
+              <span className="font-medium">{bathrooms} WC</span>
             </div>
           )}
         </div>

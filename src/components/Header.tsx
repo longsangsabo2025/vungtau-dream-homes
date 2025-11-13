@@ -1,4 +1,4 @@
-import { Building2, Heart, User, Menu, Search } from "lucide-react";
+import { Building, Heart, User, Menu, Search, LogIn, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
@@ -10,13 +10,13 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <a href="/" className="flex items-center space-x-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
-              <Building2 className="h-6 w-6 text-primary-foreground" />
+          <a href="/" className="flex items-center space-x-2.5">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl gradient-primary shadow-lg">
+              <Building className="h-6 w-6 text-primary-foreground" strokeWidth={2.5} />
             </div>
             <div className="flex flex-col">
-              <span className="text-lg font-bold leading-none text-foreground">VungTauLand</span>
-              <span className="text-xs text-muted-foreground">BĐS Vũng Tàu</span>
+              <span className="text-lg font-bold leading-none text-foreground tracking-tight">VungTauLand</span>
+              <span className="text-[11px] text-muted-foreground font-medium">BĐS Vũng Tàu</span>
             </div>
           </a>
 
@@ -42,16 +42,17 @@ const Header = () => {
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center space-x-3">
             <Button variant="ghost" size="icon" className="text-foreground hover:text-primary">
-              <Search className="h-5 w-5" />
+              <Search className="h-5 w-5" strokeWidth={2} />
             </Button>
             <Button variant="ghost" size="icon" className="text-foreground hover:text-primary">
-              <Heart className="h-5 w-5" />
+              <Heart className="h-5 w-5" strokeWidth={2} />
             </Button>
-            <Button variant="outline" size="sm" className="gap-2">
-              <User className="h-4 w-4" />
+            <Button variant="outline" size="sm" className="gap-2 font-medium">
+              <LogIn className="h-4 w-4" strokeWidth={2.5} />
               Đăng nhập
             </Button>
-            <Button size="sm" className="gap-2 bg-primary hover:bg-primary-light">
+            <Button size="sm" className="gap-2 bg-primary hover:bg-primary-light font-semibold">
+              <Plus className="h-4 w-4" strokeWidth={3} />
               Đăng tin
             </Button>
           </div>
