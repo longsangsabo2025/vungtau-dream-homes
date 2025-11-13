@@ -1,0 +1,127 @@
+import { Bed, Bath, Ruler, MapPin, Heart } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+
+interface PropertyCardProps {
+  id: string;
+  title: string;
+  price: number;
+  area: number;
+  bedrooms?: number;
+  bathrooms?: number;
+  location: string;
+  image: string;
+  type: string;
+  isHot?: boolean;
+  className?: string;
+}
+
+const PropertyCard = ({
+  title,
+  price,
+  area,
+  bedrooms,
+  bathrooms,
+  location,
+  image,
+  type,
+  isHot,
+  className,
+}: PropertyCardProps) => {
+  const formatPrice = (price: number) => {
+    if (price >= 1000000000) {
+      return `${(price / 1000000000).toFixed(1)} tỷ`;
+    }
+    if (price >= 1000000) {
+      return `${(price / 1000000).toFixed(0)} triệu`;
+    }
+    return price.toLocaleString("vi-VN");
+  };
+
+  return (
+    <div
+      className={cn(
+        "group relative overflow-hidden rounded-xl bg-card border hover-lift cursor-pointer",
+        className
+      )}
+    >
+      {/* Image */}
+      <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+        <img
+          src={image}
+          alt={title}
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+          loading="lazy"
+        />
+        
+        {/* Overlay gradient */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        
+        {/* Badges */}
+        <div className="absolute top-3 left-3 flex gap-2">
+          <Badge className="bg-secondary text-secondary-foreground font-medium">
+            {type}
+          </Badge>
+          {isHot && (
+            <Badge className="bg-accent text-accent-foreground font-medium">
+              HOT
+            </Badge>
+          )}
+        </div>
+
+        {/* Favorite button */}
+        <Button
+          size="icon"
+          variant="ghost"
+          className="absolute top-3 right-3 h-9 w-9 bg-background/80 backdrop-blur-sm hover:bg-background/90 hover:text-destructive"
+        >
+          <Heart className="h-4 w-4" />
+        </Button>
+      </div>
+
+      {/* Content */}
+      <div className="p-4">
+        {/* Price */}
+        <div className="mb-2">
+          <span className="text-2xl font-bold text-primary">
+            {formatPrice(price)} VNĐ
+          </span>
+        </div>
+
+        {/* Title */}
+        <h3 className="mb-2 text-base font-semibold text-foreground line-clamp-2 min-h-[3rem]">
+          {title}
+        </h3>
+
+        {/* Location */}
+        <div className="mb-3 flex items-center gap-1 text-sm text-muted-foreground">
+          <MapPin className="h-4 w-4 flex-shrink-0" />
+          <span className="line-clamp-1">{location}</span>
+        </div>
+
+        {/* Details */}
+        <div className="flex items-center gap-4 border-t pt-3">
+          <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+            <Ruler className="h-4 w-4" />
+            <span>{area}m²</span>
+          </div>
+          {bedrooms && (
+            <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+              <Bed className="h-4 w-4" />
+              <span>{bedrooms} PN</span>
+            </div>
+          )}
+          {bathrooms && (
+            <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+              <Bath className="h-4 w-4" />
+              <span>{bathrooms} WC</span>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default PropertyCard;
