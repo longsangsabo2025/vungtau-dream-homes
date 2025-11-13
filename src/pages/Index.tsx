@@ -3,7 +3,7 @@ import Footer from "@/components/Footer";
 import HeroSection from "@/components/HeroSection";
 import PropertyCard from "@/components/PropertyCard";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Home, Building2, MapPin, Zap, Search, Phone, CheckCircle2 } from "lucide-react";
+import { ArrowRight, Home, Building, MapPin, Zap, Search, Phone, CheckCircle2, TrendingUp, Users, Award } from "lucide-react";
 import { mockProperties } from "@/data/mockProperties";
 import houseImage from "@/assets/property-house.jpg";
 import landImage from "@/assets/property-land.jpg";
@@ -31,7 +31,7 @@ const Index = () => {
     {
       title: "Chung Cư",
       count: "150+",
-      icon: Building2,
+      icon: Building,
       image: apartmentImage,
       color: "accent",
     },
@@ -92,9 +92,9 @@ const Index = () => {
             </div>
 
             <div className="text-center">
-              <Button size="lg" variant="outline" className="gap-2">
+              <Button size="lg" variant="outline" className="gap-2 font-medium">
                 Xem tất cả bất động sản
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="h-4 w-4" strokeWidth={2.5} />
               </Button>
             </div>
           </div>
@@ -130,7 +130,7 @@ const Index = () => {
                       
                       <div className="absolute inset-0 flex flex-col items-center justify-center text-white p-6">
                         <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm">
-                          <Icon className="h-8 w-8" />
+                          <Icon className="h-8 w-8" strokeWidth={2.5} />
                         </div>
                         <h3 className="mb-2 text-2xl font-bold">{type.title}</h3>
                         <p className="text-lg text-white/90">{type.count} tin đăng</p>
@@ -163,7 +163,7 @@ const Index = () => {
                     <div className="mb-6 flex justify-center">
                       <div className="relative">
                         <div className="flex h-20 w-20 items-center justify-center rounded-full bg-primary-lighter">
-                          <Icon className="h-10 w-10 text-primary" />
+                          <Icon className="h-10 w-10 text-primary" strokeWidth={2.5} />
                         </div>
                         <div className="absolute -top-2 -right-2 flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground text-sm font-bold">
                           {item.step}
@@ -212,15 +212,15 @@ const Index = () => {
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDE0YzAgMS4xLS45IDItMiAycy0yLS45LTItMiAuOS0yIDItMiAyIC45IDIgMnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-30" />
           
           <div className="container relative mx-auto px-4 text-center">
-            <h2 className="mb-4 text-3xl md:text-4xl font-bold text-white">
+            <h2 className="mb-4 text-3xl md:text-4xl font-bold text-white tracking-tight">
               Bạn Muốn Đăng Tin?
             </h2>
             <p className="mb-8 text-lg md:text-xl text-white/90 max-w-2xl mx-auto">
               Đăng tin miễn phí, tiếp cận hàng ngàn người mua tiềm năng mỗi ngày
             </p>
-            <Button size="lg" variant="secondary" className="gap-2 text-base font-semibold shadow-lg">
+            <Button size="lg" variant="secondary" className="gap-2 text-base font-semibold shadow-xl">
               Đăng tin ngay
-              <ArrowRight className="h-5 w-5" />
+              <ArrowRight className="h-5 w-5" strokeWidth={2.5} />
             </Button>
           </div>
         </section>

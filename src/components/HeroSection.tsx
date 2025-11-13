@@ -1,4 +1,4 @@
-import { Search, MapPin, Home, DollarSign, Maximize } from "lucide-react";
+import { Search, MapPin, Home, BadgeDollarSign, Maximize2, BedDouble } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -74,7 +74,7 @@ const HeroSection = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
               {/* Location */}
               <div className="relative">
-                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-primary" strokeWidth={2.5} />
                 <Select defaultValue="all">
                   <SelectTrigger className="pl-10 h-12">
                     <SelectValue placeholder="Chọn khu vực" />
@@ -91,7 +91,7 @@ const HeroSection = () => {
 
               {/* Price Range */}
               <div className="relative">
-                <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                <BadgeDollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-primary" strokeWidth={2.5} />
                 <Select>
                   <SelectTrigger className="pl-10 h-12">
                     <SelectValue placeholder="Khoảng giá" />
@@ -107,7 +107,7 @@ const HeroSection = () => {
 
               {/* Area */}
               <div className="relative">
-                <Maximize className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                <Maximize2 className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-primary" strokeWidth={2.5} />
                 <Select>
                   <SelectTrigger className="pl-10 h-12">
                     <SelectValue placeholder="Diện tích" />
@@ -123,7 +123,7 @@ const HeroSection = () => {
 
               {/* Bedrooms */}
               <div className="relative">
-                <Home className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                <BedDouble className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-primary" strokeWidth={2.5} />
                 <Select>
                   <SelectTrigger className="pl-10 h-12">
                     <SelectValue placeholder="Phòng ngủ" />
@@ -139,8 +139,8 @@ const HeroSection = () => {
             </div>
 
             {/* Search Button */}
-            <Button size="lg" className="w-full h-12 text-base font-semibold bg-primary hover:bg-primary-light">
-              <Search className="mr-2 h-5 w-5" />
+            <Button size="lg" className="w-full h-12 text-base font-semibold bg-primary hover:bg-primary-light shadow-lg">
+              <Search className="mr-2 h-5 w-5" strokeWidth={2.5} />
               Tìm kiếm bất động sản
             </Button>
           </div>
