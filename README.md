@@ -1,73 +1,109 @@
-# Welcome to your Lovable project
+# 🏡 Vungtau Dream Homes - Website Bất Động Sản Vũng Tàu
 
-## Project info
+Ứng dụng web quản lý và hiển thị bất động sản tại Vũng Tàu được xây dựng với React, TypeScript và Supabase.
 
-**URL**: https://lovable.dev/projects/6573ddcc-8101-41d7-9035-c9a7702e3187
+## ✨ Tính năng
 
-## How can I edit this code?
+- 🏠 **Hiển thị danh sách bất động sản**: Giao diện hiện đại với thông tin chi tiết
+- 🔍 **Tìm kiếm và lọc**: Tìm theo tên, địa điểm, loại BDS, trạng thái
+- ➕ **Thêm bất động sản mới**: Form đầy đủ với validation
+- 📱 **Responsive Design**: Tối ưu cho mọi thiết bị
+- ⚡ **Real-time Data**: Kết nối trực tiếp với Supabase
+- 🎨 **UI/UX hiện đại**: Sử dụng Shadcn/ui và Tailwind CSS
 
-There are several ways of editing your application.
+## 🛠 Công nghệ sử dụng
 
-**Use Lovable**
+- **Frontend**: React 18, TypeScript, Vite
+- **UI Framework**: Tailwind CSS, Shadcn/ui
+- **Backend**: Supabase (PostgreSQL, Authentication, Real-time)
+- **Icons**: Lucide React
+- **State Management**: React Hooks
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/6573ddcc-8101-41d7-9035-c9a7702e3187) and start prompting.
+## 🚀 Cài đặt và chạy
 
-Changes made via Lovable will be committed automatically to this repo.
+### Bước 1: Cài đặt dependencies
 
-**Use your preferred IDE**
+```bash
+cd vungtau-dream-homes
+npm install
+```
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Bước 2: Cấu hình môi trường
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1. File `.env` đã được tạo với thông tin Supabase Vungtauland
+2. File `.env.example` chứa template cho cấu hình
 
-Follow these steps:
+### Bước 3: Setup Database
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+Làm theo hướng dẫn trong file `DATABASE_SETUP.md`:
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+1. Truy cập Supabase Dashboard
+2. Chạy script SQL trong `database-setup.sql`
+3. Kiểm tra bảng `properties` đã được tạo
 
-# Step 3: Install the necessary dependencies.
-npm i
+### Bước 4: Chạy ứng dụng
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Truy cập: <http://localhost:8081>
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 📁 Cấu trúc dự án
 
-**Use GitHub Codespaces**
+```text
+src/
+├── components/          # React components
+│   ├── ui/             # Shadcn/ui components
+│   ├── PropertyCard.tsx    # Card hiển thị BDS
+│   ├── PropertyList.tsx    # Danh sách BDS
+│   ├── AddPropertyDialog.tsx  # Form thêm BDS
+│   └── ...
+├── hooks/              # Custom React hooks
+│   └── useSupabase.ts     # Hooks tương tác DB
+├── lib/                # Utilities
+│   └── supabase.ts        # Supabase client config
+└── pages/              # Page components
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## 🔧 Tính năng chính
 
-## What technologies are used for this project?
+### 1. Hiển thị danh sách BDS
 
-This project is built with:
+- Grid layout responsive
+- Skeleton loading states
+- Error handling với retry
+- Badge hiển thị loại và trạng thái
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### 2. Tìm kiếm và lọc
 
-## How can I deploy this project?
+- Tìm theo tên và địa điểm
+- Lọc theo loại BDS
+- Lọc theo trạng thái
+- Hiển thị số lượng kết quả
 
-Simply open [Lovable](https://lovable.dev/projects/6573ddcc-8101-41d7-9035-c9a7702e3187) and click on Share -> Publish.
+### 3. Thêm BDS mới
 
-## Can I connect a custom domain to my Lovable project?
+- Form validation đầy đủ
+- Upload ảnh qua URL
+- Toast notifications
+- Auto-refresh danh sách
 
-Yes, you can!
+## 🌐 Supabase Configuration
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+**Project**: Vungtauland
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+- URL: `https://rxjsdoylkflzsxlyccqh.supabase.co`
+- Anon Key: Configured in `.env`
+- Service Role: Configured (server-side only)
+
+## 🔐 Bảo mật
+
+- Environment variables cho sensitive data
+- `.env` được ignore trong git
+- RLS policies cho database access
+- Input validation và sanitization
+
+---
+
+💡 **Ghi chú**: Ứng dụng đã hoàn thiện và sẵn sàng sử dụng với đầy đủ tính năng CRUD!

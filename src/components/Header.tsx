@@ -1,9 +1,20 @@
-import { Building, Heart, User, Menu, Search, LogIn, Plus } from "lucide-react";
+import { Building, Heart, User, Menu, Search, LogIn, Plus, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { AuthDialog } from "@/components/Auth/AuthDialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [authDialogOpen, setAuthDialogOpen] = useState(false);
+  const { user, signOut } = useAuth();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -47,14 +58,53 @@ const Header = () => {
             <Button variant="ghost" size="icon" className="text-foreground hover:text-primary">
               <Heart className="h-5 w-5" strokeWidth={2} />
             </Button>
-            <Button variant="outline" size="sm" className="gap-2 font-medium">
-              <LogIn className="h-4 w-4" strokeWidth={2.5} />
-              Đăng nhập
-            </Button>
-            <Button size="sm" className="gap-2 bg-primary hover:bg-primary-light font-semibold">
-              <Plus className="h-4 w-4" strokeWidth={3} />
-              Đăng tin
-            </Button>
+            {user ? (
+              <>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="sm" className="gap-2 font-medium">
+                      <User className="h-4 w-4" strokeWidth={2.5} />
+                      {user.email}
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem>
+                      <User className="mr-2 h-4 w-4" />
+                      Tài khoản
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Heart className="mr-2 h-4 w-4" />
+                      Yêu thích
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={() => signOut()}>
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Đăng xuất
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+                <Button size="sm" className="gap-2 bg-primary hover:bg-primary-light font-semibold">
+                  <Plus className="h-4 w-4" strokeWidth={3} />
+                  Đăng tin
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="gap-2 font-medium"
+                  onClick={() => setAuthDialogOpen(true)}
+                >
+                  <LogIn className="h-4 w-4" strokeWidth={2.5} />
+                  Đăng nhập
+                </Button>
+                <Button size="sm" className="gap-2 bg-primary hover:bg-primary-light font-semibold">
+                  <Plus className="h-4 w-4" strokeWidth={3} />
+                  Đăng tin
+                </Button>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -88,17 +138,37 @@ const Header = () => {
                 Đăng tin
               </a>
               <div className="flex items-center gap-2 pt-4">
-                <Button variant="outline" size="sm" className="flex-1">
-                  Đăng nhập
-                </Button>
-                <Button size="sm" className="flex-1 bg-primary hover:bg-primary-light">
-                  Đăng tin
-                </Button>
+                {user ? (
+                  <>
+                    <Button variant="outline" size="sm" className="flex-1" onClick={() => signOut()}>
+                      Đăng xuất
+                    </Button>
+                    <Button size="sm" className="flex-1 bg-primary hover:bg-primary-light">
+                      Đăng tin
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="flex-1"
+                      onClick={() => setAuthDialogOpen(true)}
+                    >
+                      Đăng nhập
+                    </Button>
+                    <Button size="sm" className="flex-1 bg-primary hover:bg-primary-light">
+                      Đăng tin
+                    </Button>
+                  </>
+                )}
               </div>
             </nav>
           </div>
         )}
       </div>
+      
+      <AuthDialog open={authDialogOpen} onOpenChange={setAuthDialogOpen} />
     </header>
   );
 };

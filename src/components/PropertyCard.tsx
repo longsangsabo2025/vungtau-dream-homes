@@ -2,6 +2,7 @@ import { BedDouble, Bath, Maximize2, MapPin, Heart } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useNavigate } from "react-router-dom";
 
 interface PropertyCardProps {
   id: string;
@@ -11,24 +12,29 @@ interface PropertyCardProps {
   bedrooms?: number;
   bathrooms?: number;
   location: string;
-  image: string;
+  image_url: string;
   type: string;
+  status?: string;
   isHot?: boolean;
   className?: string;
 }
 
 const PropertyCard = ({
+  id,
   title,
   price,
   area,
   bedrooms,
   bathrooms,
   location,
-  image,
+  image_url,
   type,
+  status,
   isHot,
   className,
 }: PropertyCardProps) => {
+  const navigate = useNavigate();
+  
   const formatPrice = (price: number) => {
     if (price >= 1000000000) {
       return `${(price / 1000000000).toFixed(1)} tỷ`;
@@ -45,11 +51,19 @@ const PropertyCard = ({
         "group relative overflow-hidden rounded-xl bg-card border hover-lift cursor-pointer",
         className
       )}
+      onClick={() => navigate(`/property/${id}`)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          navigate(`/property/${id}`);
+        }
+      }}
+      role="button"
+      tabIndex={0}
     >
       {/* Image */}
       <div className="relative aspect-[4/3] overflow-hidden bg-muted">
         <img
-          src={image}
+          src={image_url}
           alt={title}
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
           loading="lazy"
@@ -63,6 +77,11 @@ const PropertyCard = ({
           <Badge className="bg-secondary text-secondary-foreground font-medium">
             {type}
           </Badge>
+          {status && (
+            <Badge className="bg-primary text-primary-foreground font-medium">
+              {status}
+            </Badge>
+          )}
           {isHot && (
             <Badge className="bg-accent text-accent-foreground font-medium">
               HOT
@@ -106,13 +125,13 @@ const PropertyCard = ({
             <Maximize2 className="h-4 w-4" strokeWidth={2.5} />
             <span className="font-medium">{area}m²</span>
           </div>
-          {bedrooms && (
+          {Boolean(bedrooms && bedrooms > 0) && (
             <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
               <BedDouble className="h-4 w-4" strokeWidth={2.5} />
               <span className="font-medium">{bedrooms} PN</span>
             </div>
           )}
-          {bathrooms && (
+          {Boolean(bathrooms && bathrooms > 0) && (
             <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
               <Bath className="h-4 w-4" strokeWidth={2.5} />
               <span className="font-medium">{bathrooms} WC</span>

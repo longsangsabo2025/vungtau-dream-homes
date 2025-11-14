@@ -1,17 +1,17 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import HeroSection from "@/components/HeroSection";
-import PropertyCard from "@/components/PropertyCard";
+import PropertyList from "@/components/PropertyList";
+import SupabaseTestComponent from "@/components/SupabaseTestComponent";
+import { SEO } from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Home, Building, MapPin, Zap, Search, Phone, CheckCircle2, TrendingUp, Users, Award } from "lucide-react";
-import { mockProperties } from "@/data/mockProperties";
 import houseImage from "@/assets/property-house.jpg";
 import landImage from "@/assets/property-land.jpg";
 import apartmentImage from "@/assets/property-apartment.jpg";
 import rentalImage from "@/assets/property-rental.jpg";
 
 const Index = () => {
-  const featuredProperties = mockProperties.filter(p => p.isHot).slice(0, 4);
 
   const propertyTypes = [
     {
@@ -67,36 +67,38 @@ const Index = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEO 
+        title="VungTauLand - Bất động sản Vũng Tàu"
+        description="Tìm kiếm và mua bán bất động sản tại Vũng Tàu. Villa, căn hộ, nhà phố, đất nền chất lượng với giá tốt nhất."
+        keywords="bất động sản vũng tàu, mua nhà vũng tàu, bán nhà vũng tàu, villa, căn hộ, đất nền"
+        url="https://vungtauland.com"
+      />
       <Header />
       
       <main className="flex-1">
         {/* Hero Section */}
         <HeroSection />
 
-        {/* Featured Listings */}
+        {/* Supabase Connection Test */}
+        <section className="py-8 bg-muted/50">
+          <div className="container mx-auto px-4">
+            <SupabaseTestComponent />
+          </div>
+        </section>
+
+        {/* Property Listings */}
         <section className="py-16 md:py-24 bg-background">
           <div className="container mx-auto px-4">
             <div className="mb-12 text-center">
               <h2 className="mb-4 text-3xl md:text-4xl font-bold text-foreground">
-                Bất Động Sản Nổi Bật
+                Danh Sách Bất Động Sản
               </h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Khám phá những bất động sản được quan tâm nhiều nhất tại Vũng Tàu
+                Khám phá những bất động sản tốt nhất tại Vũng Tàu
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-              {featuredProperties.map((property) => (
-                <PropertyCard key={property.id} {...property} />
-              ))}
-            </div>
-
-            <div className="text-center">
-              <Button size="lg" variant="outline" className="gap-2 font-medium">
-                Xem tất cả bất động sản
-                <ArrowRight className="h-4 w-4" strokeWidth={2.5} />
-              </Button>
-            </div>
+            <PropertyList />
           </div>
         </section>
 
