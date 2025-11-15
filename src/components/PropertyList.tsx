@@ -90,30 +90,30 @@ const PropertyList = () => {
         </div>
         
         <div className="flex gap-3">
-          <Select value={typeFilter} onValueChange={(value) => {
-            setTypeFilter(value)
+          <Select value={typeFilter || 'all'} onValueChange={(value) => {
+            setTypeFilter(value === 'all' ? '' : value)
             setPage(1)
           }}>
             <SelectTrigger className="w-40">
               <SelectValue placeholder="Loại BDS" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">Tất cả</SelectItem>
+              <SelectItem value="all">Tất cả</SelectItem>
               {propertyTypes.map(type => (
                 <SelectItem key={type} value={type}>{type}</SelectItem>
               ))}
             </SelectContent>
           </Select>
 
-          <Select value={statusFilter} onValueChange={(value) => {
-            setStatusFilter(value)
+          <Select value={statusFilter || 'all'} onValueChange={(value) => {
+            setStatusFilter(value === 'all' ? '' : value)
             setPage(1)
           }}>
             <SelectTrigger className="w-40">
               <SelectValue placeholder="Trạng thái" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">Tất cả</SelectItem>
+              <SelectItem value="all">Tất cả</SelectItem>
               {statusOptions.map(status => (
                 <SelectItem key={status} value={status}>{status}</SelectItem>
               ))}

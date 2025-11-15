@@ -69,8 +69,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await supabase.auth.signOut()
   }
 
-  // Check if user is admin (you can customize this logic)
-  const isAdmin = user?.email?.endsWith('@admin.com') ?? false
+  // Check if user is admin - check both metadata role and specific admin email
+  const isAdmin = 
+    user?.user_metadata?.role === 'admin' || 
+    user?.email === 'admin@vungtauland.store' ||
+    false
 
   const value = {
     user,

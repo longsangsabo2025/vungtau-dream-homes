@@ -1,8 +1,9 @@
-import { Building, Heart, User, Menu, Search, LogIn, Plus, LogOut } from "lucide-react";
+import { Building, Heart, User, Menu, Search, LogIn, Plus, LogOut, Shield, LayoutDashboard, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { AuthDialog } from "@/components/Auth/AuthDialog";
+import { Link } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,7 +15,7 @@ import {
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [authDialogOpen, setAuthDialogOpen] = useState(false);
-  const { user, signOut } = useAuth();
+  const { user, signOut, isAdmin } = useAuth();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -33,9 +34,9 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <a href="/" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+            <Link to="/" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
               Trang chủ
-            </a>
+            </Link>
             <a href="/search" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
               Mua bán
             </a>
@@ -45,9 +46,18 @@ const Header = () => {
             <a href="/news" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
               Tin tức
             </a>
-            <a href="/post" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
-              Đăng tin
-            </a>
+            {user ? (
+              <Link to="/my-properties/new" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+                Đăng tin
+              </Link>
+            ) : (
+              <button 
+                onClick={() => setAuthDialogOpen(true)}
+                className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+              >
+                Đăng tin
+              </button>
+            )}
           </nav>
 
           {/* Desktop Actions */}
@@ -68,14 +78,35 @@ const Header = () => {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    <DropdownMenuItem>
-                      <User className="mr-2 h-4 w-4" />
-                      Tài khoản
+                    <DropdownMenuItem asChild>
+                      <Link to="/dashboard">
+                        <LayoutDashboard className="mr-2 h-4 w-4" />
+                        Dashboard
+                      </Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Heart className="mr-2 h-4 w-4" />
-                      Yêu thích
+                    <DropdownMenuItem asChild>
+                      <Link to="/my-properties">
+                        <FileText className="mr-2 h-4 w-4" />
+                        Tin đăng của tôi
+                      </Link>
                     </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link to="/favorites">
+                        <Heart className="mr-2 h-4 w-4" />
+                        Yêu thích
+                      </Link>
+                    </DropdownMenuItem>
+                    {isAdmin && (
+                      <>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem asChild>
+                          <Link to="/admin">
+                            <Shield className="mr-2 h-4 w-4" />
+                            Admin Dashboard
+                          </Link>
+                        </DropdownMenuItem>
+                      </>
+                    )}
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={() => signOut()}>
                       <LogOut className="mr-2 h-4 w-4" />
@@ -83,9 +114,11 @@ const Header = () => {
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
-                <Button size="sm" className="gap-2 bg-primary hover:bg-primary-light font-semibold">
-                  <Plus className="h-4 w-4" strokeWidth={3} />
-                  Đăng tin
+                <Button size="sm" className="gap-2 bg-primary hover:bg-primary-light font-semibold" asChild>
+                  <Link to="/my-properties/new">
+                    <Plus className="h-4 w-4" strokeWidth={3} />
+                    Đăng tin
+                  </Link>
                 </Button>
               </>
             ) : (
@@ -99,7 +132,11 @@ const Header = () => {
                   <LogIn className="h-4 w-4" strokeWidth={2.5} />
                   Đăng nhập
                 </Button>
-                <Button size="sm" className="gap-2 bg-primary hover:bg-primary-light font-semibold">
+                <Button 
+                  size="sm" 
+                  className="gap-2 bg-primary hover:bg-primary-light font-semibold"
+                  onClick={() => setAuthDialogOpen(true)}
+                >
                   <Plus className="h-4 w-4" strokeWidth={3} />
                   Đăng tin
                 </Button>
@@ -122,9 +159,9 @@ const Header = () => {
         {isMobileMenuOpen && (
           <div className="md:hidden border-t py-4 animate-fade-in">
             <nav className="flex flex-col space-y-4">
-              <a href="/" className="text-sm font-medium text-foreground hover:text-primary">
+              <Link to="/" className="text-sm font-medium text-foreground hover:text-primary">
                 Trang chủ
-              </a>
+              </Link>
               <a href="/search" className="text-sm font-medium text-foreground hover:text-primary">
                 Mua bán
               </a>
@@ -134,17 +171,26 @@ const Header = () => {
               <a href="/news" className="text-sm font-medium text-foreground hover:text-primary">
                 Tin tức
               </a>
-              <a href="/post" className="text-sm font-medium text-foreground hover:text-primary">
-                Đăng tin
-              </a>
+              {user && (
+                <Link to="/dashboard" className="text-sm font-medium text-foreground hover:text-primary">
+                  Dashboard
+                </Link>
+              )}
+              {user && (
+                <Link to="/my-properties" className="text-sm font-medium text-foreground hover:text-primary">
+                  Tin đăng của tôi
+                </Link>
+              )}
               <div className="flex items-center gap-2 pt-4">
                 {user ? (
                   <>
                     <Button variant="outline" size="sm" className="flex-1" onClick={() => signOut()}>
                       Đăng xuất
                     </Button>
-                    <Button size="sm" className="flex-1 bg-primary hover:bg-primary-light">
-                      Đăng tin
+                    <Button size="sm" className="flex-1 bg-primary hover:bg-primary-light" asChild>
+                      <Link to="/my-properties/new">
+                        Đăng tin
+                      </Link>
                     </Button>
                   </>
                 ) : (
@@ -157,7 +203,11 @@ const Header = () => {
                     >
                       Đăng nhập
                     </Button>
-                    <Button size="sm" className="flex-1 bg-primary hover:bg-primary-light">
+                    <Button 
+                      size="sm" 
+                      className="flex-1 bg-primary hover:bg-primary-light"
+                      onClick={() => setAuthDialogOpen(true)}
+                    >
                       Đăng tin
                     </Button>
                   </>

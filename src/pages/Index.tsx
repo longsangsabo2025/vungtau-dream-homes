@@ -2,16 +2,21 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import HeroSection from "@/components/HeroSection";
 import PropertyList from "@/components/PropertyList";
-import SupabaseTestComponent from "@/components/SupabaseTestComponent";
 import { SEO } from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Home, Building, MapPin, Zap, Search, Phone, CheckCircle2, TrendingUp, Users, Award } from "lucide-react";
+import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { useState } from "react";
+import { AuthDialog } from "@/components/Auth/AuthDialog";
 import houseImage from "@/assets/property-house.jpg";
 import landImage from "@/assets/property-land.jpg";
 import apartmentImage from "@/assets/property-apartment.jpg";
 import rentalImage from "@/assets/property-rental.jpg";
 
 const Index = () => {
+  const { user } = useAuth();
+  const [authDialogOpen, setAuthDialogOpen] = useState(false);
 
   const propertyTypes = [
     {
@@ -78,13 +83,6 @@ const Index = () => {
       <main className="flex-1">
         {/* Hero Section */}
         <HeroSection />
-
-        {/* Supabase Connection Test */}
-        <section className="py-8 bg-muted/50">
-          <div className="container mx-auto px-4">
-            <SupabaseTestComponent />
-          </div>
-        </section>
 
         {/* Property Listings */}
         <section className="py-16 md:py-24 bg-background">
@@ -220,15 +218,30 @@ const Index = () => {
             <p className="mb-8 text-lg md:text-xl text-white/90 max-w-2xl mx-auto">
               Đăng tin miễn phí, tiếp cận hàng ngàn người mua tiềm năng mỗi ngày
             </p>
-            <Button size="lg" variant="secondary" className="gap-2 text-base font-semibold shadow-xl">
-              Đăng tin ngay
-              <ArrowRight className="h-5 w-5" strokeWidth={2.5} />
-            </Button>
+            {user ? (
+              <Button size="lg" variant="secondary" className="gap-2 text-base font-semibold shadow-xl" asChild>
+                <Link to="/my-properties/new">
+                  Đăng tin ngay
+                  <ArrowRight className="h-5 w-5" strokeWidth={2.5} />
+                </Link>
+              </Button>
+            ) : (
+              <Button 
+                size="lg" 
+                variant="secondary" 
+                className="gap-2 text-base font-semibold shadow-xl"
+                onClick={() => setAuthDialogOpen(true)}
+              >
+                Đăng tin ngay
+                <ArrowRight className="h-5 w-5" strokeWidth={2.5} />
+              </Button>
+            )}
           </div>
         </section>
       </main>
 
       <Footer />
+      <AuthDialog open={authDialogOpen} onOpenChange={setAuthDialogOpen} />
     </div>
   );
 };
