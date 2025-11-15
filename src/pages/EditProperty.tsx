@@ -125,12 +125,12 @@ export default function EditProperty() {
     <UserLayout>
       <div className="min-h-screen bg-gray-50 py-4 sm:py-6 lg:py-8">
         <div className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-6">
-        <div className="mb-4 sm:mb-6">
-          <Link to="/my-properties" className="inline-flex items-center gap-2 text-sm sm:text-base text-gray-600 hover:text-gray-900">
-            <ArrowLeft className="h-4 w-4" />
-            Quay lại danh sách
-          </Link>
-        </div>
+          <div className="mb-4 sm:mb-6">
+            <Link to="/my-properties" className="inline-flex items-center gap-2 text-sm sm:text-base text-gray-600 hover:text-gray-900">
+              <ArrowLeft className="h-4 w-4" />
+              Quay lại danh sách
+            </Link>
+          </div>
 
         <Card>
           <CardHeader className="px-4 sm:px-6">

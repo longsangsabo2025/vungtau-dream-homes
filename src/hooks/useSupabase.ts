@@ -40,6 +40,7 @@ export function useProperties(options: UsePropertiesOptions = {}) {
       let query = supabase
         .from('properties')
         .select('*', { count: 'exact' })
+        .eq('approval_status', 'approved') // Chỉ hiển thị tin đã duyệt
         .order('created_at', { ascending: false })
         .range(from, to)
 

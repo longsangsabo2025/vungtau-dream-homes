@@ -95,7 +95,7 @@ export default function CreateProperty() {
         return;
       }
 
-      // Insert property
+      // Insert property with pending approval status
       const { data, error } = await supabase
         .from('properties')
         .insert({
@@ -120,7 +120,7 @@ export default function CreateProperty() {
           parking_slots: parseInt(formData.parking_slots),
           floor_number: formData.floor_number ? parseInt(formData.floor_number) : null,
           year_built: formData.year_built ? parseInt(formData.year_built) : null,
-          published_at: new Date().toISOString(),
+          approval_status: 'pending', // Tin đăng cần được admin duyệt
         })
         .select()
         .single();
@@ -129,11 +129,11 @@ export default function CreateProperty() {
 
       toast({
         title: 'Thành công!',
-        description: 'Tin đăng đã được tạo thành công',
+        description: 'Tin đăng đã được gửi và đang chờ admin duyệt',
       });
 
-      // Redirect to property detail or my properties
-      navigate(`/properties/${data.id}`);
+      // Redirect to my properties
+      navigate('/my-properties');
     } catch (error) {
       console.error('Error creating property:', error);
       toast({

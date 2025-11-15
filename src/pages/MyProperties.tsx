@@ -24,6 +24,8 @@ interface Property {
   location: string;
   type: string;
   status: string;
+  approval_status: 'pending' | 'approved' | 'rejected';
+  rejection_reason?: string;
   view_count: number;
   created_at: string;
   is_featured: boolean;
@@ -149,7 +151,8 @@ export default function MyProperties() {
                       <TableHead>Tiêu đề</TableHead>
                       <TableHead>Loại</TableHead>
                       <TableHead>Giá</TableHead>
-                      <TableHead>Trạng thái</TableHead>
+                      <TableHead>Trạng thái tin</TableHead>
+                      <TableHead>Kiểm duyệt</TableHead>
                       <TableHead className="text-center">Lượt xem</TableHead>
                       <TableHead>Ngày đăng</TableHead>
                       <TableHead className="text-right">Thao tác</TableHead>
@@ -196,6 +199,30 @@ export default function MyProperties() {
                       >
                         {property.status}
                       </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex flex-col gap-1">
+                        <Badge
+                          variant={
+                            property.approval_status === 'approved'
+                              ? 'default'
+                              : property.approval_status === 'rejected'
+                              ? 'destructive'
+                              : 'secondary'
+                          }
+                        >
+                          {property.approval_status === 'approved'
+                            ? '✓ Đã duyệt'
+                            : property.approval_status === 'rejected'
+                            ? '✗ Từ chối'
+                            : '⏳ Chờ duyệt'}
+                        </Badge>
+                        {property.rejection_reason && (
+                          <p className="text-xs text-red-600" title={property.rejection_reason}>
+                            {property.rejection_reason.substring(0, 30)}...
+                          </p>
+                        )}
+                      </div>
                     </TableCell>
                     <TableCell className="text-center">
                       <div className="flex items-center justify-center gap-1 text-gray-600">
@@ -283,9 +310,33 @@ export default function MyProperties() {
                           >
                             {property.status}
                           </Badge>
+                          <Badge
+                            variant={
+                              property.approval_status === 'approved'
+                                ? 'default'
+                                : property.approval_status === 'rejected'
+                                ? 'destructive'
+                                : 'secondary'
+                            }
+                            className="text-xs"
+                          >
+                            {property.approval_status === 'approved'
+                              ? '✓ Đã duyệt'
+                              : property.approval_status === 'rejected'
+                              ? '✗ Từ chối'
+                              : '⏳ Chờ duyệt'}
+                          </Badge>
                         </div>
                       </div>
                     </div>
+
+                    {property.rejection_reason && (
+                      <div className="bg-red-50 border border-red-200 rounded p-2">
+                        <p className="text-xs text-red-600">
+                          <strong>Lý do từ chối:</strong> {property.rejection_reason}
+                        </p>
+                      </div>
+                    )}
 
                     {/* Details */}
                     <div className="grid grid-cols-2 gap-2 text-xs sm:text-sm">

@@ -9,13 +9,20 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
 import PropertyDetail from "./pages/PropertyDetail";
 import AdminDashboard from "./pages/AdminDashboard";
-import PropertyManagement from "./pages/PropertyManagement";
-import PropertyForm from "./pages/PropertyForm";
 import UserDashboard from "./pages/UserDashboard";
 import MyProperties from "./pages/MyProperties";
 import CreateProperty from "./pages/CreateProperty";
 import EditProperty from "./pages/EditProperty";
 import Favorites from "./pages/Favorites";
+import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
+import PropertiesManagement from "./pages/admin/PropertiesManagement";
+import UsersManagement from "./pages/admin/UsersManagement";
+import AgentsManagement from "./pages/admin/AgentsManagement";
+import NewsManagement from "./pages/admin/NewsManagement";
+import InquiriesManagement from "./pages/admin/InquiriesManagement";
+import Reports from "./pages/admin/Reports";
+import AdminSettings from "./pages/admin/AdminSettings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -79,6 +86,22 @@ const App = () => (
                   </ProtectedRoute>
                 } 
               />
+              <Route 
+                path="/profile" 
+                element={
+                  <ProtectedRoute>
+                    <Profile />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/settings" 
+                element={
+                  <ProtectedRoute>
+                    <Settings />
+                  </ProtectedRoute>
+                } 
+              />
               
               {/* Admin Routes - Protected (cần admin) */}
               <Route 
@@ -93,23 +116,55 @@ const App = () => (
                 path="/admin/properties" 
                 element={
                   <ProtectedRoute requireAdmin>
-                    <PropertyManagement />
+                    <PropertiesManagement />
                   </ProtectedRoute>
                 } 
               />
               <Route 
-                path="/admin/properties/new" 
+                path="/admin/users" 
                 element={
                   <ProtectedRoute requireAdmin>
-                    <PropertyForm />
+                    <UsersManagement />
                   </ProtectedRoute>
                 } 
               />
               <Route 
-                path="/admin/properties/edit/:id" 
+                path="/admin/agents" 
                 element={
                   <ProtectedRoute requireAdmin>
-                    <PropertyForm />
+                    <AgentsManagement />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/news" 
+                element={
+                  <ProtectedRoute requireAdmin>
+                    <NewsManagement />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/inquiries" 
+                element={
+                  <ProtectedRoute requireAdmin>
+                    <InquiriesManagement />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/reports" 
+                element={
+                  <ProtectedRoute requireAdmin>
+                    <Reports />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/settings" 
+                element={
+                  <ProtectedRoute requireAdmin>
+                    <AdminSettings />
                   </ProtectedRoute>
                 } 
               />
