@@ -5,6 +5,7 @@ import { supabase } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import AdminLayout from "@/components/AdminLayout";
 import { 
   Table, 
   TableBody, 
@@ -18,12 +19,9 @@ import {
   Plus, 
   Edit, 
   Trash2, 
-  Search, 
-  ArrowLeft,
+  Search,
   Eye
 } from "lucide-react";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import { toast } from "sonner";
 
 interface Property {
@@ -101,35 +99,21 @@ const PropertyManagement = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
-      
-      <main className="flex-1 bg-gray-50">
-        <div className="container mx-auto px-4 py-8">
-          {/* Header */}
-          <div className="mb-6 flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Link to="/admin">
-                <Button variant="outline" size="icon">
-                  <ArrowLeft className="h-4 w-4" />
-                </Button>
-              </Link>
-              <div>
-                <h1 className="text-3xl font-bold text-gray-900">
-                  Quản lý Bất Động Sản
-                </h1>
-                <p className="text-gray-600 mt-1">
-                  Tổng cộng {filteredProperties.length} bất động sản
-                </p>
-              </div>
-            </div>
-            <Link to="/admin/properties/new">
-              <Button className="gap-2">
-                <Plus className="h-4 w-4" />
-                Thêm BĐS mới
-              </Button>
-            </Link>
-          </div>
+    <AdminLayout>
+      {/* Header */}
+      <div className="mb-6 flex items-center justify-between">
+        <div>
+          <p className="text-muted-foreground">
+            Tổng cộng {filteredProperties.length} bất động sản
+          </p>
+        </div>
+        <Link to="/admin/properties/new">
+          <Button className="gap-2">
+            <Plus className="h-4 w-4" />
+            Thêm BĐS mới
+          </Button>
+        </Link>
+      </div>
 
           {/* Search & Filter */}
           <Card className="mb-6">
@@ -228,11 +212,7 @@ const PropertyManagement = () => {
               )}
             </CardContent>
           </Card>
-        </div>
-      </main>
-
-      <Footer />
-    </div>
+    </AdminLayout>
   );
 };
 

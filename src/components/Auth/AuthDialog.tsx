@@ -12,6 +12,10 @@ interface AuthDialogProps {
 export function AuthDialog({ open, onOpenChange }: AuthDialogProps) {
   const [isLogin, setIsLogin] = useState(true)
 
+  const handleSuccess = () => {
+    onOpenChange(false)
+  }
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
@@ -22,9 +26,9 @@ export function AuthDialog({ open, onOpenChange }: AuthDialogProps) {
           </DialogDescription>
         </VisuallyHidden>
         {isLogin ? (
-          <LoginForm onToggle={() => setIsLogin(false)} />
+          <LoginForm onToggle={() => setIsLogin(false)} onSuccess={handleSuccess} />
         ) : (
-          <RegisterForm onToggle={() => setIsLogin(true)} />
+          <RegisterForm onToggle={() => setIsLogin(true)} onSuccess={handleSuccess} />
         )}
       </DialogContent>
     </Dialog>

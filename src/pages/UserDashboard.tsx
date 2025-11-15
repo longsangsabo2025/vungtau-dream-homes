@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import { Home, Heart, Mail, TrendingUp, Plus } from 'lucide-react';
+import UserLayout from '../components/UserLayout';
 
 interface Stats {
   myProperties: number;
@@ -95,25 +96,29 @@ export default function UserDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-          <p className="text-gray-600 mt-2">Chào mừng trở lại, {user?.email}</p>
+    <UserLayout>
+      <div className="min-h-screen bg-gray-50 py-4 sm:py-6 lg:py-8">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
+        {/* Header */}
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Dashboard</h1>
+          <p className="text-sm sm:text-base text-gray-600 mt-1 sm:mt-2 truncate">
+            Chào mừng trở lại, {user?.email}
+          </p>
         </div>
 
         {/* Quick Actions */}
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           <Link to="/my-properties/new">
-            <Button size="lg" className="gap-2">
-              <Plus className="h-5 w-5" />
-              Đăng tin bất động sản mới
+            <Button size="lg" className="gap-2 w-full sm:w-auto">
+              <Plus className="h-4 w-4 sm:h-5 sm:w-5" />
+              <span className="text-sm sm:text-base">Đăng tin bất động sản mới</span>
             </Button>
           </Link>
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-gray-600">
@@ -178,20 +183,31 @@ export default function UserDashboard() {
         {/* Recent Activity */}
         <Card>
           <CardHeader>
-            <CardTitle>Hoạt động gần đây</CardTitle>
-            <CardDescription>Các tin đăng và hoạt động mới nhất của bạn</CardDescription>
+            <CardTitle className="text-lg sm:text-xl">Hoạt động gần đây</CardTitle>
+            <CardDescription className="text-xs sm:text-sm">
+              Các tin đăng và hoạt động mới nhất của bạn
+            </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-3 sm:p-6">
             <RecentActivity userId={user?.id} />
           </CardContent>
         </Card>
+        </div>
       </div>
-    </div>
+    </UserLayout>
   );
 }
 
-function RecentActivity({ userId }: { userId?: string }) {
-  const [properties, setProperties] = useState<any[]>([]);
+interface RecentProperty {
+  id: string;
+  title: string;
+  status: string;
+  created_at: string;
+  view_count: number;
+}
+
+function RecentActivity({ userId }: Readonly<{ userId?: string }>) {
+  const [properties, setProperties] = useState<RecentProperty[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -230,29 +246,29 @@ function RecentActivity({ userId }: { userId?: string }) {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3 sm:space-y-4">
       {properties.map((property) => (
         <div
           key={property.id}
-          className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50"
+          className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 p-3 sm:p-4 border rounded-lg hover:bg-gray-50"
         >
-          <div className="flex-1">
+          <div className="flex-1 min-w-0">
             <Link
               to={`/properties/${property.id}`}
-              className="font-medium text-gray-900 hover:text-primary"
+              className="font-medium text-sm sm:text-base text-gray-900 hover:text-primary line-clamp-2"
             >
               {property.title}
             </Link>
-            <div className="flex items-center gap-4 mt-1 text-sm text-gray-500">
-              <span>Trạng thái: {property.status}</span>
-              <span>•</span>
+            <div className="flex flex-wrap items-center gap-2 sm:gap-4 mt-1 text-xs sm:text-sm text-gray-500">
+              <span className="truncate">Trạng thái: {property.status}</span>
+              <span className="hidden sm:inline">•</span>
               <span>{property.view_count || 0} lượt xem</span>
-              <span>•</span>
-              <span>{new Date(property.created_at).toLocaleDateString('vi-VN')}</span>
+              <span className="hidden sm:inline">•</span>
+              <span className="truncate">{new Date(property.created_at).toLocaleDateString('vi-VN')}</span>
             </div>
           </div>
-          <Link to={`/my-properties/edit/${property.id}`}>
-            <Button variant="outline" size="sm">
+          <Link to={`/my-properties/edit/${property.id}`} className="sm:flex-shrink-0">
+            <Button variant="outline" size="sm" className="w-full sm:w-auto text-xs sm:text-sm">
               Chỉnh sửa
             </Button>
           </Link>

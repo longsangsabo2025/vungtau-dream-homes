@@ -16,6 +16,7 @@ import {
 } from '../components/ui/select';
 import { useToast } from '../hooks/use-toast';
 import { ArrowLeft } from 'lucide-react';
+import UserLayout from '../components/UserLayout';
 
 export default function EditProperty() {
   const { id } = useParams<{ id: string }>();
@@ -110,43 +111,47 @@ export default function EditProperty() {
 
   if (initialLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 py-8">
-        <div className="max-w-4xl mx-auto px-4">
-          <p>Đang tải...</p>
+      <UserLayout>
+        <div className="min-h-screen bg-gray-50 py-4 sm:py-6 lg:py-8">
+          <div className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-6">
+            <p className="text-sm sm:text-base">Đang tải...</p>
+          </div>
         </div>
-      </div>
+      </UserLayout>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-4xl mx-auto px-4">
-        <div className="mb-6">
-          <Link to="/my-properties" className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900">
+    <UserLayout>
+      <div className="min-h-screen bg-gray-50 py-4 sm:py-6 lg:py-8">
+        <div className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-6">
+        <div className="mb-4 sm:mb-6">
+          <Link to="/my-properties" className="inline-flex items-center gap-2 text-sm sm:text-base text-gray-600 hover:text-gray-900">
             <ArrowLeft className="h-4 w-4" />
             Quay lại danh sách
           </Link>
         </div>
 
         <Card>
-          <CardHeader>
-            <CardTitle className="text-2xl">Chỉnh sửa tin đăng</CardTitle>
-            <CardDescription>Cập nhật thông tin bất động sản</CardDescription>
+          <CardHeader className="px-4 sm:px-6">
+            <CardTitle className="text-xl sm:text-2xl">Chỉnh sửa tin đăng</CardTitle>
+            <CardDescription className="text-xs sm:text-sm">Cập nhật thông tin bất động sản</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-4 sm:px-6">
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Basic fields - simplified */}
               <div>
-                <Label htmlFor="title">Tiêu đề *</Label>
+                <Label htmlFor="title" className="text-sm">Tiêu đề *</Label>
                 <Input
                   id="title"
                   value={formData.title || ''}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  className="text-sm"
                   required
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="price">Giá (VNĐ) *</Label>
                   <Input
@@ -206,12 +211,12 @@ export default function EditProperty() {
                 </Select>
               </div>
 
-              <div className="flex gap-4 pt-4 border-t">
-                <Button type="submit" size="lg" disabled={loading} className="flex-1">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4 border-t">
+                <Button type="submit" size="lg" disabled={loading} className="flex-1 text-sm sm:text-base">
                   {loading ? 'Đang cập nhật...' : 'Cập nhật tin đăng'}
                 </Button>
                 <Link to="/my-properties" className="flex-1">
-                  <Button type="button" variant="outline" size="lg" className="w-full">
+                  <Button type="button" variant="outline" size="lg" className="w-full text-sm sm:text-base">
                     Hủy
                   </Button>
                 </Link>
@@ -219,7 +224,8 @@ export default function EditProperty() {
             </form>
           </CardContent>
         </Card>
+        </div>
       </div>
-    </div>
+    </UserLayout>
   );
 }

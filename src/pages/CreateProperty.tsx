@@ -17,6 +17,7 @@ import {
 import { useToast } from '../hooks/use-toast';
 import { ArrowLeft, Upload } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import UserLayout from '../components/UserLayout';
 
 interface Category {
   id: string;
@@ -146,27 +147,28 @@ export default function CreateProperty() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-4xl mx-auto px-4">
-        <div className="mb-6">
-          <Link to="/my-properties" className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900">
+    <UserLayout>
+      <div className="min-h-screen bg-gray-50 py-4 sm:py-6 lg:py-8">
+        <div className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-6">
+        <div className="mb-4 sm:mb-6">
+          <Link to="/my-properties" className="inline-flex items-center gap-2 text-sm sm:text-base text-gray-600 hover:text-gray-900">
             <ArrowLeft className="h-4 w-4" />
             Quay lại danh sách
           </Link>
         </div>
 
         <Card>
-          <CardHeader>
-            <CardTitle className="text-2xl">Đăng tin bất động sản mới</CardTitle>
-            <CardDescription>
+          <CardHeader className="px-4 sm:px-6">
+            <CardTitle className="text-xl sm:text-2xl">Đăng tin bất động sản mới</CardTitle>
+            <CardDescription className="text-xs sm:text-sm">
               Điền thông tin chi tiết về bất động sản của bạn
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-4 sm:px-6">
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Basic Info */}
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold">Thông tin cơ bản</h3>
+                <h3 className="text-base sm:text-lg font-semibold">Thông tin cơ bản</h3>
                 
                 <div>
                   <Label htmlFor="title">Tiêu đề tin đăng *</Label>
@@ -179,11 +181,11 @@ export default function CreateProperty() {
                   />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="type">Loại hình *</Label>
+                    <Label htmlFor="type" className="text-sm">Loại hình *</Label>
                     <Select value={formData.type} onValueChange={(value) => handleChange('type', value)}>
-                      <SelectTrigger>
+                      <SelectTrigger className="text-sm">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -199,9 +201,9 @@ export default function CreateProperty() {
                   </div>
 
                   <div>
-                    <Label htmlFor="category">Danh mục</Label>
+                    <Label htmlFor="category" className="text-sm">Danh mục</Label>
                     <Select value={formData.category_id} onValueChange={(value) => handleChange('category_id', value)}>
-                      <SelectTrigger>
+                      <SelectTrigger className="text-sm">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -215,35 +217,37 @@ export default function CreateProperty() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   <div>
-                    <Label htmlFor="price">Giá (VNĐ) *</Label>
+                    <Label htmlFor="price" className="text-sm">Giá (VNĐ) *</Label>
                     <Input
                       id="price"
                       type="number"
                       value={formData.price}
                       onChange={(e) => handleChange('price', e.target.value)}
                       placeholder="5000000000"
+                      className="text-sm"
                       required
                     />
                   </div>
 
                   <div>
-                    <Label htmlFor="area">Diện tích (m²) *</Label>
+                    <Label htmlFor="area" className="text-sm">Diện tích (m²) *</Label>
                     <Input
                       id="area"
                       type="number"
                       value={formData.area}
                       onChange={(e) => handleChange('area', e.target.value)}
                       placeholder="100"
+                      className="text-sm"
                       required
                     />
                   </div>
 
                   <div>
-                    <Label htmlFor="status">Trạng thái</Label>
+                    <Label htmlFor="status" className="text-sm">Trạng thái</Label>
                     <Select value={formData.status} onValueChange={(value) => handleChange('status', value)}>
-                      <SelectTrigger>
+                      <SelectTrigger className="text-sm">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -255,7 +259,7 @@ export default function CreateProperty() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="bedrooms">Số phòng ngủ</Label>
                     <Input
@@ -450,12 +454,12 @@ export default function CreateProperty() {
               </div>
 
               {/* Submit */}
-              <div className="flex gap-4 pt-4 border-t">
-                <Button type="submit" size="lg" disabled={loading} className="flex-1">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4 border-t">
+                <Button type="submit" size="lg" disabled={loading} className="flex-1 text-sm sm:text-base">
                   {loading ? 'Đang đăng...' : 'Đăng tin'}
                 </Button>
                 <Link to="/my-properties" className="flex-1">
-                  <Button type="button" variant="outline" size="lg" className="w-full">
+                  <Button type="button" variant="outline" size="lg" className="w-full text-sm sm:text-base">
                     Hủy
                   </Button>
                 </Link>
@@ -463,7 +467,8 @@ export default function CreateProperty() {
             </form>
           </CardContent>
         </Card>
+        </div>
       </div>
-    </div>
+    </UserLayout>
   );
 }

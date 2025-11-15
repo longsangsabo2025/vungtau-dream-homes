@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import { useAuth } from '../../contexts/AuthContext'
+import { useNavigate } from 'react-router-dom'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
 import { Label } from '../ui/label'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card'
 import { Alert, AlertDescription } from '../ui/alert'
+import { toast } from 'sonner'
 
-export function RegisterForm({ onToggle }: { onToggle: () => void }) {
+export function RegisterForm({ onToggle, onSuccess }: { onToggle: () => void; onSuccess?: () => void }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -15,6 +17,7 @@ export function RegisterForm({ onToggle }: { onToggle: () => void }) {
   const [success, setSuccess] = useState(false)
   const [loading, setLoading] = useState(false)
   const { signUp } = useAuth()
+  const navigate = useNavigate()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -23,11 +26,13 @@ export function RegisterForm({ onToggle }: { onToggle: () => void }) {
 
     if (password !== confirmPassword) {
       setError('Mật khẩu không khớp')
+      toast.error('Lỗi', { description: 'Mật khẩu không khớp' })
       return
     }
 
     if (password.length < 6) {
       setError('Mật khẩu phải có ít nhất 6 ký tự')
+      toast.error('Lỗi', { description: 'Mật khẩu phải có ít nhất 6 ký tự' })
       return
     }
 
@@ -39,8 +44,22 @@ export function RegisterForm({ onToggle }: { onToggle: () => void }) {
     
     if (error) {
       setError(error.message)
+      toast.error('Đăng ký thất bại', { description: error.message })
     } else {
       setSuccess(true)
+      toast.success('Đăng ký thành công!', {
+        description: 'Vui lòng kiểm tra email để xác nhận tài khoản'
+      })
+      
+      // Close dialog if callback provided
+      if (onSuccess) {
+        onSuccess()
+      }
+      
+      // Redirect to dashboard after a short delay
+      setTimeout(() => {
+        navigate('/dashboard')
+      }, 1500)
     }
     
     setLoading(false)

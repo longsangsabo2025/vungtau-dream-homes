@@ -15,6 +15,7 @@ import {
 import { Badge } from '../components/ui/badge';
 import { Edit, Trash2, Eye, Plus, TrendingUp } from 'lucide-react';
 import { useToast } from '../hooks/use-toast';
+import UserLayout from '../components/UserLayout';
 
 interface Property {
   id: string;
@@ -103,25 +104,27 @@ export default function MyProperties() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex items-center justify-between mb-8">
+    <UserLayout>
+      <div className="min-h-screen bg-gray-50 py-4 sm:py-6 lg:py-8">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 sm:mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Tin đăng của tôi</h1>
-            <p className="text-gray-600 mt-2">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Tin đăng của tôi</h1>
+            <p className="text-sm sm:text-base text-gray-600 mt-1 sm:mt-2">
               Quản lý tất cả tin bất động sản của bạn
             </p>
           </div>
-          <Link to="/my-properties/new">
-            <Button size="lg" className="gap-2">
-              <Plus className="h-5 w-5" />
-              Đăng tin mới
+          <Link to="/my-properties/new" className="w-full sm:w-auto">
+            <Button size="lg" className="gap-2 w-full sm:w-auto">
+              <Plus className="h-4 w-4 sm:h-5 sm:w-5" />
+              <span className="text-sm sm:text-base">Đăng tin mới</span>
             </Button>
           </Link>
         </div>
 
         {properties.length === 0 ? (
-          <Card className="p-12 text-center">
+          <Card className="p-6 sm:p-12 text-center">
             <div className="max-w-md mx-auto">
               <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Plus className="h-8 w-8 text-gray-400" />
@@ -136,21 +139,24 @@ export default function MyProperties() {
             </div>
           </Card>
         ) : (
-          <Card>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Tiêu đề</TableHead>
-                  <TableHead>Loại</TableHead>
-                  <TableHead>Giá</TableHead>
-                  <TableHead>Trạng thái</TableHead>
-                  <TableHead className="text-center">Lượt xem</TableHead>
-                  <TableHead>Ngày đăng</TableHead>
-                  <TableHead className="text-right">Thao tác</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {properties.map((property) => (
+          <>
+            {/* Desktop Table View */}
+            <Card className="hidden lg:block overflow-hidden">
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Tiêu đề</TableHead>
+                      <TableHead>Loại</TableHead>
+                      <TableHead>Giá</TableHead>
+                      <TableHead>Trạng thái</TableHead>
+                      <TableHead className="text-center">Lượt xem</TableHead>
+                      <TableHead>Ngày đăng</TableHead>
+                      <TableHead className="text-right">Thao tác</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {properties.map((property) => (
                   <TableRow key={property.id}>
                     <TableCell className="font-medium">
                       <div className="flex flex-col gap-1">
@@ -223,23 +229,130 @@ export default function MyProperties() {
                       </div>
                     </TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
 
-            {/* Summary */}
-            <div className="border-t p-4 bg-gray-50">
-              <p className="text-sm text-gray-600">
-                Tổng số: <strong>{properties.length}</strong> tin đăng •{' '}
-                <strong>
-                  {properties.reduce((sum, p) => sum + (p.view_count || 0), 0)}
-                </strong>{' '}
-                lượt xem
-              </p>
+              {/* Summary */}
+              <div className="border-t p-4 bg-gray-50">
+                <p className="text-sm text-gray-600">
+                  Tổng số: <strong>{properties.length}</strong> tin đăng •{' '}
+                  <strong>
+                    {properties.reduce((sum, p) => sum + (p.view_count || 0), 0)}
+                  </strong>{' '}
+                  lượt xem
+                </p>
+              </div>
+            </Card>
+
+            {/* Mobile/Tablet Card View */}
+            <div className="lg:hidden space-y-4">
+              {properties.map((property) => (
+                <Card key={property.id} className="p-4">
+                  <div className="space-y-3">
+                    {/* Header */}
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex-1 min-w-0">
+                        <Link
+                          to={`/properties/${property.id}`}
+                          className="font-medium text-sm sm:text-base text-gray-900 hover:text-primary line-clamp-2"
+                        >
+                          {property.title}
+                        </Link>
+                        <div className="flex flex-wrap gap-2 mt-2">
+                          {property.is_featured && (
+                            <Badge variant="secondary" className="text-xs">
+                              Nổi bật
+                            </Badge>
+                          )}
+                          {property.is_verified && (
+                            <Badge variant="outline" className="text-xs">
+                              Đã xác minh
+                            </Badge>
+                          )}
+                          <Badge
+                            variant={
+                              property.status === 'Có sẵn'
+                                ? 'default'
+                                : property.status === 'Hot'
+                                ? 'destructive'
+                                : 'secondary'
+                            }
+                            className="text-xs"
+                          >
+                            {property.status}
+                          </Badge>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Details */}
+                    <div className="grid grid-cols-2 gap-2 text-xs sm:text-sm">
+                      <div>
+                        <span className="text-gray-500">Loại:</span>{' '}
+                        <span className="font-medium">{property.type}</span>
+                      </div>
+                      <div>
+                        <span className="text-gray-500">Lượt xem:</span>{' '}
+                        <span className="font-medium">{property.view_count || 0}</span>
+                      </div>
+                      <div className="col-span-2">
+                        <span className="text-gray-500">Giá:</span>{' '}
+                        <span className="font-semibold text-primary">
+                          {new Intl.NumberFormat('vi-VN').format(property.price)} đ
+                        </span>
+                      </div>
+                      <div className="col-span-2">
+                        <span className="text-gray-500">Ngày đăng:</span>{' '}
+                        <span className="font-medium">
+                          {new Date(property.created_at).toLocaleDateString('vi-VN')}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Actions */}
+                    <div className="flex items-center gap-2 pt-2 border-t">
+                      <Link to={`/properties/${property.id}`} className="flex-1">
+                        <Button variant="outline" size="sm" className="w-full gap-2">
+                          <Eye className="h-4 w-4" />
+                          Xem
+                        </Button>
+                      </Link>
+                      <Link to={`/my-properties/edit/${property.id}`} className="flex-1">
+                        <Button variant="outline" size="sm" className="w-full gap-2">
+                          <Edit className="h-4 w-4" />
+                          Sửa
+                        </Button>
+                      </Link>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="gap-2"
+                        onClick={() => handleDelete(property.id, property.title)}
+                      >
+                        <Trash2 className="h-4 w-4 text-red-600" />
+                      </Button>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+
+              {/* Summary for Mobile */}
+              <Card className="p-4 bg-gray-50">
+                <p className="text-xs sm:text-sm text-gray-600 text-center">
+                  Tổng số: <strong>{properties.length}</strong> tin đăng •{' '}
+                  <strong>
+                    {properties.reduce((sum, p) => sum + (p.view_count || 0), 0)}
+                  </strong>{' '}
+                  lượt xem
+                </p>
+              </Card>
             </div>
-          </Card>
+          </>
         )}
+        </div>
       </div>
-    </div>
+    </UserLayout>
   );
 }
