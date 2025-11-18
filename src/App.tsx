@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { useAnalytics } from "@/lib/analytics";
 import Index from "./pages/Index";
 import PropertyDetail from "./pages/PropertyDetail";
 import AdminDashboard from "./pages/AdminDashboard";
@@ -27,7 +28,11 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-const App = () => (
+const App = () => {
+  // 🔥 Auto-track page views for VungTauLand
+  useAnalytics("vungtau");
+  
+  return (
   <QueryClientProvider client={queryClient}>
     <HelmetProvider>
       <AuthProvider>
@@ -177,6 +182,7 @@ const App = () => (
       </AuthProvider>
     </HelmetProvider>
   </QueryClientProvider>
-);
+  );
+};
 
 export default App;
