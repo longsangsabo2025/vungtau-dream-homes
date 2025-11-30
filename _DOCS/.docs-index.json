@@ -1,0 +1,509 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2025-11-29T08:24:36.939Z",
+  "documents": [
+    {
+      "id": "MDAtU1RBUlQtSEVSRS5tZA==",
+      "path": "00-START-HERE.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\vungtau-dream-homes\\_DOCS\\00-START-HERE.md",
+      "title": "Vung Tau Dream Homes Documentation",
+      "description": "",
+      "category": "ARCHITECTURE",
+      "categoryIcon": "🏗️",
+      "status": "active",
+      "tags": [
+        "react",
+        "typescript",
+        "supabase",
+        "database",
+        "ai",
+        "deploy"
+      ],
+      "size": 2326,
+      "lines": 75,
+      "words": 306,
+      "createdAt": "2025-11-29T07:06:25.116Z",
+      "modifiedAt": "2025-11-29T07:15:59.781Z",
+      "ageInDays": 0
+    },
+    {
+      "id": "MDEtQVJDSElURUNUVVJFXFNZU1RFTV9BUkNISVRFQ1RVUkUubWQ=",
+      "path": "01-ARCHITECTURE\\SYSTEM_ARCHITECTURE.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\vungtau-dream-homes\\_DOCS\\01-ARCHITECTURE\\SYSTEM_ARCHITECTURE.md",
+      "title": "\udfd7 Vung Tau Dream Homes - System Architecture",
+      "description": "",
+      "category": "ARCHITECTURE",
+      "categoryIcon": "🏗️",
+      "status": "active",
+      "tags": [
+        "react",
+        "typescript",
+        "supabase",
+        "api",
+        "database",
+        "ai",
+        "email",
+        "auth",
+        "deploy"
+      ],
+      "size": 16350,
+      "lines": 277,
+      "words": 1101,
+      "createdAt": "2025-11-29T07:06:25.249Z",
+      "modifiedAt": "2025-11-29T07:15:59.781Z",
+      "ageInDays": 0
+    },
+    {
+      "id": "MDItRkVBVFVSRVNcQ09SRV9GRUFUVVJFUy5tZA==",
+      "path": "02-FEATURES\\CORE_FEATURES.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\vungtau-dream-homes\\_DOCS\\02-FEATURES\\CORE_FEATURES.md",
+      "title": "Vung Tau Dream Homes - Core Features",
+      "description": "",
+      "category": "FEATURES",
+      "categoryIcon": "✨",
+      "status": "active",
+      "tags": [
+        "react",
+        "typescript",
+        "supabase",
+        "ai",
+        "seo",
+        "google",
+        "email",
+        "auth"
+      ],
+      "size": 17693,
+      "lines": 310,
+      "words": 1094,
+      "createdAt": "2025-11-29T07:06:31.608Z",
+      "modifiedAt": "2025-11-29T07:15:59.781Z",
+      "ageInDays": 0
+    },
+    {
+      "id": "MDUtR1VJREVTXFFVSUNLX1NUQVJULm1k",
+      "path": "05-GUIDES\\QUICK_START.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\vungtau-dream-homes\\_DOCS\\05-GUIDES\\QUICK_START.md",
+      "title": "Vung Tau Dream Homes - Quick Start Guide",
+      "description": "",
+      "category": "GUIDES",
+      "categoryIcon": "📖",
+      "status": "active",
+      "tags": [
+        "react",
+        "typescript",
+        "supabase",
+        "api",
+        "database",
+        "ai",
+        "google",
+        "auth",
+        "deploy"
+      ],
+      "size": 6753,
+      "lines": 273,
+      "words": 760,
+      "createdAt": "2025-11-29T07:06:25.799Z",
+      "modifiedAt": "2025-11-29T07:15:59.781Z",
+      "ageInDays": 0
+    },
+    {
+      "id": "QURNSU5fU0VUVVAubWQ=",
+      "path": "ADMIN_SETUP.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\vungtau-dream-homes\\_DOCS\\ADMIN_SETUP.md",
+      "title": "Hướng dẫn Cập nhật RLS Policies cho Admin",
+      "description": "",
+      "category": "FEATURES",
+      "categoryIcon": "✨",
+      "status": "active",
+      "tags": [
+        "supabase",
+        "ai",
+        "email",
+        "auth"
+      ],
+      "size": 2939,
+      "lines": 96,
+      "words": 428,
+      "createdAt": "2025-11-17T03:15:40.415Z",
+      "modifiedAt": "2025-11-15T02:02:51.520Z",
+      "ageInDays": 14
+    },
+    {
+      "id": "QU5BTFlUSUNTX1VTQUdFLm1k",
+      "path": "ANALYTICS_USAGE.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\vungtau-dream-homes\\_DOCS\\ANALYTICS_USAGE.md",
+      "title": "\udcca Analytics Integration - VungTauLand",
+      "description": "",
+      "category": "FEATURES",
+      "categoryIcon": "✨",
+      "status": "active",
+      "tags": [
+        "supabase",
+        "database",
+        "ai",
+        "email"
+      ],
+      "size": 3092,
+      "lines": 137,
+      "words": 357,
+      "createdAt": "2025-11-18T02:53:53.500Z",
+      "modifiedAt": "2025-11-18T02:58:38.733Z",
+      "ageInDays": 11
+    },
+    {
+      "id": "QVVESVRfUkVQT1JULm1k",
+      "path": "AUDIT_REPORT.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\vungtau-dream-homes\\_DOCS\\AUDIT_REPORT.md",
+      "title": "\udcca AUDIT TOÀN DIỆN CODEBASE - VUNGTAU DREAM HOMES",
+      "description": "",
+      "category": "ARCHITECTURE",
+      "categoryIcon": "🏗️",
+      "status": "active",
+      "tags": [
+        "react",
+        "typescript",
+        "supabase",
+        "api",
+        "database",
+        "ai",
+        "seo",
+        "google",
+        "email",
+        "auth"
+      ],
+      "size": 11590,
+      "lines": 462,
+      "words": 1711,
+      "createdAt": "2025-11-17T03:15:40.416Z",
+      "modifiedAt": "2025-11-14T00:45:41.834Z",
+      "ageInDays": 15
+    },
+    {
+      "id": "Q09NUExFVElPTl9TVU1NQVJZLm1k",
+      "path": "COMPLETION_SUMMARY.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\vungtau-dream-homes\\_DOCS\\COMPLETION_SUMMARY.md",
+      "title": "\udf89 100% COMPLETION SUMMARY",
+      "description": "",
+      "category": "ARCHITECTURE",
+      "categoryIcon": "🏗️",
+      "status": "active",
+      "tags": [
+        "react",
+        "supabase",
+        "database",
+        "ai",
+        "seo",
+        "email",
+        "auth",
+        "deploy"
+      ],
+      "size": 4454,
+      "lines": 172,
+      "words": 598,
+      "createdAt": "2025-11-17T03:15:40.420Z",
+      "modifiedAt": "2025-11-14T01:17:37.038Z",
+      "ageInDays": 15
+    },
+    {
+      "id": "REFUQUJBU0VfU0VUVVAubWQ=",
+      "path": "DATABASE_SETUP.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\vungtau-dream-homes\\_DOCS\\DATABASE_SETUP.md",
+      "title": "Hướng dẫn Setup Database cho Vungtau Dream Homes",
+      "description": "",
+      "category": "FEATURES",
+      "categoryIcon": "✨",
+      "status": "active",
+      "tags": [
+        "supabase",
+        "api",
+        "database",
+        "auth"
+      ],
+      "size": 2488,
+      "lines": 66,
+      "words": 401,
+      "createdAt": "2025-11-17T03:15:40.429Z",
+      "modifiedAt": "2025-11-13T14:28:54.088Z",
+      "ageInDays": 16
+    },
+    {
+      "id": "REVQTE9ZTUVOVC5tZA==",
+      "path": "DEPLOYMENT.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\vungtau-dream-homes\\_DOCS\\DEPLOYMENT.md",
+      "title": "Deployment Guide",
+      "description": "",
+      "category": "FEATURES",
+      "categoryIcon": "✨",
+      "status": "active",
+      "tags": [
+        "supabase",
+        "database",
+        "ai",
+        "auth",
+        "deploy"
+      ],
+      "size": 2066,
+      "lines": 92,
+      "words": 287,
+      "createdAt": "2025-11-17T03:15:40.430Z",
+      "modifiedAt": "2025-11-14T01:17:37.001Z",
+      "ageInDays": 15
+    },
+    {
+      "id": "RE9NQUlOX1NFVFVQLm1k",
+      "path": "DOMAIN_SETUP.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\vungtau-dream-homes\\_DOCS\\DOMAIN_SETUP.md",
+      "title": "Hướng dẫn cấu hình Domain vungtauland.store cho Vercel",
+      "description": "",
+      "category": "FEATURES",
+      "categoryIcon": "✨",
+      "status": "active",
+      "tags": [
+        "ai"
+      ],
+      "size": 1183,
+      "lines": 49,
+      "words": 161,
+      "createdAt": "2025-11-17T03:15:40.431Z",
+      "modifiedAt": "2025-11-15T01:31:52.734Z",
+      "ageInDays": 14
+    },
+    {
+      "id": "SU5WRVNUT1JfUElUQ0gubWQ=",
+      "path": "INVESTOR_PITCH.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\vungtau-dream-homes\\_DOCS\\INVESTOR_PITCH.md",
+      "title": "\udfe0 VUNG TAU DREAM HOMES - Investment Overview",
+      "description": "",
+      "category": "ARCHITECTURE",
+      "categoryIcon": "🏗️",
+      "status": "active",
+      "tags": [
+        "react",
+        "typescript",
+        "supabase",
+        "database",
+        "ai",
+        "seo",
+        "google",
+        "email"
+      ],
+      "size": 7585,
+      "lines": 243,
+      "words": 1006,
+      "createdAt": "2025-11-29T06:38:15.155Z",
+      "modifiedAt": "2025-11-29T07:15:59.781Z",
+      "ageInDays": 0
+    },
+    {
+      "id": "TUlHUkFUSU9OLVRZUEUtQ0FURUdPUlkubWQ=",
+      "path": "MIGRATION-TYPE-CATEGORY.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\vungtau-dream-homes\\_DOCS\\MIGRATION-TYPE-CATEGORY.md",
+      "title": "Type and Category Differentiation - Migration Guide",
+      "description": "",
+      "category": "FEATURES",
+      "categoryIcon": "✨",
+      "status": "active",
+      "tags": [
+        "supabase",
+        "database"
+      ],
+      "size": 4411,
+      "lines": 140,
+      "words": 650,
+      "createdAt": "2025-11-17T03:15:40.450Z",
+      "modifiedAt": "2025-11-15T05:13:16.192Z",
+      "ageInDays": 14
+    },
+    {
+      "id": "T1BUSU1JWkFUSU9OX0NPTVBMRVRFLm1k",
+      "path": "OPTIMIZATION_COMPLETE.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\vungtau-dream-homes\\_DOCS\\OPTIMIZATION_COMPLETE.md",
+      "title": "OPTIMIZATION COMPLETE - Vungtau Dream Homes",
+      "description": "",
+      "category": "FEATURES",
+      "categoryIcon": "✨",
+      "status": "active",
+      "tags": [
+        "react",
+        "typescript",
+        "supabase",
+        "database",
+        "ai",
+        "google",
+        "deploy"
+      ],
+      "size": 3050,
+      "lines": 122,
+      "words": 426,
+      "createdAt": "2025-11-22T15:13:27.919Z",
+      "modifiedAt": "2025-11-22T15:21:14.305Z",
+      "ageInDays": 7
+    },
+    {
+      "id": "T1BUSU1JWkFUSU9OX0dVSURFLm1k",
+      "path": "OPTIMIZATION_GUIDE.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\vungtau-dream-homes\\_DOCS\\OPTIMIZATION_GUIDE.md",
+      "title": "OPTIMIZATION GUIDE - Vungtau Dream Homes",
+      "description": "",
+      "category": "ARCHITECTURE",
+      "categoryIcon": "🏗️",
+      "status": "active",
+      "tags": [
+        "['b'",
+        "'i'",
+        "'em'",
+        "'strong'",
+        "'p'",
+        "'br']",
+        "",
+        "react",
+        "typescript",
+        "supabase"
+      ],
+      "size": 14810,
+      "lines": 651,
+      "words": 1830,
+      "createdAt": "2025-11-22T15:11:48.155Z",
+      "modifiedAt": "2025-11-22T15:21:14.305Z",
+      "ageInDays": 7
+    }
+  ],
+  "categories": {
+    "ARCHITECTURE": {
+      "keywords": [
+        "architecture",
+        "system",
+        "design",
+        "structure",
+        "diagram"
+      ],
+      "folder": "01-ARCHITECTURE",
+      "icon": "🏗️",
+      "priority": 1
+    },
+    "FEATURES": {
+      "keywords": [
+        "feature",
+        "complete",
+        "implementation",
+        "integration",
+        "setup"
+      ],
+      "folder": "02-FEATURES",
+      "icon": "✨",
+      "priority": 2
+    },
+    "OPERATIONS": {
+      "keywords": [
+        "operation",
+        "runbook",
+        "monitoring",
+        "alert",
+        "incident"
+      ],
+      "folder": "03-OPERATIONS",
+      "icon": "⚙️",
+      "priority": 3
+    },
+    "DEPLOYMENT": {
+      "keywords": [
+        "deploy",
+        "production",
+        "staging",
+        "ci",
+        "cd",
+        "pipeline"
+      ],
+      "folder": "04-DEPLOYMENT",
+      "icon": "🚀",
+      "priority": 4
+    },
+    "GUIDES": {
+      "keywords": [
+        "guide",
+        "tutorial",
+        "how-to",
+        "quickstart",
+        "getting-started"
+      ],
+      "folder": "05-GUIDES",
+      "icon": "📖",
+      "priority": 5
+    },
+    "AI": {
+      "keywords": [
+        "ai",
+        "llm",
+        "gpt",
+        "copilot",
+        "agent",
+        "rag",
+        "embedding"
+      ],
+      "folder": "06-AI",
+      "icon": "🤖",
+      "priority": 6
+    },
+    "API": {
+      "keywords": [
+        "api",
+        "endpoint",
+        "rest",
+        "graphql",
+        "webhook"
+      ],
+      "folder": "07-API",
+      "icon": "🔌",
+      "priority": 7
+    },
+    "DATABASE": {
+      "keywords": [
+        "database",
+        "migration",
+        "schema",
+        "sql",
+        "table"
+      ],
+      "folder": "08-DATABASE",
+      "icon": "🗄️",
+      "priority": 8
+    },
+    "REPORTS": {
+      "keywords": [
+        "report",
+        "bao_cao",
+        "summary",
+        "status",
+        "phase"
+      ],
+      "folder": "09-REPORTS",
+      "icon": "📊",
+      "priority": 9
+    },
+    "ARCHIVE": {
+      "keywords": [
+        "old",
+        "deprecated",
+        "archive",
+        "legacy"
+      ],
+      "folder": "99-ARCHIVE",
+      "icon": "📦",
+      "priority": 99
+    }
+  },
+  "stats": {
+    "total": 15,
+    "byCategory": {
+      "ARCHITECTURE": 6,
+      "FEATURES": 8,
+      "GUIDES": 1
+    },
+    "byStatus": {
+      "active": 15
+    },
+    "totalWords": 11116,
+    "totalLines": 3165,
+    "avgAge": 9
+  }
+}

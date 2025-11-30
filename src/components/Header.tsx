@@ -37,27 +37,18 @@ const Header = () => {
             <Link to="/" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
               Trang chủ
             </Link>
-            <a href="/search" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+            <Link to="/mua-ban" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
               Mua bán
-            </a>
-            <a href="/search?type=rent" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+            </Link>
+            <Link to="/cho-thue" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
               Cho thuê
-            </a>
-            <a href="/news" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+            </Link>
+            <Link to="/tin-tuc" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
               Tin tức
-            </a>
-            {user ? (
-              <Link to="/my-properties/new" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
-                Đăng tin
-              </Link>
-            ) : (
-              <button 
-                onClick={() => setAuthDialogOpen(true)}
-                className="text-sm font-medium text-foreground hover:text-primary transition-colors"
-              >
-                Đăng tin
-              </button>
-            )}
+            </Link>
+            <Link to="/dang-tin" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+              Đăng tin
+            </Link>
           </nav>
 
           {/* Desktop Actions */}

@@ -153,22 +153,58 @@ export default function EditProperty() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="price">Giá (VNĐ) *</Label>
+                  <Label htmlFor="type" className="text-sm">Mục đích *</Label>
+                  <Select 
+                    value={formData.type || 'Bán'} 
+                    onValueChange={(value) => setFormData({ ...formData, type: value })}
+                  >
+                    <SelectTrigger className="text-sm">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Bán">Bán</SelectItem>
+                      <SelectItem value="Cho thuê">Cho thuê</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label htmlFor="status" className="text-sm">Trạng thái</Label>
+                  <Select
+                    value={formData.status || 'Có sẵn'}
+                    onValueChange={(value) => setFormData({ ...formData, status: value })}
+                  >
+                    <SelectTrigger className="text-sm">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Có sẵn">Có sẵn</SelectItem>
+                      <SelectItem value="Hot">Hot</SelectItem>
+                      <SelectItem value="Nổi bật">Nổi bật</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="price" className="text-sm">Giá (VNĐ) *</Label>
                   <Input
                     id="price"
                     type="number"
                     value={formData.price || ''}
                     onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                    className="text-sm"
                     required
                   />
                 </div>
                 <div>
-                  <Label htmlFor="area">Diện tích (m²) *</Label>
+                  <Label htmlFor="area" className="text-sm">Diện tích (m²) *</Label>
                   <Input
                     id="area"
                     type="number"
                     value={formData.area || ''}
                     onChange={(e) => setFormData({ ...formData, area: e.target.value })}
+                    className="text-sm"
                     required
                   />
                 </div>
@@ -185,30 +221,14 @@ export default function EditProperty() {
               </div>
 
               <div>
-                <Label htmlFor="description">Mô tả</Label>
+                <Label htmlFor="description" className="text-sm">Mô tả</Label>
                 <Textarea
                   id="description"
                   value={formData.description || ''}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   rows={5}
+                  className="text-sm"
                 />
-              </div>
-
-              <div>
-                <Label htmlFor="status">Trạng thái</Label>
-                <Select
-                  value={formData.status || 'Có sẵn'}
-                  onValueChange={(value) => setFormData({ ...formData, status: value })}
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Có sẵn">Có sẵn</SelectItem>
-                    <SelectItem value="Hot">Hot</SelectItem>
-                    <SelectItem value="Nổi bật">Nổi bật</SelectItem>
-                  </SelectContent>
-                </Select>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4 border-t">

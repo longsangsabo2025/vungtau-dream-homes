@@ -3,7 +3,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/lib/supabase";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Building, Home, TrendingUp, Users, Plus } from "lucide-react";
+import { Building, Home, TrendingUp, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import AdminLayout from "@/components/AdminLayout";
 
@@ -73,143 +73,178 @@ const AdminDashboard = () => {
 
   return (
     <AdminLayout>
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="space-y-6">
+        {/* Header */}
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
+          <p className="text-gray-600 mt-2">Chào mừng trở lại, Admin!</p>
+        </div>
 
-          {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">
-                  Tổng BĐS
-                </CardTitle>
-                <Building className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">
-                  {loading ? "..." : stats.totalProperties}
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Tổng BĐS</p>
+                  <p className="text-3xl font-bold text-blue-600 mt-2">
+                    {loading ? "..." : stats.totalProperties}
+                  </p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    +{stats.recentProperties} trong 7 ngày
+                  </p>
                 </div>
-                <p className="text-xs text-muted-foreground">
-                  +{stats.recentProperties} trong 7 ngày qua
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">
-                  Lượt xem
-                </CardTitle>
-                <TrendingUp className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">
-                  {loading ? "..." : stats.totalViews.toLocaleString()}
+                <div className="h-12 w-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                  <Building className="h-6 w-6 text-blue-600" />
                 </div>
-                <p className="text-xs text-muted-foreground">
-                  +20.1% so với tháng trước
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">
-                  Người dùng
-                </CardTitle>
-                <Users className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">
-                  {loading ? "..." : stats.totalUsers}
-                </div>
-                <p className="text-xs text-muted-foreground">
-                  +12 người dùng mới
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">
-                  BĐS mới
-                </CardTitle>
-                <Home className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">
-                  {loading ? "..." : stats.recentProperties}
-                </div>
-                <p className="text-xs text-muted-foreground">
-                  Trong 7 ngày qua
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Quick Actions */}
-          <Card className="mb-8">
-            <CardHeader>
-              <CardTitle>Thao tác nhanh</CardTitle>
-              <CardDescription>
-                Các chức năng quản trị thường dùng
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Link to="/admin/properties">
-                <Button className="w-full gap-2" size="lg">
-                  <Building className="h-5 w-5" />
-                  Quản lý BĐS
-                </Button>
-              </Link>
-              <Link to="/admin/properties/new">
-                <Button className="w-full gap-2" size="lg" variant="outline">
-                  <Plus className="h-5 w-5" />
-                  Thêm BĐS mới
-                </Button>
-              </Link>
-              <Button className="w-full gap-2" size="lg" variant="outline" disabled>
-                <Users className="h-5 w-5" />
-                Quản lý người dùng
-              </Button>
+              </div>
             </CardContent>
           </Card>
 
-          {/* Recent Activity */}
           <Card>
-            <CardHeader>
-              <CardTitle>Hoạt động gần đây</CardTitle>
-              <CardDescription>
-                Các thay đổi và cập nhật mới nhất
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="flex items-center gap-4">
-                  <div className="h-2 w-2 rounded-full bg-green-500" />
-                  <div className="flex-1">
-                    <p className="text-sm font-medium">Hệ thống hoạt động bình thường</p>
-                    <p className="text-xs text-muted-foreground">Tất cả dịch vụ đang online</p>
-                  </div>
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Lượt xem</p>
+                  <p className="text-3xl font-bold text-green-600 mt-2">
+                    {loading ? "..." : stats.totalViews.toLocaleString()}
+                  </p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    +20.1% so với tháng trước
+                  </p>
                 </div>
-                <div className="flex items-center gap-4">
-                  <div className="h-2 w-2 rounded-full bg-blue-500" />
-                  <div className="flex-1">
-                    <p className="text-sm font-medium">Database đã được cập nhật</p>
-                    <p className="text-xs text-muted-foreground">2 phút trước</p>
-                  </div>
+                <div className="h-12 w-12 bg-green-100 rounded-lg flex items-center justify-center">
+                  <TrendingUp className="h-6 w-6 text-green-600" />
                 </div>
-                <div className="flex items-center gap-4">
-                  <div className="h-2 w-2 rounded-full bg-yellow-500" />
-                  <div className="flex-1">
-                    <p className="text-sm font-medium">Đang chờ {stats.recentProperties} BĐS mới được duyệt</p>
-                    <p className="text-xs text-muted-foreground">5 phút trước</p>
-                  </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Người dùng</p>
+                  <p className="text-3xl font-bold text-purple-600 mt-2">
+                    {loading ? "..." : stats.totalUsers}
+                  </p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    +12 người dùng mới
+                  </p>
+                </div>
+                <div className="h-12 w-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                  <Users className="h-6 w-6 text-purple-600" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">BĐS mới</p>
+                  <p className="text-3xl font-bold text-orange-600 mt-2">
+                    {loading ? "..." : stats.recentProperties}
+                  </p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    Trong 7 ngày qua
+                  </p>
+                </div>
+                <div className="h-12 w-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                  <Home className="h-6 w-6 text-orange-600" />
                 </div>
               </div>
             </CardContent>
           </Card>
         </div>
+
+        {/* Quick Actions */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Thao tác nhanh</CardTitle>
+            <CardDescription>
+              Các chức năng quản trị thường dùng
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <Link to="/admin/properties" className="block">
+              <Button className="w-full gap-2" size="lg">
+                <Building className="h-5 w-5" />
+                Kiểm duyệt tin
+              </Button>
+            </Link>
+            <Link to="/admin/users" className="block">
+              <Button className="w-full gap-2" size="lg" variant="outline">
+                <Users className="h-5 w-5" />
+                Quản lý Users
+              </Button>
+            </Link>
+            <Link to="/admin/agents" className="block">
+              <Button className="w-full gap-2" size="lg" variant="outline">
+                <Users className="h-5 w-5" />
+                Quản lý Agents
+              </Button>
+            </Link>
+            <Link to="/admin/reports" className="block">
+              <Button className="w-full gap-2" size="lg" variant="outline">
+                <TrendingUp className="h-5 w-5" />
+                Báo cáo
+              </Button>
+            </Link>
+          </CardContent>
+        </Card>
+
+        {/* Recent Activity */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Hoạt động gần đây</CardTitle>
+            <CardDescription>
+              Các thay đổi và cập nhật mới nhất
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="flex items-center gap-4 p-3 rounded-lg bg-green-50 border border-green-200">
+                <div className="h-10 w-10 rounded-full bg-green-500 flex items-center justify-center">
+                  <div className="h-3 w-3 rounded-full bg-white" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm font-medium text-green-900">Hệ thống hoạt động bình thường</p>
+                  <p className="text-xs text-green-600">Tất cả dịch vụ đang online</p>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 border">
+                <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+                  <Building className="h-5 w-5 text-blue-600" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm font-medium">Database đã được cập nhật</p>
+                  <p className="text-xs text-gray-500">2 phút trước</p>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 border">
+                <div className="h-10 w-10 rounded-full bg-yellow-100 flex items-center justify-center">
+                  <Home className="h-5 w-5 text-yellow-600" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm font-medium">
+                    Có {stats.recentProperties} tin đăng mới cần kiểm duyệt
+                  </p>
+                  <p className="text-xs text-gray-500">Trong 7 ngày qua</p>
+                </div>
+                <Link to="/admin/properties">
+                  <Button size="sm" variant="outline">
+                    Xem ngay
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </AdminLayout>
   );
 };

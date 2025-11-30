@@ -45,13 +45,16 @@ interface Property {
   price: number;
   area: number;
   location: string;
-  type: string;
+  type: string; // Transaction type: Bán/Cho thuê
   approval_status: 'pending' | 'approved' | 'rejected';
   rejection_reason?: string;
   created_at: string;
   owner: {
     full_name: string;
     email: string;
+  };
+  categories?: {
+    name: string;
   };
 }
 
@@ -80,12 +83,13 @@ export default function PropertiesManagement() {
     try {
       setLoading(true);
 
-      // Fetch all properties with owner info
+      // Fetch all properties with owner info and category
       const { data, error } = await supabase
         .from('properties')
         .select(`
           *,
-          owner:profiles!properties_owner_id_fkey(full_name, email)
+          owner:profiles!properties_owner_id_fkey(full_name, email),
+          categories(name)
         `)
         .order('created_at', { ascending: false });
 
@@ -331,6 +335,8 @@ export default function PropertiesManagement() {
                         <TableRow>
                           <TableHead>Tiêu đề</TableHead>
                           <TableHead>Người đăng</TableHead>
+                          <TableHead>Mục đích</TableHead>
+                          <TableHead>Loại BĐS</TableHead>
                           <TableHead>Giá</TableHead>
                           <TableHead>Diện tích</TableHead>
                           <TableHead>Địa điểm</TableHead>
@@ -342,7 +348,7 @@ export default function PropertiesManagement() {
                       <TableBody>
                         {filteredProperties.length === 0 ? (
                           <TableRow>
-                            <TableCell colSpan={8} className="text-center py-8 text-gray-500">
+                            <TableCell colSpan={10} className="text-center py-8 text-gray-500">
                               Không có tin đăng nào
                             </TableCell>
                           </TableRow>
@@ -353,11 +359,16 @@ export default function PropertiesManagement() {
                                 <div className="font-medium max-w-xs truncate">
                                   {property.title}
                                 </div>
-                                <div className="text-sm text-gray-500">{property.type}</div>
                               </TableCell>
                               <TableCell>
                                 <div>{property.owner?.full_name || 'N/A'}</div>
                                 <div className="text-sm text-gray-500">{property.owner?.email}</div>
+                              </TableCell>
+                              <TableCell>
+                                <Badge variant="outline" className="text-xs">{property.type}</Badge>
+                              </TableCell>
+                              <TableCell className="text-sm">
+                                {property.categories?.name || 'N/A'}
                               </TableCell>
                               <TableCell className="font-medium text-blue-600">
                                 {formatPrice(property.price)}
@@ -465,8 +476,14 @@ export default function PropertiesManagement() {
                   <p className="mt-1">{selectedProperty.location}</p>
                 </div>
                 <div>
-                  <Label className="font-semibold">Loại hình:</Label>
-                  <p className="mt-1">{selectedProperty.type}</p>
+                  <Label className="font-semibold">Mục đích:</Label>
+                  <p className="mt-1">
+                    <Badge variant="outline">{selectedProperty.type}</Badge>
+                  </p>
+                </div>
+                <div>
+                  <Label className="font-semibold">Loại bất động sản:</Label>
+                  <p className="mt-1">{selectedProperty.categories?.name || 'N/A'}</p>
                 </div>
                 <div>
                   <Label className="font-semibold">Người đăng:</Label>

@@ -3,6 +3,7 @@
  * LongSang, VungTauLand, SABO Arena, LS Secretary
  */
 
+import React from "react";
 import { supabase } from "./supabase";
 
 export type ProductName = "longsang" | "vungtau" | "sabo-arena" | "ls-secretary";

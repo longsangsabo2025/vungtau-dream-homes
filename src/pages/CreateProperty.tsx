@@ -41,7 +41,7 @@ export default function CreateProperty() {
     district: '',
     ward: '',
     address_detail: '',
-    type: 'Căn hộ',
+    type: 'Bán', // Transaction type: Bán/Cho thuê
     category_id: '',
     description: '',
     image_url: '',
@@ -183,28 +183,23 @@ export default function CreateProperty() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="type" className="text-sm">Loại hình *</Label>
+                    <Label htmlFor="type" className="text-sm">Mục đích *</Label>
                     <Select value={formData.type} onValueChange={(value) => handleChange('type', value)}>
                       <SelectTrigger className="text-sm">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="Căn hộ">Căn hộ</SelectItem>
-                        <SelectItem value="Villa">Villa</SelectItem>
-                        <SelectItem value="Nhà phố">Nhà phố</SelectItem>
-                        <SelectItem value="Đất nền">Đất nền</SelectItem>
-                        <SelectItem value="Shophouse">Shophouse</SelectItem>
-                        <SelectItem value="Condotel">Condotel</SelectItem>
-                        <SelectItem value="Studio">Studio</SelectItem>
+                        <SelectItem value="Bán">Bán</SelectItem>
+                        <SelectItem value="Cho thuê">Cho thuê</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
 
                   <div>
-                    <Label htmlFor="category" className="text-sm">Danh mục</Label>
+                    <Label htmlFor="category" className="text-sm">Loại bất động sản *</Label>
                     <Select value={formData.category_id} onValueChange={(value) => handleChange('category_id', value)}>
                       <SelectTrigger className="text-sm">
-                        <SelectValue />
+                        <SelectValue placeholder="Chọn loại BĐS" />
                       </SelectTrigger>
                       <SelectContent>
                         {categories.map(cat => (

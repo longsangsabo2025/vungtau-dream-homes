@@ -22,7 +22,7 @@ interface Property {
   title: string;
   price: number;
   location: string;
-  type: string;
+  type: string; // Transaction type: Bán/Cho thuê
   status: string;
   approval_status: 'pending' | 'approved' | 'rejected';
   rejection_reason?: string;
@@ -30,6 +30,9 @@ interface Property {
   created_at: string;
   is_featured: boolean;
   is_verified: boolean;
+  categories?: {
+    name: string;
+  };
 }
 
 export default function MyProperties() {
@@ -48,7 +51,7 @@ export default function MyProperties() {
     try {
       const { data, error } = await supabase
         .from('properties')
-        .select('*')
+        .select('*, categories(name)')
         .eq('owner_id', user.id)
         .order('created_at', { ascending: false });
 
@@ -149,7 +152,8 @@ export default function MyProperties() {
                   <TableHeader>
                     <TableRow>
                       <TableHead>Tiêu đề</TableHead>
-                      <TableHead>Loại</TableHead>
+                      <TableHead>Mục đích</TableHead>
+                      <TableHead>Loại BĐS</TableHead>
                       <TableHead>Giá</TableHead>
                       <TableHead>Trạng thái tin</TableHead>
                       <TableHead>Kiểm duyệt</TableHead>
@@ -183,7 +187,10 @@ export default function MyProperties() {
                         </div>
                       </div>
                     </TableCell>
-                    <TableCell>{property.type}</TableCell>
+                    <TableCell>
+                      <Badge variant="outline">{property.type}</Badge>
+                    </TableCell>
+                    <TableCell>{property.categories?.name || 'N/A'}</TableCell>
                     <TableCell>
                       {new Intl.NumberFormat('vi-VN').format(property.price)} đ
                     </TableCell>
@@ -341,8 +348,12 @@ export default function MyProperties() {
                     {/* Details */}
                     <div className="grid grid-cols-2 gap-2 text-xs sm:text-sm">
                       <div>
-                        <span className="text-gray-500">Loại:</span>{' '}
-                        <span className="font-medium">{property.type}</span>
+                        <span className="text-gray-500">Mục đích:</span>{' '}
+                        <Badge variant="outline" className="text-xs">{property.type}</Badge>
+                      </div>
+                      <div>
+                        <span className="text-gray-500">Loại BĐS:</span>{' '}
+                        <span className="font-medium">{property.categories?.name || 'N/A'}</span>
                       </div>
                       <div>
                         <span className="text-gray-500">Lượt xem:</span>{' '}
