@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastUpdated": "2025-11-29T08:24:36.939Z",
+  "lastUpdated": "2025-12-03T02:38:10.157Z",
   "documents": [
     {
       "id": "MDAtU1RBUlQtSEVSRS5tZA==",
@@ -24,7 +24,7 @@
       "words": 306,
       "createdAt": "2025-11-29T07:06:25.116Z",
       "modifiedAt": "2025-11-29T07:15:59.781Z",
-      "ageInDays": 0
+      "ageInDays": 4
     },
     {
       "id": "MDEtQVJDSElURUNUVVJFXFNZU1RFTV9BUkNISVRFQ1RVUkUubWQ=",
@@ -51,7 +51,7 @@
       "words": 1101,
       "createdAt": "2025-11-29T07:06:25.249Z",
       "modifiedAt": "2025-11-29T07:15:59.781Z",
-      "ageInDays": 0
+      "ageInDays": 4
     },
     {
       "id": "MDItRkVBVFVSRVNcQ09SRV9GRUFUVVJFUy5tZA==",
@@ -77,7 +77,7 @@
       "words": 1094,
       "createdAt": "2025-11-29T07:06:31.608Z",
       "modifiedAt": "2025-11-29T07:15:59.781Z",
-      "ageInDays": 0
+      "ageInDays": 4
     },
     {
       "id": "MDUtR1VJREVTXFFVSUNLX1NUQVJULm1k",
@@ -104,7 +104,7 @@
       "words": 760,
       "createdAt": "2025-11-29T07:06:25.799Z",
       "modifiedAt": "2025-11-29T07:15:59.781Z",
-      "ageInDays": 0
+      "ageInDays": 4
     },
     {
       "id": "QURNSU5fU0VUVVAubWQ=",
@@ -126,7 +126,7 @@
       "words": 428,
       "createdAt": "2025-11-17T03:15:40.415Z",
       "modifiedAt": "2025-11-15T02:02:51.520Z",
-      "ageInDays": 14
+      "ageInDays": 18
     },
     {
       "id": "QU5BTFlUSUNTX1VTQUdFLm1k",
@@ -148,7 +148,7 @@
       "words": 357,
       "createdAt": "2025-11-18T02:53:53.500Z",
       "modifiedAt": "2025-11-18T02:58:38.733Z",
-      "ageInDays": 11
+      "ageInDays": 15
     },
     {
       "id": "QVVESVRfUkVQT1JULm1k",
@@ -176,7 +176,7 @@
       "words": 1711,
       "createdAt": "2025-11-17T03:15:40.416Z",
       "modifiedAt": "2025-11-14T00:45:41.834Z",
-      "ageInDays": 15
+      "ageInDays": 19
     },
     {
       "id": "Q09NUExFVElPTl9TVU1NQVJZLm1k",
@@ -202,7 +202,7 @@
       "words": 598,
       "createdAt": "2025-11-17T03:15:40.420Z",
       "modifiedAt": "2025-11-14T01:17:37.038Z",
-      "ageInDays": 15
+      "ageInDays": 19
     },
     {
       "id": "REFUQUJBU0VfU0VUVVAubWQ=",
@@ -224,7 +224,7 @@
       "words": 401,
       "createdAt": "2025-11-17T03:15:40.429Z",
       "modifiedAt": "2025-11-13T14:28:54.088Z",
-      "ageInDays": 16
+      "ageInDays": 20
     },
     {
       "id": "REVQTE9ZTUVOVC5tZA==",
@@ -247,7 +247,7 @@
       "words": 287,
       "createdAt": "2025-11-17T03:15:40.430Z",
       "modifiedAt": "2025-11-14T01:17:37.001Z",
-      "ageInDays": 15
+      "ageInDays": 19
     },
     {
       "id": "RE9NQUlOX1NFVFVQLm1k",
@@ -266,7 +266,29 @@
       "words": 161,
       "createdAt": "2025-11-17T03:15:40.431Z",
       "modifiedAt": "2025-11-15T01:31:52.734Z",
-      "ageInDays": 14
+      "ageInDays": 18
+    },
+    {
+      "id": "SU5ERVgubWQ=",
+      "path": "INDEX.md",
+      "fullPath": "D:\\0.PROJECTS\\01-MAIN-PRODUCTS\\vungtau-dream-homes\\_DOCS\\INDEX.md",
+      "title": "vungtau-dream-homes Documentation Index",
+      "description": "> Auto-generated on 2025-11-30",
+      "category": "ARCHITECTURE",
+      "categoryIcon": "🏗️",
+      "status": "active",
+      "tags": [
+        "api",
+        "database",
+        "ai",
+        "deploy"
+      ],
+      "size": 1605,
+      "lines": 80,
+      "words": 172,
+      "createdAt": "2025-11-30T12:02:24.530Z",
+      "modifiedAt": "2025-11-30T12:02:24.530Z",
+      "ageInDays": 3
     },
     {
       "id": "SU5WRVNUT1JfUElUQ0gubWQ=",
@@ -292,7 +314,7 @@
       "words": 1006,
       "createdAt": "2025-11-29T06:38:15.155Z",
       "modifiedAt": "2025-11-29T07:15:59.781Z",
-      "ageInDays": 0
+      "ageInDays": 4
     },
     {
       "id": "TUlHUkFUSU9OLVRZUEUtQ0FURUdPUlkubWQ=",
@@ -312,7 +334,7 @@
       "words": 650,
       "createdAt": "2025-11-17T03:15:40.450Z",
       "modifiedAt": "2025-11-15T05:13:16.192Z",
-      "ageInDays": 14
+      "ageInDays": 18
     },
     {
       "id": "T1BUSU1JWkFUSU9OX0NPTVBMRVRFLm1k",
@@ -337,7 +359,7 @@
       "words": 426,
       "createdAt": "2025-11-22T15:13:27.919Z",
       "modifiedAt": "2025-11-22T15:21:14.305Z",
-      "ageInDays": 7
+      "ageInDays": 10
     },
     {
       "id": "T1BUSU1JWkFUSU9OX0dVSURFLm1k",
@@ -365,7 +387,7 @@
       "words": 1830,
       "createdAt": "2025-11-22T15:11:48.155Z",
       "modifiedAt": "2025-11-22T15:21:14.305Z",
-      "ageInDays": 7
+      "ageInDays": 10
     }
   ],
   "categories": {
@@ -493,17 +515,17 @@
     }
   },
   "stats": {
-    "total": 15,
+    "total": 16,
     "byCategory": {
-      "ARCHITECTURE": 6,
+      "ARCHITECTURE": 7,
       "FEATURES": 8,
       "GUIDES": 1
     },
     "byStatus": {
-      "active": 15
+      "active": 16
     },
-    "totalWords": 11116,
-    "totalLines": 3165,
-    "avgAge": 9
+    "totalWords": 11288,
+    "totalLines": 3245,
+    "avgAge": 12
   }
 }

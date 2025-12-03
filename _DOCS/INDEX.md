@@ -1,14 +1,14 @@
 # 📚 vungtau-dream-homes Documentation Index
 
-> Auto-generated on 2025-11-30
+> Auto-generated on 2025-12-03
 
 ## 📊 Statistics
 
 | Metric | Value |
 |--------|-------|
-| Total Documents | 15 |
+| Total Documents | 16 |
 | Categories | 11 |
-| Last Updated | 2025-11-30 |
+| Last Updated | 2025-12-03 |
 
 ---
 
@@ -41,7 +41,7 @@
 
 ## 🚀 DEPLOYMENT
 
-*No documents yet*
+- [CORE_LOGIC](04-DEPLOYMENT/CORE_LOGIC.md) - *2025-12-01*
 
 ## 📖 GUIDES
 
