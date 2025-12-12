@@ -18,11 +18,12 @@ export default defineConfig({
         '**/*.config.*',
         '**/mockData.ts',
       ],
+      // Coverage thresholds - ENFORCE 80% minimum
       thresholds: {
-        lines: 50,
-        functions: 50,
-        branches: 50,
-        statements: 50
+        lines: 80,
+        functions: 80,
+        branches: 80,
+        statements: 80
       }
     },
   },

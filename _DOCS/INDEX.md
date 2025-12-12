@@ -1,6 +1,6 @@
 # 📚 vungtau-dream-homes Documentation Index
 
-> Auto-generated on 2025-12-03
+> Auto-generated on 2025-12-12
 
 ## 📊 Statistics
 
@@ -8,7 +8,7 @@
 |--------|-------|
 | Total Documents | 16 |
 | Categories | 11 |
-| Last Updated | 2025-12-03 |
+| Last Updated | 2025-12-12 |
 
 ---
 
