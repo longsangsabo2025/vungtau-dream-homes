@@ -1,4 +1,4 @@
-import './lib/error-reporter';
+// import './lib/error-reporter'; // DISABLED: Causes CORS issues with longsang-admin.vercel.app
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
