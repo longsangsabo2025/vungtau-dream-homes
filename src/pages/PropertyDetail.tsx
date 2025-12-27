@@ -3,6 +3,8 @@ import { useState } from 'react'
 import { useProperty } from '../hooks/useSupabase'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
+import PropertyMap from '../components/PropertyMap'
+import LiveChat from '../components/LiveChat'
 import { SEO } from '../components/SEO'
 import { PropertyStructuredData } from '../components/PropertyStructuredData'
 import { Button } from '../components/ui/button'
@@ -129,8 +131,9 @@ const PropertyDetail = () => {
     ? [property.image_url, property.image_url, property.image_url] 
     : ['/placeholder.svg', '/placeholder.svg', '/placeholder.svg']
 
-  const pageTitle = `${property.title} - VungTauLand`
-  const pageDescription = `${property.title} tại ${property.location}. Diện tích ${property.area}m², ${property.bedrooms} phòng ngủ, ${property.bathrooms} phòng tắm. Giá: ${property.price?.toLocaleString('vi-VN')} VNĐ`
+  const pageTitle = `${property.title} - ${property.location} | VungTauLand`
+  const pageDescription = `${property.type} ${property.title} tại ${property.location}, Vũng Tàu. Diện tích ${property.area}m², ${property.bedrooms} phòng ngủ, ${property.bathrooms} phòng tắm. Giá ${property.listing_type === 'sale' ? 'bán' : 'thuê'}: ${property.price?.toLocaleString('vi-VN')} ${property.listing_type === 'sale' ? 'VNĐ' : 'VNĐ/tháng'}. Liên hệ ngay để xem nhà!`
+  const pageKeywords = `${property.type} ${property.location}, bất động sản ${property.location}, ${property.listing_type === 'sale' ? 'mua bán' : 'cho thuê'} ${property.type}, ${property.bedrooms} phòng ngủ, ${property.bathrooms} phòng tắm, ${property.area}m2, vũng tàu`
   const pageUrl = `https://vungtauland.com/property/${property.id}`
 
   return (
@@ -138,9 +141,17 @@ const PropertyDetail = () => {
       <SEO 
         title={pageTitle}
         description={pageDescription}
+        keywords={pageKeywords}
         url={pageUrl}
-        image={property.image_url}
+        canonical={pageUrl}
+        image={property.image_url || '/og-image.jpg'}
         type="article"
+        price={property.price}
+        propertyType={property.type}
+        bedrooms={property.bedrooms}
+        bathrooms={property.bathrooms}
+        area={property.area}
+        location={property.location}
       />
       <Header />
       
@@ -274,6 +285,27 @@ const PropertyDetail = () => {
                 </div>
               </CardContent>
             </Card>
+
+            {/* Location Map */}
+            <Card>
+              <CardContent className="p-6">
+                <h2 className="text-xl font-semibold mb-4">Vị trí</h2>
+                <PropertyMap
+                  latitude={property.latitude || 10.3460}
+                  longitude={property.longitude || 107.0843}
+                  title={property.title}
+                  address={property.location}
+                  price={`${property.price?.toLocaleString('vi-VN')} VNĐ`}
+                  height="400px"
+                />
+                <div className="mt-4 p-4 bg-muted rounded-lg">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <MapPin className="h-4 w-4" />
+                    <span>{property.location}</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </div>
 
           {/* Right Column - Contact Form */}
@@ -346,6 +378,10 @@ const PropertyDetail = () => {
 
       <PropertyStructuredData property={property} />
       <Footer />
+      <LiveChat 
+        propertyId={property.id}
+        recipientName="Chuyên viên tư vấn"
+      />
     </div>
   )
 }

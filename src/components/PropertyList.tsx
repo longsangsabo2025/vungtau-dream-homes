@@ -2,13 +2,15 @@ import { useState } from 'react'
 import { useProperties } from '../hooks/useSupabase'
 import PropertyCard from './PropertyCard'
 import AddPropertyDialog from './AddPropertyDialog'
+import PropertiesMapView from './PropertiesMapView'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 import { Badge } from './ui/badge'
 import { Skeleton } from './ui/skeleton'
-import { AlertCircle, Search, ChevronLeft, ChevronRight } from 'lucide-react'
+import { AlertCircle, Search, ChevronLeft, ChevronRight, Map, Grid, Eye } from 'lucide-react'
 import { Alert, AlertDescription } from './ui/alert'
+import { useNavigate } from 'react-router-dom'
 import {
   Pagination,
   PaginationContent,
@@ -24,7 +26,9 @@ const PropertyList = () => {
   const [typeFilter, setTypeFilter] = useState('')
   const [statusFilter, setStatusFilter] = useState('')
   const [page, setPage] = useState(1)
+  const [viewMode, setViewMode] = useState<'grid' | 'map'>('grid')
   const pageSize = 12
+  const navigate = useNavigate()
 
   const { properties, loading, error, totalCount, totalPages } = useProperties({
     page,
@@ -90,6 +94,26 @@ const PropertyList = () => {
         </div>
         
         <div className="flex gap-3">
+          {/* View Toggle */}
+          <div className="flex border rounded-md">
+            <Button
+              variant={viewMode === 'grid' ? 'default' : 'ghost'}
+              size="sm"
+              onClick={() => setViewMode('grid')}
+              className="rounded-r-none"
+            >
+              <Grid className="h-4 w-4" />
+            </Button>
+            <Button
+              variant={viewMode === 'map' ? 'default' : 'ghost'}
+              size="sm"
+              onClick={() => setViewMode('map')}
+              className="rounded-l-none border-l"
+            >
+              <Map className="h-4 w-4" />
+            </Button>
+          </div>
+
           <Select value={typeFilter || 'all'} onValueChange={(value) => {
             setTypeFilter(value === 'all' ? '' : value)
             setPage(1)
@@ -152,6 +176,19 @@ const PropertyList = () => {
             Xóa bộ lọc
           </Button>
         </div>
+      ) : viewMode === 'map' ? (
+        /* Map View */
+        <PropertiesMapView
+          properties={properties.map(p => ({
+            ...p,
+            latitude: p.latitude || 10.3460 + (Math.random() - 0.5) * 0.1, // Random coords around Vung Tau if not set
+            longitude: p.longitude || 107.0843 + (Math.random() - 0.5) * 0.1
+          }))}
+          onPropertySelect={(property) => {
+            navigate(`/property/${property.id}`)
+          }}
+          height="600px"
+        />
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -173,8 +210,8 @@ const PropertyList = () => {
             ))}
           </div>
 
-          {/* Pagination */}
-          {totalPages > 1 && (
+          {/* Pagination - only show in grid view */}
+          {viewMode === 'grid' && totalPages > 1 && (
             <div className="flex justify-center gap-2">
               <Button
                 variant="outline"

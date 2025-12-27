@@ -31,10 +31,12 @@ const BuySell = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <SEO 
-        title="Mua bán bất động sản Vũng Tàu - VungTauLand"
-        description="Tìm kiếm và mua bán nhà đất, đất nền, villa, căn hộ tại Vũng Tàu với giá tốt nhất. Sổ đỏ chính chủ, pháp lý rõ ràng."
-        keywords="mua nhà vũng tàu, bán nhà vũng tàu, đất nền vũng tàu, villa vũng tàu, căn hộ vũng tàu"
+        title="Mua Bán Nhà Đất Vũng Tàu - Villa, Căn Hộ, Đất Nền Uy Tín | VungTauLand"
+        description="🏡 Mua bán bất động sản Vũng Tàu uy tín. Villa mặt biển, căn hộ cao cấp, đất nền sổ hồng từ 1-50 tỷ. Pháp lý rõ ràng, hỗ trợ vay ngân hàng. Hotline: 0977.888.999"
+        keywords="mua nhà vũng tàu, bán nhà vũng tàu, đất nền vũng tàu, villa vũng tàu, căn hộ vũng tàu, bất động sản vũng tàu, sổ hồng vũng tàu, nhà mặt biển vũng tàu"
         url="https://vungtauland.com/mua-ban"
+        canonical="https://vungtauland.com/mua-ban"
+        type="website"
       />
       <Header />
       

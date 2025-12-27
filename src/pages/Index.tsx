@@ -73,10 +73,12 @@ const Index = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <SEO 
-        title="VungTauLand - Bất động sản Vũng Tàu"
-        description="Tìm kiếm và mua bán bất động sản tại Vũng Tàu. Villa, căn hộ, nhà phố, đất nền chất lượng với giá tốt nhất."
-        keywords="bất động sản vũng tàu, mua nhà vũng tàu, bán nhà vũng tàu, villa, căn hộ, đất nền"
+        title="VungTauLand - Bất Động Sản Vũng Tàu #1 | Mua Bán Nhà Đất Uy Tín"
+        description="🏡 Nền tảng bất động sản uy tín #1 tại Vũng Tàu. Mua bán nhà đất, villa mặt biển, căn hộ, đất nền sổ hồng. 10,000+ tin đăng chính chủ, giá tốt nhất thị trường. Hotline: 0977.888.999"
+        keywords="bất động sản vũng tàu, nhà đất vũng tàu, mua bán nhà vũng tàu, cho thuê nhà vũng tàu, villa mặt biển, căn hộ vũng tàu, đất nền vũng tàu, sổ hồng vũng tàu, môi giới bất động sản vũng tàu"
         url="https://vungtauland.com"
+        canonical="https://vungtauland.com"
+        type="website"
       />
       <Header />
       
