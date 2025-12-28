@@ -13,6 +13,7 @@ import {
   ChevronRight,
   Home,
   Shield,
+  MessageSquare,
 } from 'lucide-react';
 import { cn } from '../lib/utils';
 
@@ -41,6 +42,12 @@ const navItems: NavItem[] = [
     href: '/favorites',
     icon: Heart,
     description: 'BĐS đã lưu',
+  },
+  {
+    title: 'Tin nhắn',
+    href: '/messages',
+    icon: MessageSquare,
+    description: 'Hội thoại',
   },
   {
     title: 'Tài khoản',

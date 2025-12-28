@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
 import UserLayout from '../components/UserLayout';
@@ -9,7 +9,7 @@ import { Label } from '../components/ui/label';
 import { Textarea } from '../components/ui/textarea';
 import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar';
 import { useToast } from '../hooks/use-toast';
-import { User, Mail, Phone, MapPin, Building, Calendar, Upload } from 'lucide-react';
+import { User, Mail, Phone, MapPin, Building, Calendar, Upload, Loader2, Trash2 } from 'lucide-react';
 
 interface ProfileData {
   full_name: string;
@@ -26,6 +26,8 @@ export default function Profile() {
   const { toast } = useToast();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [profileData, setProfileData] = useState<ProfileData>({
     full_name: '',
     email: '',
@@ -120,6 +122,144 @@ export default function Profile() {
     }
   }
 
+  // Avatar upload handler
+  async function handleAvatarUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file || !user) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      toast({
+        title: 'File không hợp lệ',
+        description: 'Vui lòng chọn file ảnh (JPG, PNG, GIF)',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    // Validate file size (2MB max)
+    if (file.size > 2 * 1024 * 1024) {
+      toast({
+        title: 'File quá lớn',
+        description: 'Ảnh đại diện không được vượt quá 2MB',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setUploadingAvatar(true);
+
+    try {
+      const fileExt = file.name.split('.').pop()?.toLowerCase() || 'jpg';
+      const fileName = `${user.id}-${Date.now()}.${fileExt}`;
+      const filePath = `${user.id}/${fileName}`;
+
+      // Delete old avatar files if exist
+      const { data: existingFiles } = await supabase.storage
+        .from('avatars')
+        .list(user.id);
+
+      if (existingFiles && existingFiles.length > 0) {
+        const filesToDelete = existingFiles.map(f => `${user.id}/${f.name}`);
+        await supabase.storage.from('avatars').remove(filesToDelete);
+      }
+
+      // Upload new avatar
+      const { error: uploadError } = await supabase.storage
+        .from('avatars')
+        .upload(filePath, file, {
+          cacheControl: '3600',
+          upsert: true
+        });
+
+      if (uploadError) throw uploadError;
+
+      // Get public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from('avatars')
+        .getPublicUrl(filePath);
+
+      // Update profile in database
+      const { error: updateError } = await supabase
+        .from('profiles')
+        .upsert({
+          id: user.id,
+          avatar_url: publicUrl,
+          updated_at: new Date().toISOString(),
+        });
+
+      if (updateError) throw updateError;
+
+      // Update local state
+      setProfileData(prev => ({ ...prev, avatar_url: publicUrl }));
+
+      toast({
+        title: 'Thành công!',
+        description: 'Đã cập nhật ảnh đại diện',
+      });
+    } catch (error) {
+      console.error('Error uploading avatar:', error);
+      toast({
+        title: 'Lỗi',
+        description: 'Không thể tải ảnh lên. Vui lòng thử lại.',
+        variant: 'destructive',
+      });
+    } finally {
+      setUploadingAvatar(false);
+      // Reset file input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    }
+  }
+
+  // Delete avatar handler
+  async function handleDeleteAvatar() {
+    if (!user || !profileData.avatar_url) return;
+
+    setUploadingAvatar(true);
+
+    try {
+      // Delete from storage
+      const { data: existingFiles } = await supabase.storage
+        .from('avatars')
+        .list(user.id);
+
+      if (existingFiles && existingFiles.length > 0) {
+        const filesToDelete = existingFiles.map(f => `${user.id}/${f.name}`);
+        await supabase.storage.from('avatars').remove(filesToDelete);
+      }
+
+      // Update profile in database
+      const { error: updateError } = await supabase
+        .from('profiles')
+        .upsert({
+          id: user.id,
+          avatar_url: null,
+          updated_at: new Date().toISOString(),
+        });
+
+      if (updateError) throw updateError;
+
+      // Update local state
+      setProfileData(prev => ({ ...prev, avatar_url: '' }));
+
+      toast({
+        title: 'Thành công!',
+        description: 'Đã xóa ảnh đại diện',
+      });
+    } catch (error) {
+      console.error('Error deleting avatar:', error);
+      toast({
+        title: 'Lỗi',
+        description: 'Không thể xóa ảnh. Vui lòng thử lại.',
+        variant: 'destructive',
+      });
+    } finally {
+      setUploadingAvatar(false);
+    }
+  }
+
   function handleChange(field: keyof ProfileData, value: string) {
     setProfileData((prev) => ({ ...prev, [field]: value }));
   }
@@ -190,23 +330,62 @@ export default function Profile() {
               </CardHeader>
               <CardContent>
                 <div className="flex flex-col sm:flex-row items-center gap-4">
-                  <Avatar className="h-24 w-24">
-                    <AvatarImage src={profileData.avatar_url} alt={profileData.full_name} />
-                    <AvatarFallback className="text-2xl">
-                      {profileData.full_name?.charAt(0).toUpperCase() || 'U'}
-                    </AvatarFallback>
-                  </Avatar>
+                  <div className="relative">
+                    <Avatar className="h-24 w-24">
+                      <AvatarImage src={profileData.avatar_url} alt={profileData.full_name} />
+                      <AvatarFallback className="text-2xl">
+                        {profileData.full_name?.charAt(0).toUpperCase() || 'U'}
+                      </AvatarFallback>
+                    </Avatar>
+                    {uploadingAvatar && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full">
+                        <Loader2 className="h-8 w-8 text-white animate-spin" />
+                      </div>
+                    )}
+                  </div>
                   <div className="flex-1 text-center sm:text-left">
-                    <p className="text-sm text-gray-600 mb-2">
-                      JPG, PNG hoặc GIF. Kích thước tối đa 2MB
+                    <p className="text-sm text-gray-600 mb-3">
+                      JPG, PNG hoặc WebP. Kích thước tối đa 2MB
                     </p>
-                    <Button variant="outline" size="sm" className="gap-2">
-                      <Upload className="h-4 w-4" />
-                      Tải ảnh lên
-                    </Button>
-                    <p className="text-xs text-gray-500 mt-2">
-                      (Tính năng sắp có)
-                    </p>
+                    <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp,image/gif"
+                        onChange={handleAvatarUpload}
+                        className="hidden"
+                        id="avatar-upload"
+                        disabled={uploadingAvatar}
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        className="gap-2"
+                        onClick={() => fileInputRef.current?.click()}
+                        disabled={uploadingAvatar}
+                      >
+                        {uploadingAvatar ? (
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : (
+                          <Upload className="h-4 w-4" />
+                        )}
+                        Tải ảnh lên
+                      </Button>
+                      {profileData.avatar_url && (
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="sm"
+                          className="gap-2"
+                          onClick={handleDeleteAvatar}
+                          disabled={uploadingAvatar}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                          Xóa ảnh
+                        </Button>
+                      )}
+                    </div>
                   </div>
                 </div>
               </CardContent>

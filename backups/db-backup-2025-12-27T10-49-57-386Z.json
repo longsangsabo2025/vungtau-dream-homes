@@ -1,0 +1,1862 @@
+{
+  "timestamp": "2025-12-27T10:49:57.390Z",
+  "project": "rxjsdoylkflzsxlyccqh",
+  "tables": [
+    {
+      "table_schema": "public",
+      "table_name": "agents",
+      "table_type": "BASE TABLE"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "categories",
+      "table_type": "BASE TABLE"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "favorites",
+      "table_type": "BASE TABLE"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "inquiries",
+      "table_type": "BASE TABLE"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "notifications",
+      "table_type": "BASE TABLE"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "profiles",
+      "table_type": "BASE TABLE"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "properties",
+      "table_type": "BASE TABLE"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "property_feature_mapping",
+      "table_type": "BASE TABLE"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "property_features",
+      "table_type": "BASE TABLE"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "property_images",
+      "table_type": "BASE TABLE"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "property_views",
+      "table_type": "BASE TABLE"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "reviews",
+      "table_type": "BASE TABLE"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "saved_searches",
+      "table_type": "BASE TABLE"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "transactions",
+      "table_type": "BASE TABLE"
+    }
+  ],
+  "columns": [
+    {
+      "table_name": "agents",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_name": "agents",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "agents",
+      "column_name": "license_number",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "agents",
+      "column_name": "company_name",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "agents",
+      "column_name": "specialization",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "agents",
+      "column_name": "experience_years",
+      "data_type": "integer",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "agents",
+      "column_name": "rating",
+      "data_type": "numeric",
+      "is_nullable": "YES",
+      "column_default": "0.00"
+    },
+    {
+      "table_name": "agents",
+      "column_name": "total_reviews",
+      "data_type": "integer",
+      "is_nullable": "YES",
+      "column_default": "0"
+    },
+    {
+      "table_name": "agents",
+      "column_name": "total_sales",
+      "data_type": "integer",
+      "is_nullable": "YES",
+      "column_default": "0"
+    },
+    {
+      "table_name": "agents",
+      "column_name": "is_active",
+      "data_type": "boolean",
+      "is_nullable": "YES",
+      "column_default": "true"
+    },
+    {
+      "table_name": "agents",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": "now()"
+    },
+    {
+      "table_name": "agents",
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": "now()"
+    },
+    {
+      "table_name": "categories",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_name": "categories",
+      "column_name": "name",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "categories",
+      "column_name": "slug",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "categories",
+      "column_name": "description",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "categories",
+      "column_name": "icon",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "categories",
+      "column_name": "parent_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "categories",
+      "column_name": "display_order",
+      "data_type": "integer",
+      "is_nullable": "YES",
+      "column_default": "0"
+    },
+    {
+      "table_name": "categories",
+      "column_name": "is_active",
+      "data_type": "boolean",
+      "is_nullable": "YES",
+      "column_default": "true"
+    },
+    {
+      "table_name": "categories",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": "now()"
+    },
+    {
+      "table_name": "categories",
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": "now()"
+    },
+    {
+      "table_name": "favorites",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_name": "favorites",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "favorites",
+      "column_name": "property_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "favorites",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": "now()"
+    },
+    {
+      "table_name": "inquiries",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_name": "inquiries",
+      "column_name": "property_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "inquiries",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "inquiries",
+      "column_name": "name",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "inquiries",
+      "column_name": "email",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "inquiries",
+      "column_name": "phone",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "inquiries",
+      "column_name": "message",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "inquiries",
+      "column_name": "inquiry_type",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "inquiries",
+      "column_name": "status",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "column_default": "'new'::character varying"
+    },
+    {
+      "table_name": "inquiries",
+      "column_name": "agent_notes",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "inquiries",
+      "column_name": "contacted_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "inquiries",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": "now()"
+    },
+    {
+      "table_name": "inquiries",
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": "now()"
+    },
+    {
+      "table_name": "notifications",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_name": "notifications",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "notifications",
+      "column_name": "title",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "notifications",
+      "column_name": "message",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "notifications",
+      "column_name": "type",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "notifications",
+      "column_name": "reference_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "notifications",
+      "column_name": "is_read",
+      "data_type": "boolean",
+      "is_nullable": "YES",
+      "column_default": "false"
+    },
+    {
+      "table_name": "notifications",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": "now()"
+    },
+    {
+      "table_name": "profiles",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "profiles",
+      "column_name": "full_name",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "profiles",
+      "column_name": "phone",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "profiles",
+      "column_name": "avatar_url",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "profiles",
+      "column_name": "bio",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "profiles",
+      "column_name": "address",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "profiles",
+      "column_name": "city",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "profiles",
+      "column_name": "role",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "column_default": "'user'::character varying"
+    },
+    {
+      "table_name": "profiles",
+      "column_name": "is_verified",
+      "data_type": "boolean",
+      "is_nullable": "YES",
+      "column_default": "false"
+    },
+    {
+      "table_name": "profiles",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": "now()"
+    },
+    {
+      "table_name": "profiles",
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": "now()"
+    },
+    {
+      "table_name": "profiles",
+      "column_name": "email",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "properties",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_name": "properties",
+      "column_name": "title",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "properties",
+      "column_name": "price",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "properties",
+      "column_name": "location",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "properties",
+      "column_name": "bedrooms",
+      "data_type": "integer",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "properties",
+      "column_name": "bathrooms",
+      "data_type": "integer",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "properties",
+      "column_name": "area",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "properties",
+      "column_name": "image_url",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "properties",
+      "column_name": "description",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "properties",
+      "column_name": "type",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "properties",
+      "column_name": "status",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "column_default": "'Có sẵn'::character varying"
+    },
+    {
+      "table_name": "properties",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": "now()"
+    },
+    {
+      "table_name": "properties",
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": "now()"
+    },
+    {
+      "table_name": "properties",
+      "column_name": "agent_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "properties",
+      "column_name": "category_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "properties",
+      "column_name": "owner_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "properties",
+      "column_name": "address_detail",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "properties",
+      "column_name": "district",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "properties",
+      "column_name": "ward",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "properties",
+      "column_name": "latitude",
+      "data_type": "numeric",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "properties",
+      "column_name": "longitude",
+      "data_type": "numeric",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "properties",
+      "column_name": "year_built",
+      "data_type": "integer",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "properties",
+      "column_name": "floor_number",
+      "data_type": "integer",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "properties",
+      "column_name": "total_floors",
+      "data_type": "integer",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "properties",
+      "column_name": "parking_slots",
+      "data_type": "integer",
+      "is_nullable": "YES",
+      "column_default": "0"
+    },
+    {
+      "table_name": "properties",
+      "column_name": "direction",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "properties",
+      "column_name": "legal_status",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "properties",
+      "column_name": "furniture_status",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "properties",
+      "column_name": "view_count",
+      "data_type": "integer",
+      "is_nullable": "YES",
+      "column_default": "0"
+    },
+    {
+      "table_name": "properties",
+      "column_name": "contact_count",
+      "data_type": "integer",
+      "is_nullable": "YES",
+      "column_default": "0"
+    },
+    {
+      "table_name": "properties",
+      "column_name": "is_featured",
+      "data_type": "boolean",
+      "is_nullable": "YES",
+      "column_default": "false"
+    },
+    {
+      "table_name": "properties",
+      "column_name": "is_verified",
+      "data_type": "boolean",
+      "is_nullable": "YES",
+      "column_default": "false"
+    },
+    {
+      "table_name": "properties",
+      "column_name": "published_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "properties",
+      "column_name": "expires_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "properties",
+      "column_name": "approval_status",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "column_default": "'pending'::character varying"
+    },
+    {
+      "table_name": "properties",
+      "column_name": "approved_by",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "properties",
+      "column_name": "approved_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "properties",
+      "column_name": "rejection_reason",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "property_feature_mapping",
+      "column_name": "property_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "property_feature_mapping",
+      "column_name": "feature_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "property_feature_mapping",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": "now()"
+    },
+    {
+      "table_name": "property_features",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_name": "property_features",
+      "column_name": "name",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "property_features",
+      "column_name": "icon",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "property_features",
+      "column_name": "category",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "property_features",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": "now()"
+    },
+    {
+      "table_name": "property_images",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_name": "property_images",
+      "column_name": "property_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "property_images",
+      "column_name": "image_url",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "property_images",
+      "column_name": "caption",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "property_images",
+      "column_name": "display_order",
+      "data_type": "integer",
+      "is_nullable": "YES",
+      "column_default": "0"
+    },
+    {
+      "table_name": "property_images",
+      "column_name": "is_primary",
+      "data_type": "boolean",
+      "is_nullable": "YES",
+      "column_default": "false"
+    },
+    {
+      "table_name": "property_images",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": "now()"
+    },
+    {
+      "table_name": "property_views",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_name": "property_views",
+      "column_name": "property_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "property_views",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "property_views",
+      "column_name": "ip_address",
+      "data_type": "inet",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "property_views",
+      "column_name": "user_agent",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "property_views",
+      "column_name": "referrer",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "property_views",
+      "column_name": "viewed_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": "now()"
+    },
+    {
+      "table_name": "reviews",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_name": "reviews",
+      "column_name": "property_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "reviews",
+      "column_name": "agent_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "reviews",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "reviews",
+      "column_name": "rating",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "reviews",
+      "column_name": "title",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "reviews",
+      "column_name": "comment",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "reviews",
+      "column_name": "is_verified",
+      "data_type": "boolean",
+      "is_nullable": "YES",
+      "column_default": "false"
+    },
+    {
+      "table_name": "reviews",
+      "column_name": "is_published",
+      "data_type": "boolean",
+      "is_nullable": "YES",
+      "column_default": "true"
+    },
+    {
+      "table_name": "reviews",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": "now()"
+    },
+    {
+      "table_name": "reviews",
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": "now()"
+    },
+    {
+      "table_name": "saved_searches",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_name": "saved_searches",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "saved_searches",
+      "column_name": "name",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "saved_searches",
+      "column_name": "search_params",
+      "data_type": "jsonb",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "saved_searches",
+      "column_name": "notify_new_matches",
+      "data_type": "boolean",
+      "is_nullable": "YES",
+      "column_default": "true"
+    },
+    {
+      "table_name": "saved_searches",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": "now()"
+    },
+    {
+      "table_name": "saved_searches",
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": "now()"
+    },
+    {
+      "table_name": "transactions",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_name": "transactions",
+      "column_name": "property_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "transactions",
+      "column_name": "buyer_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "transactions",
+      "column_name": "seller_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "transactions",
+      "column_name": "agent_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "transactions",
+      "column_name": "transaction_type",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "transactions",
+      "column_name": "price",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "transactions",
+      "column_name": "commission",
+      "data_type": "bigint",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "transactions",
+      "column_name": "status",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "column_default": "'pending'::character varying"
+    },
+    {
+      "table_name": "transactions",
+      "column_name": "contract_url",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "transactions",
+      "column_name": "signed_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "transactions",
+      "column_name": "completed_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "transactions",
+      "column_name": "notes",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "transactions",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": "now()"
+    },
+    {
+      "table_name": "transactions",
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": "now()"
+    }
+  ],
+  "indexes": [
+    {
+      "schemaname": "public",
+      "tablename": "agents",
+      "indexname": "agents_pkey",
+      "indexdef": "CREATE UNIQUE INDEX agents_pkey ON public.agents USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "agents",
+      "indexname": "agents_user_id_key",
+      "indexdef": "CREATE UNIQUE INDEX agents_user_id_key ON public.agents USING btree (user_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "categories",
+      "indexname": "categories_pkey",
+      "indexdef": "CREATE UNIQUE INDEX categories_pkey ON public.categories USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "categories",
+      "indexname": "categories_slug_key",
+      "indexdef": "CREATE UNIQUE INDEX categories_slug_key ON public.categories USING btree (slug)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "favorites",
+      "indexname": "favorites_pkey",
+      "indexdef": "CREATE UNIQUE INDEX favorites_pkey ON public.favorites USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "favorites",
+      "indexname": "favorites_user_id_property_id_key",
+      "indexdef": "CREATE UNIQUE INDEX favorites_user_id_property_id_key ON public.favorites USING btree (user_id, property_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "favorites",
+      "indexname": "idx_favorites_property_id",
+      "indexdef": "CREATE INDEX idx_favorites_property_id ON public.favorites USING btree (property_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "favorites",
+      "indexname": "idx_favorites_user_id",
+      "indexdef": "CREATE INDEX idx_favorites_user_id ON public.favorites USING btree (user_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "inquiries",
+      "indexname": "idx_inquiries_created_at",
+      "indexdef": "CREATE INDEX idx_inquiries_created_at ON public.inquiries USING btree (created_at DESC)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "inquiries",
+      "indexname": "idx_inquiries_property_id",
+      "indexdef": "CREATE INDEX idx_inquiries_property_id ON public.inquiries USING btree (property_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "inquiries",
+      "indexname": "idx_inquiries_status",
+      "indexdef": "CREATE INDEX idx_inquiries_status ON public.inquiries USING btree (status)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "inquiries",
+      "indexname": "idx_inquiries_user_id",
+      "indexdef": "CREATE INDEX idx_inquiries_user_id ON public.inquiries USING btree (user_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "inquiries",
+      "indexname": "inquiries_pkey",
+      "indexdef": "CREATE UNIQUE INDEX inquiries_pkey ON public.inquiries USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "notifications",
+      "indexname": "idx_notifications_is_read",
+      "indexdef": "CREATE INDEX idx_notifications_is_read ON public.notifications USING btree (is_read)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "notifications",
+      "indexname": "idx_notifications_user_id",
+      "indexdef": "CREATE INDEX idx_notifications_user_id ON public.notifications USING btree (user_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "notifications",
+      "indexname": "notifications_pkey",
+      "indexdef": "CREATE UNIQUE INDEX notifications_pkey ON public.notifications USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "profiles",
+      "indexname": "idx_profiles_avatar_url",
+      "indexdef": "CREATE INDEX idx_profiles_avatar_url ON public.profiles USING btree (avatar_url)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "profiles",
+      "indexname": "idx_profiles_email",
+      "indexdef": "CREATE INDEX idx_profiles_email ON public.profiles USING btree (email)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "profiles",
+      "indexname": "profiles_pkey",
+      "indexdef": "CREATE UNIQUE INDEX profiles_pkey ON public.profiles USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "properties",
+      "indexname": "idx_properties_agent_id",
+      "indexdef": "CREATE INDEX idx_properties_agent_id ON public.properties USING btree (agent_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "properties",
+      "indexname": "idx_properties_approval_status",
+      "indexdef": "CREATE INDEX idx_properties_approval_status ON public.properties USING btree (approval_status)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "properties",
+      "indexname": "idx_properties_approved_by",
+      "indexdef": "CREATE INDEX idx_properties_approved_by ON public.properties USING btree (approved_by)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "properties",
+      "indexname": "idx_properties_category_id",
+      "indexdef": "CREATE INDEX idx_properties_category_id ON public.properties USING btree (category_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "properties",
+      "indexname": "idx_properties_created_at",
+      "indexdef": "CREATE INDEX idx_properties_created_at ON public.properties USING btree (created_at DESC)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "properties",
+      "indexname": "idx_properties_is_featured",
+      "indexdef": "CREATE INDEX idx_properties_is_featured ON public.properties USING btree (is_featured)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "properties",
+      "indexname": "idx_properties_location",
+      "indexdef": "CREATE INDEX idx_properties_location ON public.properties USING btree (location)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "properties",
+      "indexname": "idx_properties_owner_id",
+      "indexdef": "CREATE INDEX idx_properties_owner_id ON public.properties USING btree (owner_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "properties",
+      "indexname": "idx_properties_price",
+      "indexdef": "CREATE INDEX idx_properties_price ON public.properties USING btree (price)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "properties",
+      "indexname": "idx_properties_status",
+      "indexdef": "CREATE INDEX idx_properties_status ON public.properties USING btree (status)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "properties",
+      "indexname": "idx_properties_type",
+      "indexdef": "CREATE INDEX idx_properties_type ON public.properties USING btree (type)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "properties",
+      "indexname": "properties_pkey",
+      "indexdef": "CREATE UNIQUE INDEX properties_pkey ON public.properties USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "property_feature_mapping",
+      "indexname": "property_feature_mapping_pkey",
+      "indexdef": "CREATE UNIQUE INDEX property_feature_mapping_pkey ON public.property_feature_mapping USING btree (property_id, feature_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "property_features",
+      "indexname": "property_features_pkey",
+      "indexdef": "CREATE UNIQUE INDEX property_features_pkey ON public.property_features USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "property_images",
+      "indexname": "idx_property_images_is_primary",
+      "indexdef": "CREATE INDEX idx_property_images_is_primary ON public.property_images USING btree (is_primary)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "property_images",
+      "indexname": "idx_property_images_property_id",
+      "indexdef": "CREATE INDEX idx_property_images_property_id ON public.property_images USING btree (property_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "property_images",
+      "indexname": "property_images_pkey",
+      "indexdef": "CREATE UNIQUE INDEX property_images_pkey ON public.property_images USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "property_views",
+      "indexname": "idx_property_views_property_id",
+      "indexdef": "CREATE INDEX idx_property_views_property_id ON public.property_views USING btree (property_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "property_views",
+      "indexname": "idx_property_views_viewed_at",
+      "indexdef": "CREATE INDEX idx_property_views_viewed_at ON public.property_views USING btree (viewed_at DESC)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "property_views",
+      "indexname": "property_views_pkey",
+      "indexdef": "CREATE UNIQUE INDEX property_views_pkey ON public.property_views USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "reviews",
+      "indexname": "idx_reviews_agent_id",
+      "indexdef": "CREATE INDEX idx_reviews_agent_id ON public.reviews USING btree (agent_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "reviews",
+      "indexname": "idx_reviews_property_id",
+      "indexdef": "CREATE INDEX idx_reviews_property_id ON public.reviews USING btree (property_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "reviews",
+      "indexname": "idx_reviews_user_id",
+      "indexdef": "CREATE INDEX idx_reviews_user_id ON public.reviews USING btree (user_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "reviews",
+      "indexname": "reviews_pkey",
+      "indexdef": "CREATE UNIQUE INDEX reviews_pkey ON public.reviews USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "saved_searches",
+      "indexname": "saved_searches_pkey",
+      "indexdef": "CREATE UNIQUE INDEX saved_searches_pkey ON public.saved_searches USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "transactions",
+      "indexname": "idx_transactions_buyer_id",
+      "indexdef": "CREATE INDEX idx_transactions_buyer_id ON public.transactions USING btree (buyer_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "transactions",
+      "indexname": "idx_transactions_property_id",
+      "indexdef": "CREATE INDEX idx_transactions_property_id ON public.transactions USING btree (property_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "transactions",
+      "indexname": "idx_transactions_status",
+      "indexdef": "CREATE INDEX idx_transactions_status ON public.transactions USING btree (status)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "transactions",
+      "indexname": "transactions_pkey",
+      "indexdef": "CREATE UNIQUE INDEX transactions_pkey ON public.transactions USING btree (id)"
+    }
+  ],
+  "policies": [
+    {
+      "schemaname": "public",
+      "tablename": "agents",
+      "policyname": "Admin can manage agents",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "is_admin()"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "agents",
+      "policyname": "Agents are viewable by everyone",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "(is_active = true)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "categories",
+      "policyname": "Admin can manage categories",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "is_admin()"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "categories",
+      "policyname": "Categories are viewable by everyone",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "(is_active = true)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "favorites",
+      "policyname": "Users can delete own favorites",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "DELETE",
+      "qual": "(auth.uid() = user_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "favorites",
+      "policyname": "Users can insert own favorites",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "INSERT",
+      "qual": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "favorites",
+      "policyname": "Users can view own favorites",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "(auth.uid() = user_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "inquiries",
+      "policyname": "Admin can manage inquiries",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "is_admin()"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "inquiries",
+      "policyname": "Anyone can create inquiries",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "INSERT",
+      "qual": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "inquiries",
+      "policyname": "Users can view own inquiries",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "((auth.uid() = user_id) OR is_admin())"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "notifications",
+      "policyname": "Admin can create notifications",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "INSERT",
+      "qual": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "notifications",
+      "policyname": "Users can update own notifications",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "UPDATE",
+      "qual": "(auth.uid() = user_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "notifications",
+      "policyname": "Users can view own notifications",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "(auth.uid() = user_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "profiles",
+      "policyname": "Admin can do anything with profiles",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "is_admin()"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "profiles",
+      "policyname": "Public profiles are viewable by everyone",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "true"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "profiles",
+      "policyname": "Users can update own profile",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "UPDATE",
+      "qual": "(auth.uid() = id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "properties",
+      "policyname": "Admin can delete properties",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "DELETE",
+      "qual": "is_admin()"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "properties",
+      "policyname": "Admin can insert properties",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "INSERT",
+      "qual": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "properties",
+      "policyname": "Admin can update properties",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "UPDATE",
+      "qual": "is_admin()"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "properties",
+      "policyname": "Allow public read access",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "true"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "properties",
+      "policyname": "Enable insert for service role",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "INSERT",
+      "qual": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "property_feature_mapping",
+      "policyname": "Admin can manage feature mappings",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "is_admin()"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "property_feature_mapping",
+      "policyname": "Feature mappings are viewable by everyone",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "true"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "property_features",
+      "policyname": "Admin can manage features",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "is_admin()"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "property_features",
+      "policyname": "Features are viewable by everyone",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "true"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "property_images",
+      "policyname": "Admin can manage property images",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "is_admin()"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "property_images",
+      "policyname": "Property images are viewable by everyone",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "true"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "property_views",
+      "policyname": "Admin can view all property views",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "is_admin()"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "property_views",
+      "policyname": "Anyone can insert property views",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "INSERT",
+      "qual": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "reviews",
+      "policyname": "Admin can manage reviews",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "is_admin()"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "reviews",
+      "policyname": "Published reviews are viewable by everyone",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "((is_published = true) OR (auth.uid() = user_id) OR is_admin())"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "reviews",
+      "policyname": "Users can create reviews",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "INSERT",
+      "qual": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "reviews",
+      "policyname": "Users can update own reviews",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "UPDATE",
+      "qual": "(auth.uid() = user_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "saved_searches",
+      "policyname": "Users can manage own saved searches",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "(auth.uid() = user_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "saved_searches",
+      "policyname": "Users can view own saved searches",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "(auth.uid() = user_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "transactions",
+      "policyname": "Admin can manage transactions",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "is_admin()"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "transactions",
+      "policyname": "Users can view own transactions",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "((auth.uid() = buyer_id) OR (auth.uid() = seller_id) OR is_admin())"
+    }
+  ],
+  "functions": [
+    {
+      "routine_name": "handle_new_user_email",
+      "routine_type": "FUNCTION",
+      "return_type": "trigger"
+    },
+    {
+      "routine_name": "is_admin",
+      "routine_type": "FUNCTION",
+      "return_type": "boolean"
+    },
+    {
+      "routine_name": "update_updated_at_column",
+      "routine_type": "FUNCTION",
+      "return_type": "trigger"
+    }
+  ],
+  "rowCounts": [
+    {
+      "schemaname": "public",
+      "table_name": "profiles",
+      "row_count": 2
+    },
+    {
+      "schemaname": "public",
+      "table_name": "property_features",
+      "row_count": 0
+    },
+    {
+      "schemaname": "public",
+      "table_name": "inquiries",
+      "row_count": 0
+    },
+    {
+      "schemaname": "public",
+      "table_name": "property_views",
+      "row_count": 0
+    },
+    {
+      "schemaname": "public",
+      "table_name": "notifications",
+      "row_count": 0
+    },
+    {
+      "schemaname": "public",
+      "table_name": "favorites",
+      "row_count": 0
+    },
+    {
+      "schemaname": "public",
+      "table_name": "agents",
+      "row_count": 0
+    },
+    {
+      "schemaname": "public",
+      "table_name": "categories",
+      "row_count": 0
+    },
+    {
+      "schemaname": "public",
+      "table_name": "property_images",
+      "row_count": 0
+    },
+    {
+      "schemaname": "public",
+      "table_name": "properties",
+      "row_count": 0
+    },
+    {
+      "schemaname": "public",
+      "table_name": "reviews",
+      "row_count": 0
+    },
+    {
+      "schemaname": "public",
+      "table_name": "property_feature_mapping",
+      "row_count": 0
+    },
+    {
+      "schemaname": "public",
+      "table_name": "transactions",
+      "row_count": 0
+    },
+    {
+      "schemaname": "public",
+      "table_name": "saved_searches",
+      "row_count": 0
+    }
+  ],
+  "databaseSize": [
+    {
+      "database_size": "12 MB",
+      "database_name": "postgres"
+    }
+  ]
+}

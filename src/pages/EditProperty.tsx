@@ -6,6 +6,7 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Textarea } from '../components/ui/textarea';
 import { Label } from '../components/ui/label';
+import { CurrencyInput } from '../components/ui/currency-input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 import {
   Select,
@@ -15,8 +16,9 @@ import {
   SelectValue,
 } from '../components/ui/select';
 import { useToast } from '../hooks/use-toast';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Image as ImageIcon } from 'lucide-react';
 import UserLayout from '../components/UserLayout';
+import ImageUpload from '../components/ImageUpload';
 
 export default function EditProperty() {
   const { id } = useParams<{ id: string }>();
@@ -26,6 +28,7 @@ export default function EditProperty() {
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
   const [formData, setFormData] = useState<any>({});
+  const [images, setImages] = useState<string[]>([]);
 
   useEffect(() => {
     async function fetchProperty() {
@@ -49,6 +52,12 @@ export default function EditProperty() {
       }
 
       setFormData(data);
+      // Parse images - có thể là JSON array hoặc single URL
+      if (data.images && Array.isArray(data.images)) {
+        setImages(data.images);
+      } else if (data.image_url) {
+        setImages([data.image_url]);
+      }
       setInitialLoading(false);
     }
 
@@ -76,7 +85,8 @@ export default function EditProperty() {
           address_detail: formData.address_detail || null,
           type: formData.type,
           description: formData.description || null,
-          image_url: formData.image_url,
+          image_url: images[0] || formData.image_url,
+          images: images,
           status: formData.status,
           direction: formData.direction,
           legal_status: formData.legal_status,
@@ -188,11 +198,10 @@ export default function EditProperty() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="price" className="text-sm">Giá (VNĐ) *</Label>
-                  <Input
+                  <CurrencyInput
                     id="price"
-                    type="number"
                     value={formData.price || ''}
-                    onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                    onChange={(value) => setFormData({ ...formData, price: value })}
                     className="text-sm"
                     required
                   />
@@ -229,6 +238,23 @@ export default function EditProperty() {
                   rows={5}
                   className="text-sm"
                 />
+              </div>
+
+              {/* Image Upload */}
+              <div className="space-y-2">
+                <Label className="text-sm font-medium flex items-center gap-2">
+                  <ImageIcon className="h-4 w-4" />
+                  Hình ảnh
+                </Label>
+                <ImageUpload
+                  propertyId={id}
+                  existingImages={images}
+                  onImagesChange={setImages}
+                  maxImages={10}
+                />
+                <p className="text-xs text-muted-foreground">
+                  Tải lên tối đa 10 ảnh. Ảnh đầu tiên sẽ là ảnh đại diện.
+                </p>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4 border-t">

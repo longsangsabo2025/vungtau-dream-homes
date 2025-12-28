@@ -30,6 +30,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu"
 import { useAuth } from '@/contexts/AuthContext'
+import { supabase } from '@/lib/supabase'
 import { toast } from 'sonner'
 
 interface Message {
@@ -61,59 +62,49 @@ const LiveChat = ({ propertyId, recipientId, recipientName, className = '' }: Li
   const [isTyping, setIsTyping] = useState(false)
   const [isOnline, setIsOnline] = useState(true)
   const [unreadCount, setUnreadCount] = useState(0)
+  const [historyLoaded, setHistoryLoaded] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
-  // Mock data - replace with real Socket.io implementation
+  // Load chat history from database
   useEffect(() => {
-    if (isOpen) {
-      // Simulate loading chat history
-      setTimeout(() => {
+    if (!isOpen || !user || historyLoaded) return
+
+    const loadChatHistory = async () => {
+      try {
+        // Load messages from database
+        const { data: dbMessages, error } = await supabase
+          .from('chat_messages')
+          .select('*')
+          .eq('user_id', user.id)
+          .eq('message_type', 'live_chat')
+          .order('created_at', { ascending: true })
+          .limit(50)
+
+        if (error) {
+          console.error('Error loading chat history:', error)
+        } else if (dbMessages && dbMessages.length > 0) {
+          const loadedMessages: Message[] = dbMessages.map(msg => ({
+            id: msg.id,
+            text: msg.content,
+            sender: {
+              id: msg.sender_role === 'user' ? user.id : 'agent',
+              name: msg.sender_role === 'user' ? (user.email || 'Bạn') : (recipientName || 'Tư vấn viên'),
+              isAgent: msg.sender_role !== 'user',
+              avatar: msg.sender_role !== 'user' ? 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face' : undefined
+            },
+            timestamp: new Date(msg.created_at),
+            isRead: msg.is_read
+          }))
+          setMessages(loadedMessages)
+          setHistoryLoaded(true)
+          return
+        }
+
+        // Show welcome message if no history
         setMessages([
           {
             id: '1',
-            text: 'Xin chào! Tôi quan tâm đến bất động sản này. Bạn có thể tư vấn thêm không?',
-            sender: {
-              id: user?.id || 'user1',
-              name: user?.email || 'Bạn',
-              isAgent: false
-            },
-            timestamp: new Date(Date.now() - 300000),
-            isRead: true
-          },
-          {
-            id: '2',
-            text: 'Chào bạn! Cảm ơn bạn đã quan tâm. Bất động sản này có vị trí rất đẹp và giá cả hợp lý. Bạn muốn biết thêm thông tin gì?',
-            sender: {
-              id: 'agent1',
-              name: recipientName || 'Tư vấn viên',
-              avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face',
-              isAgent: true
-            },
-            timestamp: new Date(Date.now() - 240000),
-            isRead: true
-          },
-          {
-            id: '3',
-            text: 'Bạn có thể cho tôi biết thêm về pháp lý và tiến độ dự án không?',
-            sender: {
-              id: user?.id || 'user1',
-              name: user?.email || 'Bạn',
-              isAgent: false
-            },
-            timestamp: new Date(Date.now() - 180000),
-            isRead: true
-          }
-        ])
-      }, 500)
-
-      // Simulate typing indicator
-      setTimeout(() => {
-        setIsTyping(true)
-        setTimeout(() => {
-          setIsTyping(false)
-          setMessages(prev => [...prev, {
-            id: '4',
-            text: 'Tất nhiên! Dự án đã hoàn thành đầy đủ thủ tục pháp lý. Sổ đỏ từng căn, thủ tục rõ ràng. Tôi có thể gửi bạn các giấy tờ liên quan qua email được không?',
+            text: `Xin chào! Tôi là ${recipientName || 'tư vấn viên'}. Tôi có thể giúp gì cho bạn?`,
             sender: {
               id: 'agent1',
               name: recipientName || 'Tư vấn viên',
@@ -121,13 +112,53 @@ const LiveChat = ({ propertyId, recipientId, recipientName, className = '' }: Li
               isAgent: true
             },
             timestamp: new Date(),
-            isRead: false
-          }])
-          setUnreadCount(1)
-        }, 2000)
-      }, 3000)
+            isRead: true
+          }
+        ])
+        setHistoryLoaded(true)
+      } catch (error) {
+        console.error('Error loading chat history:', error)
+        // Show default welcome message
+        setMessages([
+          {
+            id: '1',
+            text: `Xin chào! Tôi là ${recipientName || 'tư vấn viên'}. Tôi có thể giúp gì cho bạn?`,
+            sender: {
+              id: 'agent1',
+              name: recipientName || 'Tư vấn viên',
+              avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face',
+              isAgent: true
+            },
+            timestamp: new Date(),
+            isRead: true
+          }
+        ])
+        setHistoryLoaded(true)
+      }
     }
-  }, [isOpen, user, recipientName])
+
+    loadChatHistory()
+  }, [isOpen, user, recipientName, historyLoaded])
+
+  // Save message to database
+  const saveMessageToDB = async (content: string, senderRole: 'user' | 'agent') => {
+    if (!user) return
+
+    try {
+      await supabase.from('chat_messages').insert({
+        user_id: user.id,
+        property_id: propertyId || null,
+        recipient_id: recipientId || null,
+        content,
+        sender_role: senderRole,
+        message_type: 'live_chat',
+        is_read: false,
+        metadata: {}
+      })
+    } catch (error) {
+      console.error('Error saving message:', error)
+    }
+  }
 
   useEffect(() => {
     scrollToBottom()
@@ -155,14 +186,18 @@ const LiveChat = ({ propertyId, recipientId, recipientName, className = '' }: Li
     setMessages(prev => [...prev, message])
     setNewMessage('')
 
-    // Simulate agent response
+    // Save user message to database
+    saveMessageToDB(newMessage, 'user')
+
+    // Simulate agent response (in production, this would be a real-time subscription)
     setTimeout(() => {
       setIsTyping(true)
       setTimeout(() => {
         setIsTyping(false)
+        const agentResponse = 'Cảm ơn bạn! Tôi sẽ phản hồi sớm nhất có thể.'
         const agentMessage: Message = {
           id: (Date.now() + 1).toString(),
-          text: 'Cảm ơn bạn! Tôi sẽ phản hồi sớm nhất có thể.',
+          text: agentResponse,
           sender: {
             id: 'agent1',
             name: recipientName || 'Tư vấn viên',
@@ -173,6 +208,8 @@ const LiveChat = ({ propertyId, recipientId, recipientName, className = '' }: Li
           isRead: false
         }
         setMessages(prev => [...prev, agentMessage])
+        // Save agent response to database
+        saveMessageToDB(agentResponse, 'agent')
       }, 1500)
     }, 1000)
   }
@@ -193,16 +230,17 @@ const LiveChat = ({ propertyId, recipientId, recipientName, className = '' }: Li
 
   return (
     <>
-      {/* Floating Chat Button */}
-      <div className={`fixed bottom-4 right-4 z-50 ${className}`}>
+      {/* Floating Chat Button - positioned above AI Chatbot */}
+      <div className={`fixed bottom-24 right-6 z-40 ${className}`}>
         <Button
           onClick={() => {
             setIsOpen(true)
             markAsRead()
           }}
           size="lg"
-          className="h-14 w-14 rounded-full shadow-lg hover:shadow-xl transition-shadow"
-          aria-label="Mở chat"
+          className="h-14 w-14 rounded-full shadow-lg hover:shadow-xl transition-shadow bg-blue-600 hover:bg-blue-700"
+          aria-label="Chat với chủ nhà"
+          title="Chat với chủ nhà"
         >
           <MessageCircle className="h-6 w-6" />
           {unreadCount > 0 && (

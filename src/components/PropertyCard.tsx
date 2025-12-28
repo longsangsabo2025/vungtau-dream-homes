@@ -1,8 +1,9 @@
-import { BedDouble, Bath, Maximize2, MapPin, Heart } from "lucide-react";
+import { BedDouble, Bath, Maximize2, MapPin, Heart, Loader2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
+import { useFavorite } from "@/hooks/useFavorite";
 
 interface PropertyCardProps {
   id: string;
@@ -34,6 +35,7 @@ const PropertyCard = ({
   className,
 }: PropertyCardProps) => {
   const navigate = useNavigate();
+  const { isFavorite, loading: favoriteLoading, toggleFavorite } = useFavorite({ propertyId: id });
   
   const formatPrice = (price: number) => {
     if (price >= 1000000000) {
@@ -61,11 +63,11 @@ const PropertyCard = ({
       tabIndex={0}
     >
       {/* Image */}
-      <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+      <div className="relative aspect-[4/3] overflow-hidden bg-muted flex items-center justify-center">
         <img
           src={image_url}
           alt={title}
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+          className="max-h-full max-w-full object-contain transition-transform duration-500 group-hover:scale-105"
           loading="lazy"
         />
         
@@ -93,9 +95,23 @@ const PropertyCard = ({
         <Button
           size="icon"
           variant="ghost"
-          className="absolute top-3 right-3 h-9 w-9 bg-background/80 backdrop-blur-sm hover:bg-background/90 hover:text-destructive transition-all"
+          className={cn(
+            "absolute top-3 right-3 h-9 w-9 backdrop-blur-sm transition-all",
+            isFavorite 
+              ? "bg-destructive/90 text-white hover:bg-destructive" 
+              : "bg-background/80 hover:bg-background/90 hover:text-destructive"
+          )}
+          onClick={toggleFavorite}
+          disabled={favoriteLoading}
         >
-          <Heart className="h-4 w-4" strokeWidth={2.5} />
+          {favoriteLoading ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <Heart 
+              className={cn("h-4 w-4", isFavorite && "fill-current")} 
+              strokeWidth={2.5} 
+            />
+          )}
         </Button>
       </div>
 

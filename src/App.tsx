@@ -5,6 +5,10 @@ import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { useAnalytics } from '@/lib/analytics';
+import { AnalyticsProvider } from '@/components/AnalyticsProvider';
+import { PWAInstallPrompt, OfflineBanner } from '@/components/PWAInstallPrompt';
+import AIChatbot from '@/components/AIChatbot';
+import BackToTop from '@/components/BackToTop';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { HelmetProvider } from 'react-helmet-async';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -15,7 +19,12 @@ import NewsManagement from './pages/admin/NewsManagement';
 import PropertiesManagement from './pages/admin/PropertiesManagement';
 import Reports from './pages/admin/Reports';
 import UsersManagement from './pages/admin/UsersManagement';
-import AdminDashboard from './pages/AdminDashboard';
+import ChatMonitor from './pages/admin/ChatMonitor';
+import AdminDashboardNew from './pages/AdminDashboardNew';
+import AIRecommendationEngine from './components/AIRecommendationEngine';
+import MarketAnalyticsDashboard from './components/MarketAnalyticsDashboard';
+import MarketingAutomation from './components/MarketingAutomation';
+import FinancialCalculators from './components/FinancialCalculators';
 import CreateProperty from './pages/CreateProperty';
 import EditProperty from './pages/EditProperty';
 import Favorites from './pages/Favorites';
@@ -23,6 +32,7 @@ import Index from './pages/Index';
 import MyProperties from './pages/MyProperties';
 import NotFound from './pages/NotFound';
 import Profile from './pages/Profile';
+import Messages from './pages/Messages';
 import PropertyDetail from './pages/PropertyDetail';
 import Settings from './pages/Settings';
 import UserDashboard from './pages/UserDashboard';
@@ -30,7 +40,6 @@ import EnvTest from './pages/EnvTest';
 import BuySell from './pages/BuySell';
 import Rent from './pages/Rent';
 import News from './pages/News';
-import PostProperty from './pages/PostProperty';
 
 const queryClient = new QueryClient();
 
@@ -46,12 +55,17 @@ const App = () => {
             <TooltipProvider>
               <Toaster />
               <Sonner />
+              <OfflineBanner />
+              <PWAInstallPrompt />
+              <AIChatbot />
+              <BackToTop />
               <BrowserRouter
               future={{
                 v7_startTransition: true,
                 v7_relativeSplatPath: true,
               }}
             >
+              <AnalyticsProvider>
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/env-test" element={<EnvTest />} />
@@ -62,7 +76,7 @@ const App = () => {
                 <Route path="/mua-ban" element={<BuySell />} />
                 <Route path="/cho-thue" element={<Rent />} />
                 <Route path="/tin-tuc" element={<News />} />
-                <Route path="/dang-tin" element={<PostProperty />} />
+                <Route path="/dang-tin" element={<CreateProperty />} />
 
                 {/* User Routes - Protected (không cần admin) */}
                 <Route
@@ -106,6 +120,14 @@ const App = () => {
                   }
                 />
                 <Route
+                  path="/messages"
+                  element={
+                    <ProtectedRoute>
+                      <Messages />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
                   path="/profile"
                   element={
                     <ProtectedRoute>
@@ -127,7 +149,7 @@ const App = () => {
                   path="/admin"
                   element={
                     <ProtectedRoute requireAdmin>
-                      <AdminDashboard />
+                      <AdminDashboardNew />
                     </ProtectedRoute>
                   }
                 />
@@ -187,10 +209,57 @@ const App = () => {
                     </ProtectedRoute>
                   }
                 />
+                <Route
+                  path="/admin/chat-monitor"
+                  element={
+                    <ProtectedRoute requireAdmin>
+                      <ChatMonitor />
+                    </ProtectedRoute>
+                  }
+                />
+
+                {/* =============== NEW PHASE 2 FEATURES =============== */}
+                
+                {/* AI Recommendations - Protected */}
+                <Route
+                  path="/ai-recommendations"
+                  element={
+                    <ProtectedRoute>
+                      <AIRecommendationEngine />
+                    </ProtectedRoute>
+                  }
+                />
+
+                {/* Market Analytics - Protected */}
+                <Route
+                  path="/market-analytics"
+                  element={
+                    <ProtectedRoute>
+                      <MarketAnalyticsDashboard />
+                    </ProtectedRoute>
+                  }
+                />
+
+                {/* Financial Calculators - Public */}
+                <Route
+                  path="/calculators"
+                  element={<FinancialCalculators />}
+                />
+
+                {/* Marketing Automation - Admin Only */}
+                <Route
+                  path="/admin/marketing"
+                  element={
+                    <ProtectedRoute requireAdmin>
+                      <MarketingAutomation />
+                    </ProtectedRoute>
+                  }
+                />
 
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
+              </AnalyticsProvider>
             </BrowserRouter>
           </TooltipProvider>
         </AuthProvider>

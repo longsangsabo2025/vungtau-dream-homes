@@ -3,6 +3,7 @@ import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/contexts/AuthContext';
 import { Upload, X, Image as ImageIcon, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -20,14 +21,25 @@ export default function ImageUpload({
   maxImages = 10
 }: ImageUploadProps) {
   const { toast } = useToast();
+  const { user } = useAuth();
   const [images, setImages] = useState<string[]>(existingImages);
   const [uploading, setUploading] = useState(false);
   const [dragActive, setDragActive] = useState(false);
 
   const uploadImage = async (file: File): Promise<string | null> => {
+    // Check if user is authenticated
+    if (!user) {
+      toast({
+        title: 'Chưa đăng nhập',
+        description: 'Vui lòng đăng nhập để tải ảnh lên.',
+        variant: 'destructive'
+      });
+      return null;
+    }
+
     try {
       const fileExt = file.name.split('.').pop();
-      const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
+      const fileName = `${user.id}-${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
       const filePath = `${propertyId || 'temp'}/${fileName}`;
 
       const { error: uploadError, data } = await supabase.storage

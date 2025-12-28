@@ -3,6 +3,23 @@ import { supabase, type Database } from '../lib/supabase'
 
 type Property = Database['public']['Tables']['properties']['Row']
 
+// Extended property with joined profiles
+type PropertyWithProfiles = Property & {
+  profiles?: {
+    id: string
+    full_name: string | null
+    avatar_url: string | null
+    phone: string | null
+    email: string | null
+  } | null
+  property_images?: {
+    id: string
+    image_url: string
+    is_primary: boolean
+    display_order: number
+  }[]
+}
+
 interface UsePropertiesOptions {
   page?: number
   pageSize?: number
@@ -150,7 +167,7 @@ export function useProperties(options: UsePropertiesOptions = {}) {
 }
 
 export function useProperty(id: string) {
-  const [property, setProperty] = useState<Property | null>(null)
+  const [property, setProperty] = useState<PropertyWithProfiles | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -167,7 +184,11 @@ export function useProperty(id: string) {
       
       const { data, error } = await supabase
         .from('properties')
-        .select('*')
+        .select(`
+          *,
+          property_images(id, image_url, is_primary, display_order),
+          profiles:owner_id(id, full_name, avatar_url, phone, email)
+        `)
         .eq('id', propertyId)
         .single()
 

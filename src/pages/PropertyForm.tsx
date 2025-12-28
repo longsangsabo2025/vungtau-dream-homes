@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { CurrencyInput } from "@/components/ui/currency-input";
 import { 
   Select,
   SelectContent,
@@ -230,13 +231,12 @@ const PropertyForm = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="price">Giá (VNĐ) *</Label>
-                    <Input
+                    <CurrencyInput
                       id="price"
-                      type="number"
                       required
                       value={formData.price}
-                      onChange={(e) => handleChange("price", e.target.value)}
-                      placeholder="15000000000"
+                      onChange={(value) => handleChange("price", value)}
+                      placeholder="15.000.000.000"
                     />
                   </div>
 

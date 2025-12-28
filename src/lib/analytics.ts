@@ -86,7 +86,15 @@ class AnalyticsTracker {
     eventName: string,
     properties?: Record<string, any>
   ): Promise<void> {
+    // Temporarily disable analytics to prevent errors
+    // TODO: Enable when track_analytics_event function is created in database
     try {
+      // Just log locally for now
+      console.log('Analytics (disabled):', { eventType, eventName, properties });
+      return;
+
+      // Original code commented out until database function is created
+      /*
       const event: AnalyticsEvent = {
         productName: this.productName,
         eventType,
@@ -111,21 +119,37 @@ class AnalyticsTracker {
         event.userId = user.id;
       }
 
-      // Send to Supabase
-      const { error } = await supabase.rpc("track_analytics_event", {
-        p_product_name: event.productName,
-        p_event_type: event.eventType,
-        p_event_name: event.eventName,
-        p_user_id: event.userId || null,
-        p_session_id: event.sessionId,
-        p_properties: event.properties,
-      });
+      // Send to Supabase (with error handling for missing function)
+      try {
+        const { error } = await supabase.rpc("track_analytics_event", {
+          p_product_name: event.productName,
+          p_event_type: event.eventType,
+          p_event_name: event.eventName,
+          p_user_id: event.userId || null,
+          p_session_id: event.sessionId,
+          p_properties: event.properties,
+        });
 
-      if (error) {
-        console.error("Analytics tracking error:", error);
+        if (error) {
+          // If it's a 404 error (function not found), skip logging completely
+          if (error.message?.includes('404') || 
+              error.message?.includes('does not exist') || 
+              error.message?.includes('PGRST202') ||
+              error.code === 'PGRST202') {
+            // Silently skip - function doesn't exist
+            return;
+          } else {
+            console.error("Analytics tracking error:", error);
+          }
+        }
+      } catch (rpcError) {
+        // Silently handle RPC function not found errors
+        console.warn('Analytics RPC call failed - function may not exist');
       }
+      */
     } catch (error) {
-      console.error("Failed to track event:", error);
+      // Silent error handling
+      console.log('Analytics error (suppressed):', error.message);
     }
   }
 

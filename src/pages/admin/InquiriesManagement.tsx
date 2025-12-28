@@ -57,7 +57,7 @@ interface Inquiry {
   id: string;
   property_id: string | null;
   user_id: string | null;
-  full_name: string;
+  name: string;
   email: string;
   phone: string;
   message: string;
@@ -213,10 +213,10 @@ export default function InquiriesManagement() {
 
   const filteredInquiries = inquiries.filter((inquiry) => {
     const matchesSearch =
-      inquiry.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      inquiry.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      inquiry.phone.includes(searchTerm) ||
-      inquiry.message.toLowerCase().includes(searchTerm.toLowerCase());
+      (inquiry.name?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+      (inquiry.email?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+      (inquiry.phone || '').includes(searchTerm) ||
+      (inquiry.message?.toLowerCase() || '').includes(searchTerm.toLowerCase());
     const matchesStatus = filterStatus === 'all' || inquiry.status === filterStatus;
     return matchesSearch && matchesStatus;
   });
@@ -368,7 +368,7 @@ export default function InquiriesManagement() {
                             <TableCell>
                               <div className="flex items-center gap-2">
                                 <User className="h-4 w-4 text-gray-400" />
-                                <div className="font-medium">{inquiry.full_name}</div>
+                                <div className="font-medium">{inquiry.name}</div>
                               </div>
                             </TableCell>
                             <TableCell>
@@ -514,7 +514,7 @@ export default function InquiriesManagement() {
                       <div className="grid grid-cols-2 gap-4 text-sm">
                         <div>
                           <span className="font-medium">Họ tên:</span>{' '}
-                          {selectedInquiry.full_name}
+                          {selectedInquiry.name}
                         </div>
                         <div>
                           <span className="font-medium">Email:</span>{' '}

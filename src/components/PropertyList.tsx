@@ -7,7 +7,8 @@ import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 import { Badge } from './ui/badge'
-import { Skeleton } from './ui/skeleton'
+import { PropertyListSkeleton } from './ui/skeleton-card'
+import { NoPropertiesFound } from './ui/empty-state'
 import { AlertCircle, Search, ChevronLeft, ChevronRight, Map, Grid, Eye } from 'lucide-react'
 import { Alert, AlertDescription } from './ui/alert'
 import { useNavigate } from 'react-router-dom'
@@ -42,22 +43,11 @@ const PropertyList = () => {
     return (
       <div className="space-y-6">
         <div className="flex flex-col sm:flex-row gap-4">
-          <Skeleton className="h-10 flex-1" />
-          <Skeleton className="h-10 w-40" />
-          <Skeleton className="h-10 w-40" />
+          <div className="h-10 flex-1 bg-muted animate-pulse rounded-md" />
+          <div className="h-10 w-40 bg-muted animate-pulse rounded-md" />
+          <div className="h-10 w-40 bg-muted animate-pulse rounded-md" />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {Array.from({ length: 6 }, (_, i) => Math.random().toString(36).substring(2)).map((key) => (
-            <div key={key} className="space-y-4">
-              <Skeleton className="aspect-[4/3] w-full rounded-xl" />
-              <div className="space-y-2">
-                <Skeleton className="h-6 w-3/4" />
-                <Skeleton className="h-4 w-1/2" />
-                <Skeleton className="h-4 w-full" />
-              </div>
-            </div>
-          ))}
-        </div>
+        <PropertyListSkeleton count={6} />
       </div>
     )
   }
@@ -160,22 +150,14 @@ const PropertyList = () => {
 
       {/* Properties grid */}
       {properties.length === 0 ? (
-        <div className="text-center py-12">
-          <div className="text-muted-foreground mb-4">
-            {totalCount === 0 
-              ? "Chưa có bất động sản nào được thêm" 
-              : "Không tìm thấy bất động sản phù hợp"
-            }
-          </div>
-          <Button variant="outline" onClick={() => {
+        <NoPropertiesFound 
+          onAction={() => {
             setSearchQuery('')
             setTypeFilter('')
             setStatusFilter('')
             setPage(1)
-          }}>
-            Xóa bộ lọc
-          </Button>
-        </div>
+          }}
+        />
       ) : viewMode === 'map' ? (
         /* Map View */
         <PropertiesMapView

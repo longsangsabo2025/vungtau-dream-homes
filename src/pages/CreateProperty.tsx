@@ -6,6 +6,7 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Textarea } from '../components/ui/textarea';
 import { Label } from '../components/ui/label';
+import { CurrencyInput } from '../components/ui/currency-input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 import {
   Select,
@@ -15,14 +16,49 @@ import {
   SelectValue,
 } from '../components/ui/select';
 import { useToast } from '../hooks/use-toast';
-import { ArrowLeft, Upload } from 'lucide-react';
+import { ArrowLeft, Image as ImageIcon, MapPin, Trash2, Save } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import UserLayout from '../components/UserLayout';
+import ImageUpload from '../components/ImageUpload';
+import MapPicker from '../components/MapPicker';
 
 interface Category {
   id: string;
   name: string;
 }
+
+const DRAFT_KEY = 'vungtauland_property_draft';
+
+// Helper to load draft from localStorage
+const loadDraft = () => {
+  try {
+    const saved = localStorage.getItem(DRAFT_KEY);
+    if (saved) {
+      return JSON.parse(saved);
+    }
+  } catch (e) {
+    console.error('Error loading draft:', e);
+  }
+  return null;
+};
+
+// Helper to save draft to localStorage
+const saveDraft = (data: Record<string, unknown>, images: string[]) => {
+  try {
+    localStorage.setItem(DRAFT_KEY, JSON.stringify({ formData: data, images, savedAt: new Date().toISOString() }));
+  } catch (e) {
+    console.error('Error saving draft:', e);
+  }
+};
+
+// Helper to clear draft
+const clearDraft = () => {
+  try {
+    localStorage.removeItem(DRAFT_KEY);
+  } catch (e) {
+    console.error('Error clearing draft:', e);
+  }
+};
 
 export default function CreateProperty() {
   const { user } = useAuth();
@@ -30,6 +66,8 @@ export default function CreateProperty() {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [images, setImages] = useState<string[]>([]);
+  const [hasDraft, setHasDraft] = useState(false);
 
   const [formData, setFormData] = useState({
     title: '',
@@ -38,21 +76,50 @@ export default function CreateProperty() {
     bedrooms: '',
     bathrooms: '',
     location: '',
-    district: '',
+    district: 'Thành phố Vũng Tàu',
     ward: '',
     address_detail: '',
-    type: 'Bán', // Transaction type: Bán/Cho thuê
+    type: 'Bán',
     category_id: '',
     description: '',
-    image_url: '',
-    status: 'Có sẵn',
+    status: 'available',
     direction: 'Đông',
     legal_status: 'Sổ đỏ',
     furniture_status: 'Unfurnished',
     parking_slots: '1',
     floor_number: '',
     year_built: '',
+    latitude: null as number | null,
+    longitude: null as number | null,
   });
+
+  // Load draft on mount
+  useEffect(() => {
+    const draft = loadDraft();
+    if (draft && draft.formData) {
+      setFormData(prev => ({ ...prev, ...draft.formData }));
+      if (draft.images && draft.images.length > 0) {
+        setImages(draft.images);
+      }
+      setHasDraft(true);
+      toast({
+        title: 'Đã khôi phục bản nháp',
+        description: `Lưu lúc: ${new Date(draft.savedAt).toLocaleString('vi-VN')}`,
+      });
+    }
+  }, []);
+
+  // Auto-save draft when form changes
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (formData.title || formData.price || formData.description || images.length > 0) {
+        saveDraft(formData, images);
+        setHasDraft(true);
+      }
+    }, 1000); // Debounce 1 second
+    
+    return () => clearTimeout(timer);
+  }, [formData, images]);
 
   useEffect(() => {
     async function fetchCategories() {
@@ -64,8 +131,8 @@ export default function CreateProperty() {
       
       if (data) {
         setCategories(data);
-        // Set first category as default
-        if (data.length > 0) {
+        // Set first category as default if not loaded from draft
+        if (data.length > 0 && !formData.category_id) {
           setFormData(prev => ({ ...prev, category_id: data[0].id }));
         }
       }
@@ -75,6 +142,39 @@ export default function CreateProperty() {
 
   const handleChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleClearDraft = () => {
+    clearDraft();
+    setHasDraft(false);
+    setFormData({
+      title: '',
+      price: '',
+      area: '',
+      bedrooms: '',
+      bathrooms: '',
+      location: '',
+      district: 'Thành phố Vũng Tàu',
+      ward: '',
+      address_detail: '',
+      type: 'Bán',
+      category_id: categories.length > 0 ? categories[0].id : '',
+      description: '',
+      status: 'available',
+      direction: 'Đông',
+      legal_status: 'Sổ đỏ',
+      furniture_status: 'Unfurnished',
+      parking_slots: '1',
+      floor_number: '',
+      year_built: '',
+      latitude: null,
+      longitude: null,
+    });
+    setImages([]);
+    toast({
+      title: 'Đã xóa bản nháp',
+      description: 'Form đã được làm mới',
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -95,12 +195,22 @@ export default function CreateProperty() {
         return;
       }
 
+      if (images.length === 0) {
+        toast({
+          title: 'Lỗi',
+          description: 'Vui lòng tải lên ít nhất một hình ảnh',
+          variant: 'destructive',
+        });
+        setLoading(false);
+        return;
+      }
+
       // Insert property with pending approval status
       const { data, error } = await supabase
         .from('properties')
         .insert({
           title: formData.title,
-          price: parseInt(formData.price),
+          price: parseInt(formData.price.replace(/\./g, '')),
           area: parseInt(formData.area),
           bedrooms: formData.bedrooms ? parseInt(formData.bedrooms) : null,
           bathrooms: formData.bathrooms ? parseInt(formData.bathrooms) : null,
@@ -111,7 +221,7 @@ export default function CreateProperty() {
           type: formData.type,
           category_id: formData.category_id || null,
           description: formData.description || null,
-          image_url: formData.image_url || 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80',
+          image_url: images[0] || null,
           status: formData.status,
           owner_id: user.id,
           direction: formData.direction,
@@ -120,19 +230,36 @@ export default function CreateProperty() {
           parking_slots: parseInt(formData.parking_slots),
           floor_number: formData.floor_number ? parseInt(formData.floor_number) : null,
           year_built: formData.year_built ? parseInt(formData.year_built) : null,
-          approval_status: 'pending', // Tin đăng cần được admin duyệt
+          latitude: formData.latitude,
+          longitude: formData.longitude,
+          approval_status: 'pending',
         })
         .select()
         .single();
 
       if (error) throw error;
 
+      // Save additional images to property_images table
+      if (data && images.length > 0) {
+        const imageInserts = images.map((url, index) => ({
+          property_id: data.id,
+          image_url: url,
+          is_primary: index === 0,
+          display_order: index,
+        }));
+        
+        await supabase.from('property_images').insert(imageInserts);
+      }
+
       toast({
         title: 'Thành công!',
         description: 'Tin đăng đã được gửi và đang chờ admin duyệt',
       });
 
-      // Redirect to my properties
+      // Clear draft after successful submission
+      clearDraft();
+      setHasDraft(false);
+
       navigate('/my-properties');
     } catch (error) {
       console.error('Error creating property:', error);
@@ -150,11 +277,29 @@ export default function CreateProperty() {
     <UserLayout>
       <div className="min-h-screen bg-gray-50 py-4 sm:py-6 lg:py-8">
         <div className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-6">
-        <div className="mb-4 sm:mb-6">
+        <div className="mb-4 sm:mb-6 flex items-center justify-between">
           <Link to="/my-properties" className="inline-flex items-center gap-2 text-sm sm:text-base text-gray-600 hover:text-gray-900">
             <ArrowLeft className="h-4 w-4" />
             Quay lại danh sách
           </Link>
+          {hasDraft && (
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-green-600 flex items-center gap-1">
+                <Save className="h-3 w-3" />
+                Đã lưu nháp
+              </span>
+              <Button 
+                type="button" 
+                variant="outline" 
+                size="sm"
+                onClick={handleClearDraft}
+                className="text-red-600 hover:text-red-700 hover:bg-red-50"
+              >
+                <Trash2 className="h-3 w-3 mr-1" />
+                Xóa nháp
+              </Button>
+            </div>
+          )}
         </div>
 
         <Card>
@@ -215,12 +360,11 @@ export default function CreateProperty() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   <div>
                     <Label htmlFor="price" className="text-sm">Giá (VNĐ) *</Label>
-                    <Input
+                    <CurrencyInput
                       id="price"
-                      type="number"
                       value={formData.price}
-                      onChange={(e) => handleChange('price', e.target.value)}
-                      placeholder="5000000000"
+                      onChange={(value) => handleChange('price', value)}
+                      placeholder="5.000.000.000"
                       className="text-sm"
                       required
                     />
@@ -418,33 +562,54 @@ export default function CreateProperty() {
 
               {/* Description & Images */}
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold">Mô tả & Hình ảnh</h3>
+                <h3 className="text-lg font-semibold flex items-center gap-2">
+                  <ImageIcon className="h-5 w-5" />
+                  Hình ảnh
+                </h3>
+
+                <ImageUpload
+                  images={images}
+                  onImagesChange={setImages}
+                  maxImages={10}
+                />
+              </div>
+
+              {/* Map Location */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold flex items-center gap-2">
+                  <MapPin className="h-5 w-5" />
+                  Vị trí trên bản đồ
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  Ghim vị trí chính xác của bất động sản trên bản đồ để người mua dễ tìm kiếm
+                </p>
+                <MapPicker
+                  latitude={formData.latitude}
+                  longitude={formData.longitude}
+                  onLocationChange={(lat, lng, address) => {
+                    setFormData(prev => ({
+                      ...prev,
+                      latitude: lat,
+                      longitude: lng,
+                      location: address || prev.location,
+                    }));
+                  }}
+                />
+              </div>
+
+              {/* Description */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold">Mô tả chi tiết</h3>
 
                 <div>
-                  <Label htmlFor="description">Mô tả chi tiết</Label>
+                  <Label htmlFor="description">Mô tả về bất động sản</Label>
                   <Textarea
                     id="description"
                     value={formData.description}
                     onChange={(e) => handleChange('description', e.target.value)}
-                    placeholder="Mô tả chi tiết về bất động sản..."
+                    placeholder="Mô tả chi tiết về bất động sản: vị trí, tiện ích xung quanh, đặc điểm nổi bật..."
                     rows={5}
                   />
-                </div>
-
-                <div>
-                  <Label htmlFor="image_url">URL Hình ảnh chính</Label>
-                  <Input
-                    id="image_url"
-                    value={formData.image_url}
-                    onChange={(e) => handleChange('image_url', e.target.value)}
-                    placeholder="https://example.com/image.jpg"
-                  />
-                  <p className="text-sm text-gray-500 mt-1">
-                    Hoặc <button type="button" className="text-primary hover:underline inline-flex items-center gap-1">
-                      <Upload className="h-3 w-3" />
-                      tải ảnh lên
-                    </button> (tính năng sắp có)
-                  </p>
                 </div>
               </div>
 

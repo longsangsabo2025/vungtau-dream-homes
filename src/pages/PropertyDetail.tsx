@@ -1,16 +1,18 @@
 import { useParams, useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useProperty } from '../hooks/useSupabase'
+import { useAuth } from '../contexts/AuthContext'
+import { supabase } from '@/lib/supabase'
+import { useFavorite } from '@/hooks/useFavorite'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import PropertyMap from '../components/PropertyMap'
-import LiveChat from '../components/LiveChat'
 import { SEO } from '../components/SEO'
 import { PropertyStructuredData } from '../components/PropertyStructuredData'
+import { PropertyBreadcrumb } from '../components/ui/breadcrumb-nav'
 import { Button } from '../components/ui/button'
 import { Card, CardContent } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
-import { Separator } from '../components/ui/separator'
 import { Input } from '../components/ui/input'
 import { Textarea } from '../components/ui/textarea'
 import { Label } from '../components/ui/label'
@@ -22,9 +24,9 @@ import {
   Maximize, 
   MapPin, 
   Phone, 
-  Mail, 
   Share2,
   Heart,
+  Loader2,
   ChevronLeft,
   ChevronRight,
   Facebook,
@@ -38,20 +40,15 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
+
 
 const PropertyDetail = () => {
   const { id } = useParams()
   const navigate = useNavigate()
   const { toast } = useToast()
+  const { user } = useAuth()
   const { property, loading, error } = useProperty(id || '')
+  const { isFavorite, loading: favoriteLoading, toggleFavorite } = useFavorite({ propertyId: id || '' })
   const [contactForm, setContactForm] = useState({
     name: '',
     email: '',
@@ -60,20 +57,137 @@ const PropertyDetail = () => {
   })
   const [contactLoading, setContactLoading] = useState(false)
 
+  // Admin hotline number
+  const ADMIN_HOTLINE = '0901234567'
+
+  // Auto-fill user info when logged in
+  useEffect(() => {
+    if (user) {
+      const fetchUserProfile = async () => {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('full_name, phone, email')
+          .eq('id', user.id)
+          .single()
+        
+        if (profile) {
+          setContactForm(prev => ({
+            ...prev,
+            name: profile.full_name || prev.name,
+            email: profile.email || user.email || prev.email,
+            phone: profile.phone || prev.phone
+          }))
+        } else {
+          setContactForm(prev => ({
+            ...prev,
+            email: user.email || prev.email
+          }))
+        }
+      }
+      fetchUserProfile()
+    }
+  }, [user])
+
+  // Validate Vietnamese phone number
+  const validatePhoneVN = (phone: string): boolean => {
+    // Vietnamese phone: starts with 0, 10-11 digits, or +84 format
+    const vnPhoneRegex = /^(0|\+84)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/
+    const cleanPhone = phone.replace(/[\s.-]/g, '')
+    return vnPhoneRegex.test(cleanPhone) || /^(0[0-9]{9,10})$/.test(cleanPhone)
+  }
+
   const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setContactLoading(true)
 
-    // Simulate sending contact form
-    setTimeout(() => {
+    try {
+      // Validate phone
+      if (!validatePhoneVN(contactForm.phone)) {
+        toast({
+          title: "Số điện thoại không hợp lệ",
+          description: "Vui lòng nhập số điện thoại Việt Nam hợp lệ (VD: 0912345678)",
+          variant: "destructive"
+        })
+        setContactLoading(false)
+        return
+      }
+
+      // Rate limiting: Check if user already sent inquiry today
+      const today = new Date()
+      today.setHours(0, 0, 0, 0)
+      
+      const { data: existingInquiry } = await supabase
+        .from('inquiries')
+        .select('id')
+        .eq('property_id', id)
+        .eq('email', contactForm.email)
+        .gte('created_at', today.toISOString())
+        .single()
+
+      if (existingInquiry) {
+        toast({
+          title: "Đã gửi yêu cầu",
+          description: "Bạn đã gửi yêu cầu tư vấn cho BĐS này hôm nay. Chúng tôi sẽ sớm liên hệ lại.",
+          variant: "destructive"
+        })
+        setContactLoading(false)
+        return
+      }
+
+      // Save inquiry to database
+      const { error: dbError } = await supabase
+        .from('inquiries')
+        .insert({
+          property_id: id,
+          user_id: user?.id || null,
+          name: contactForm.name,
+          email: contactForm.email,
+          phone: contactForm.phone,
+          message: contactForm.message || `Tôi quan tâm đến bất động sản: ${property?.title}`,
+          status: 'pending',
+        })
+
+      if (dbError) throw dbError
+
+      // Create notification for property owner
+      if (property?.owner_id) {
+        await supabase
+          .from('notifications')
+          .insert({
+            user_id: property.owner_id,
+            title: 'Có người quan tâm BĐS của bạn',
+            message: `${contactForm.name} muốn tư vấn về "${property.title}". SĐT: ${contactForm.phone}`,
+            type: 'inquiry',
+            reference_id: id,
+            is_read: false
+          })
+      }
+
+      // Update property contact_count
+      if (property) {
+        await supabase
+          .from('properties')
+          .update({ contact_count: (property.contact_count || 0) + 1 })
+          .eq('id', id)
+      }
+
       toast({
         title: "Thành công!",
         description: "Chúng tôi đã nhận được yêu cầu của bạn và sẽ liên hệ sớm.",
       })
       setContactForm({ name: '', email: '', phone: '', message: '' })
+    } catch (error: any) {
+      console.error('Error submitting inquiry:', error)
+      toast({
+        title: "Có lỗi xảy ra",
+        description: "Vui lòng thử lại sau hoặc liên hệ trực tiếp qua số điện thoại.",
+        variant: "destructive"
+      })
+    } finally {
       setContactLoading(false)
-    }, 1000)
+    }
   }
+
 
   const handleShare = (platform: 'facebook' | 'twitter' | 'copy') => {
     const url = window.location.href
@@ -126,10 +240,34 @@ const PropertyDetail = () => {
     )
   }
 
-  // Mock images - replace with actual property images
-  const images = property.image_url 
-    ? [property.image_url, property.image_url, property.image_url] 
-    : ['/placeholder.svg', '/placeholder.svg', '/placeholder.svg']
+  // Get all images from property_images table and image_url field
+  const getAllImages = () => {
+    const imageList: string[] = [];
+    
+    // Add images from property_images (sorted by display_order, primary first)
+    if (property.property_images && property.property_images.length > 0) {
+      const sortedImages = [...property.property_images].sort((a, b) => {
+        if (a.is_primary && !b.is_primary) return -1;
+        if (!a.is_primary && b.is_primary) return 1;
+        return (a.display_order || 0) - (b.display_order || 0);
+      });
+      imageList.push(...sortedImages.map(img => img.image_url));
+    }
+    
+    // Add image_url if exists and not already in list
+    if (property.image_url && !imageList.includes(property.image_url)) {
+      imageList.unshift(property.image_url);
+    }
+    
+    // If no images, use placeholder
+    if (imageList.length === 0) {
+      imageList.push('/placeholder.svg');
+    }
+    
+    return imageList;
+  };
+  
+  const images = getAllImages();
 
   const pageTitle = `${property.title} - ${property.location} | VungTauLand`
   const pageDescription = `${property.type} ${property.title} tại ${property.location}, Vũng Tàu. Diện tích ${property.area}m², ${property.bedrooms} phòng ngủ, ${property.bathrooms} phòng tắm. Giá ${property.listing_type === 'sale' ? 'bán' : 'thuê'}: ${property.price?.toLocaleString('vi-VN')} ${property.listing_type === 'sale' ? 'VNĐ' : 'VNĐ/tháng'}. Liên hệ ngay để xem nhà!`
@@ -156,11 +294,18 @@ const PropertyDetail = () => {
       <Header />
       
       <main className="flex-1 container mx-auto px-4 py-8">
+        {/* Breadcrumb Navigation */}
+        <PropertyBreadcrumb 
+          propertyTitle={property.title}
+          propertyType={property.type}
+          className="mb-2"
+        />
+
         {/* Back Button */}
         <Button 
           variant="ghost" 
           className="mb-4"
-          onClick={() => navigate('/')}
+          onClick={() => navigate(-1)}
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
           Quay lại
@@ -176,11 +321,11 @@ const PropertyDetail = () => {
                   <CarouselContent>
                     {images.map((img, idx) => (
                       <CarouselItem key={idx}>
-                        <div className="relative aspect-video">
+                        <div className="relative aspect-video bg-muted flex items-center justify-center">
                           <img 
                             src={img} 
                             alt={`${property.title} - ${idx + 1}`}
-                            className="w-full h-full object-cover rounded-t-lg"
+                            className="max-w-full max-h-full object-contain rounded-t-lg"
                           />
                         </div>
                       </CarouselItem>
@@ -210,8 +355,17 @@ const PropertyDetail = () => {
                     </div>
                   </div>
                   <div className="flex gap-2">
-                    <Button variant="outline" size="icon">
-                      <Heart className="h-4 w-4" />
+                    <Button 
+                      variant={isFavorite ? "destructive" : "outline"} 
+                      size="icon"
+                      onClick={toggleFavorite}
+                      disabled={favoriteLoading}
+                    >
+                      {favoriteLoading ? (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                      ) : (
+                        <Heart className={`h-4 w-4 ${isFavorite ? 'fill-current' : ''}`} />
+                      )}
                     </Button>
                     <Dialog>
                       <DialogTrigger asChild>
@@ -359,17 +513,9 @@ const PropertyDetail = () => {
                   <Button type="submit" className="w-full" disabled={contactLoading}>
                     {contactLoading ? 'Đang gửi...' : 'Gửi yêu cầu'}
                   </Button>
-                  <div className="flex gap-2 pt-2">
-                    <Button type="button" variant="outline" className="flex-1">
-                      <Phone className="mr-2 h-4 w-4" />
-                      Gọi ngay
-                    </Button>
-                    <Button type="button" variant="outline" className="flex-1">
-                      <Mail className="mr-2 h-4 w-4" />
-                      Email
-                    </Button>
-                  </div>
                 </form>
+
+
               </CardContent>
             </Card>
           </div>
@@ -378,10 +524,6 @@ const PropertyDetail = () => {
 
       <PropertyStructuredData property={property} />
       <Footer />
-      <LiveChat 
-        propertyId={property.id}
-        recipientName="Chuyên viên tư vấn"
-      />
     </div>
   )
 }

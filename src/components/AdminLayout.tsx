@@ -11,15 +11,24 @@ import {
   Shield,
   Home,
   ChevronLeft,
-  Menu
+  Menu,
+  MessagesSquare
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
+import { supabase } from '@/lib/supabase'
 
 interface AdminLayoutProps {
   children: React.ReactNode
+}
+
+interface NotificationCounts {
+  pendingProperties: number
+  newUsers: number
+  pendingInquiries: number
+  activeChats: number
 }
 
 const navigation = [
@@ -60,6 +69,12 @@ const navigation = [
     description: 'Yêu cầu tư vấn'
   },
   {
+    name: 'Giám sát Chat',
+    href: '/admin/chat-monitor',
+    icon: MessagesSquare,
+    description: 'Theo dõi hội thoại'
+  },
+  {
     name: 'Báo cáo',
     href: '/admin/reports',
     icon: BarChart3,
@@ -77,6 +92,78 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const location = useLocation()
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const { user, signOut } = useAuth()
+  const [counts, setCounts] = useState<NotificationCounts>({
+    pendingProperties: 0,
+    newUsers: 0,
+    pendingInquiries: 0,
+    activeChats: 0
+  })
+
+  // Fetch notification counts
+  useEffect(() => {
+    async function fetchCounts() {
+      try {
+        // Get pending properties count
+        const { count: pendingProps } = await supabase
+          .from('properties')
+          .select('*', { count: 'exact', head: true })
+          .eq('approval_status', 'pending')
+
+        // Get new users count (last 24 hours)
+        const yesterday = new Date()
+        yesterday.setDate(yesterday.getDate() - 1)
+        const { count: newUsersCount } = await supabase
+          .from('profiles')
+          .select('*', { count: 'exact', head: true })
+          .gte('created_at', yesterday.toISOString())
+
+        // Get pending inquiries count
+        const { count: pendingInq } = await supabase
+          .from('inquiries')
+          .select('*', { count: 'exact', head: true })
+          .eq('status', 'pending')
+
+        // Get active chats today
+        const today = new Date()
+        today.setHours(0, 0, 0, 0)
+        const { count: activeChatsCount } = await supabase
+          .from('conversations')
+          .select('*', { count: 'exact', head: true })
+          .gte('last_message_at', today.toISOString())
+
+        setCounts({
+          pendingProperties: pendingProps || 0,
+          newUsers: newUsersCount || 0,
+          pendingInquiries: pendingInq || 0,
+          activeChats: activeChatsCount || 0
+        })
+      } catch (error) {
+        console.error('Error fetching counts:', error)
+      }
+    }
+
+    fetchCounts()
+    
+    // Refresh counts every 30 seconds
+    const interval = setInterval(fetchCounts, 30000)
+    return () => clearInterval(interval)
+  }, [])
+
+  // Map navigation items to their notification counts
+  const getNotificationCount = (href: string): number => {
+    switch (href) {
+      case '/admin/properties':
+        return counts.pendingProperties
+      case '/admin/users':
+        return counts.newUsers
+      case '/admin/inquiries':
+        return counts.pendingInquiries
+      case '/admin/chat-monitor':
+        return counts.activeChats
+      default:
+        return 0
+    }
+  }
 
   return (
     <div className="min-h-screen bg-muted/30">
@@ -127,23 +214,41 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             {navigation.map((item) => {
               const Icon = item.icon
               const isActive = location.pathname === item.href
+              const notificationCount = getNotificationCount(item.href)
               
               return (
                 <Link
                   key={item.name}
                   to={item.href}
                   className={cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                    "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors relative",
                     isActive
                       ? "bg-primary text-primary-foreground"
                       : "text-muted-foreground hover:bg-muted hover:text-foreground"
                   )}
                   title={!sidebarOpen ? item.name : undefined}
                 >
-                  <Icon className="h-5 w-5 flex-shrink-0" />
+                  <div className="relative">
+                    <Icon className="h-5 w-5 flex-shrink-0" />
+                    {!sidebarOpen && notificationCount > 0 && (
+                      <span className="absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
+                        {notificationCount > 9 ? '9+' : notificationCount}
+                      </span>
+                    )}
+                  </div>
                   {sidebarOpen && (
                     <div className="flex flex-col flex-1 min-w-0">
-                      <span>{item.name}</span>
+                      <div className="flex items-center justify-between">
+                        <span>{item.name}</span>
+                        {notificationCount > 0 && (
+                          <Badge 
+                            variant="destructive" 
+                            className="ml-auto h-5 min-w-5 px-1.5 text-[10px] font-bold"
+                          >
+                            {notificationCount > 99 ? '99+' : notificationCount}
+                          </Badge>
+                        )}
+                      </div>
                       <span className="text-xs opacity-70 truncate">
                         {item.description}
                       </span>

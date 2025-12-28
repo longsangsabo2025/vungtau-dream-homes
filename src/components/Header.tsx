@@ -1,4 +1,4 @@
-import { Building, Heart, User, Menu, Search, LogIn, Plus, LogOut, Shield, LayoutDashboard, FileText } from "lucide-react";
+import { Heart, User, Menu, Search, LogIn, Plus, LogOut, Shield, LayoutDashboard, FileText, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
@@ -23,12 +23,14 @@ const Header = () => {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <a href="/" className="flex items-center space-x-2.5">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl gradient-primary shadow-lg">
-              <Building className="h-6 w-6 text-primary-foreground" strokeWidth={2.5} />
-            </div>
+            <img 
+              src="/logo.png" 
+              alt="VungTauLand Logo" 
+              className="h-11 w-11 rounded-xl shadow-lg"
+            />
             <div className="flex flex-col">
-              <span className="text-lg font-bold leading-none text-foreground tracking-tight">VungTauLand</span>
-              <span className="text-[11px] text-muted-foreground font-medium">BĐS Vũng Tàu</span>
+              <span className="text-lg font-bold leading-none tracking-tight" style={{ color: '#0d5c2e' }}>VungTauLand</span>
+              <span className="text-[11px] font-medium" style={{ color: '#0d5c2e' }}>BĐS Vũng Tàu</span>
             </div>
           </a>
 
@@ -46,9 +48,18 @@ const Header = () => {
             <Link to="/tin-tuc" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
               Tin tức
             </Link>
-            <Link to="/dang-tin" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
-              Đăng tin
-            </Link>
+            {user ? (
+              <Link to="/dang-tin" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+                Đăng tin
+              </Link>
+            ) : (
+              <button 
+                onClick={() => setAuthDialogOpen(true)} 
+                className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+              >
+                Đăng tin
+              </button>
+            )}
           </nav>
 
           {/* Desktop Actions */}
@@ -85,6 +96,12 @@ const Header = () => {
                       <Link to="/favorites">
                         <Heart className="mr-2 h-4 w-4" />
                         Yêu thích
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link to="/messages">
+                        <MessageSquare className="mr-2 h-4 w-4" />
+                        Tin nhắn
                       </Link>
                     </DropdownMenuItem>
                     {isAdmin && (

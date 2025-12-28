@@ -101,12 +101,23 @@ export default defineConfig(({ mode }) => ({
           ui: ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-select'],
           forms: ['react-hook-form', '@hookform/resolvers'],
           supabase: ['@supabase/supabase-js'],
-          utils: ['clsx', 'tailwind-merge', 'date-fns']
+          utils: ['clsx', 'tailwind-merge', 'date-fns'],
+          charts: ['recharts'],
+          query: ['@tanstack/react-query'],
         }
       }
     },
     chunkSizeWarningLimit: 1000,
     sourcemap: false, // Disable in production for smaller bundle
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+      },
+    },
+    cssCodeSplit: true,
+    assetsInlineLimit: 4096,
   },
   esbuild: {
     drop: mode === 'production' ? ['console', 'debugger'] : [],

@@ -15,6 +15,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Dialog,
   DialogContent,
@@ -35,9 +36,11 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { useToast } from '@/hooks/use-toast';
-import { Search, Eye, CheckCircle, XCircle, Clock, Home, Filter } from 'lucide-react';
+import { Search, Eye, CheckCircle, XCircle, Clock, Home, Filter, Star, Trash2, MapPin, Bed, Bath, Maximize, Calendar, User, ImageIcon, ChevronLeft, ChevronRight } from 'lucide-react';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { Label } from '@/components/ui/label';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Separator } from '@/components/ui/separator';
 
 interface Property {
   id: string;
@@ -48,14 +51,28 @@ interface Property {
   type: string; // Transaction type: Bán/Cho thuê
   approval_status: 'pending' | 'approved' | 'rejected';
   rejection_reason?: string;
+  is_featured: boolean;
   created_at: string;
+  image_url?: string;
+  bedrooms?: number;
+  bathrooms?: number;
+  description?: string;
+  district?: string;
+  ward?: string;
+  address_detail?: string;
   owner: {
     full_name: string;
     email: string;
+    phone?: string;
   };
   categories?: {
     name: string;
   };
+  property_images?: {
+    id: string;
+    image_url: string;
+    is_primary: boolean;
+  }[];
 }
 
 export default function PropertiesManagement() {
@@ -68,6 +85,7 @@ export default function PropertiesManagement() {
   const [rejectDialogOpen, setRejectDialogOpen] = useState(false);
   const [rejectionReason, setRejectionReason] = useState('');
   const [activeTab, setActiveTab] = useState('pending');
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [stats, setStats] = useState({
     total: 0,
     pending: 0,
@@ -83,13 +101,14 @@ export default function PropertiesManagement() {
     try {
       setLoading(true);
 
-      // Fetch all properties with owner info and category
+      // Fetch all properties with owner info, category and images
       const { data, error } = await supabase
         .from('properties')
         .select(`
           *,
-          owner:profiles!properties_owner_id_fkey(full_name, email),
-          categories(name)
+          owner:profiles!properties_owner_id_fkey(full_name, email, phone),
+          categories(name),
+          property_images(id, image_url, is_primary)
         `)
         .order('created_at', { ascending: false });
 
@@ -203,6 +222,133 @@ export default function PropertiesManagement() {
       p.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
       p.owner?.full_name?.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
+  // Toggle featured status
+  async function handleToggleFeatured(propertyId: string, currentStatus: boolean) {
+    try {
+      const { error } = await supabase
+        .from('properties')
+        .update({ is_featured: !currentStatus })
+        .eq('id', propertyId);
+
+      if (error) throw error;
+
+      toast({
+        title: 'Thành công!',
+        description: currentStatus ? 'Đã bỏ nổi bật' : 'Đã đánh dấu nổi bật',
+      });
+
+      fetchProperties();
+    } catch (error) {
+      console.error('Error toggling featured:', error);
+      toast({
+        title: 'Lỗi',
+        description: 'Không thể cập nhật trạng thái nổi bật',
+        variant: 'destructive',
+      });
+    }
+  }
+
+  // Bulk approve
+  async function handleBulkApprove() {
+    if (selectedIds.size === 0) {
+      toast({
+        title: 'Thông báo',
+        description: 'Vui lòng chọn ít nhất một tin đăng',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { error } = await supabase
+        .from('properties')
+        .update({
+          approval_status: 'approved',
+          approved_by: user.id,
+          approved_at: new Date().toISOString(),
+          published_at: new Date().toISOString(),
+          rejection_reason: null,
+        })
+        .in('id', Array.from(selectedIds));
+
+      if (error) throw error;
+
+      toast({
+        title: 'Thành công!',
+        description: `Đã duyệt ${selectedIds.size} tin đăng`,
+      });
+
+      setSelectedIds(new Set());
+      fetchProperties();
+    } catch (error) {
+      console.error('Error bulk approving:', error);
+      toast({
+        title: 'Lỗi',
+        description: 'Không thể duyệt tin đăng',
+        variant: 'destructive',
+      });
+    }
+  }
+
+  // Bulk delete
+  async function handleBulkDelete() {
+    if (selectedIds.size === 0) {
+      toast({
+        title: 'Thông báo',
+        description: 'Vui lòng chọn ít nhất một tin đăng',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    try {
+      const { error } = await supabase
+        .from('properties')
+        .delete()
+        .in('id', Array.from(selectedIds));
+
+      if (error) throw error;
+
+      toast({
+        title: 'Thành công!',
+        description: `Đã xóa ${selectedIds.size} tin đăng`,
+      });
+
+      setSelectedIds(new Set());
+      fetchProperties();
+    } catch (error) {
+      console.error('Error bulk deleting:', error);
+      toast({
+        title: 'Lỗi',
+        description: 'Không thể xóa tin đăng',
+        variant: 'destructive',
+      });
+    }
+  }
+
+  // Toggle selection
+  function toggleSelection(id: string) {
+    const newSet = new Set(selectedIds);
+    if (newSet.has(id)) {
+      newSet.delete(id);
+    } else {
+      newSet.add(id);
+    }
+    setSelectedIds(newSet);
+  }
+
+  // Select all in current tab
+  function toggleSelectAll() {
+    if (selectedIds.size === filteredProperties.length) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(filteredProperties.map(p => p.id)));
+    }
+  }
 
   function formatPrice(price: number) {
     if (price >= 1000000000) {
@@ -326,6 +472,42 @@ export default function PropertiesManagement() {
               </TabsList>
 
               <TabsContent value={activeTab} className="mt-6">
+                {/* Bulk Actions */}
+                {selectedIds.size > 0 && (
+                  <div className="mb-4 flex items-center gap-4 p-3 bg-blue-50 rounded-lg">
+                    <span className="text-sm font-medium text-blue-700">
+                      Đã chọn {selectedIds.size} tin đăng
+                    </span>
+                    {activeTab === 'pending' && (
+                      <Button size="sm" onClick={handleBulkApprove} className="bg-green-600 hover:bg-green-700">
+                        <CheckCircle className="h-4 w-4 mr-1" /> Duyệt tất cả
+                      </Button>
+                    )}
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button size="sm" variant="destructive">
+                          <Trash2 className="h-4 w-4 mr-1" /> Xóa tất cả
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Xác nhận xóa</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            Bạn có chắc chắn muốn xóa {selectedIds.size} tin đăng? Hành động này không thể hoàn tác.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Hủy</AlertDialogCancel>
+                          <AlertDialogAction onClick={handleBulkDelete} className="bg-red-600">Xóa</AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                    <Button size="sm" variant="outline" onClick={() => setSelectedIds(new Set())}>
+                      Bỏ chọn
+                    </Button>
+                  </div>
+                )}
+
                 {loading ? (
                   <p className="text-center py-8 text-gray-500">Đang tải...</p>
                 ) : (
@@ -333,15 +515,20 @@ export default function PropertiesManagement() {
                     <Table>
                       <TableHeader>
                         <TableRow>
+                          <TableHead className="w-10">
+                            <Checkbox
+                              checked={selectedIds.size === filteredProperties.length && filteredProperties.length > 0}
+                              onCheckedChange={toggleSelectAll}
+                            />
+                          </TableHead>
                           <TableHead>Tiêu đề</TableHead>
                           <TableHead>Người đăng</TableHead>
-                          <TableHead>Mục đích</TableHead>
                           <TableHead>Loại BĐS</TableHead>
                           <TableHead>Giá</TableHead>
                           <TableHead>Diện tích</TableHead>
                           <TableHead>Địa điểm</TableHead>
                           <TableHead>Ngày tạo</TableHead>
-                          <TableHead>Trạng thái</TableHead>
+                          <TableHead>Nổi bật</TableHead>
                           <TableHead className="text-right">Thao tác</TableHead>
                         </TableRow>
                       </TableHeader>
@@ -356,6 +543,12 @@ export default function PropertiesManagement() {
                           filteredProperties.map((property) => (
                             <TableRow key={property.id}>
                               <TableCell>
+                                <Checkbox
+                                  checked={selectedIds.has(property.id)}
+                                  onCheckedChange={() => toggleSelection(property.id)}
+                                />
+                              </TableCell>
+                              <TableCell>
                                 <div className="font-medium max-w-xs truncate">
                                   {property.title}
                                 </div>
@@ -363,9 +556,6 @@ export default function PropertiesManagement() {
                               <TableCell>
                                 <div>{property.owner?.full_name || 'N/A'}</div>
                                 <div className="text-sm text-gray-500">{property.owner?.email}</div>
-                              </TableCell>
-                              <TableCell>
-                                <Badge variant="outline" className="text-xs">{property.type}</Badge>
                               </TableCell>
                               <TableCell className="text-sm">
                                 {property.categories?.name || 'N/A'}
@@ -379,21 +569,14 @@ export default function PropertiesManagement() {
                                 {formatDate(property.created_at)}
                               </TableCell>
                               <TableCell>
-                                <Badge
-                                  variant={
-                                    property.approval_status === 'approved'
-                                      ? 'default'
-                                      : property.approval_status === 'rejected'
-                                      ? 'destructive'
-                                      : 'secondary'
-                                  }
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => handleToggleFeatured(property.id, property.is_featured)}
+                                  className={property.is_featured ? 'text-yellow-500 hover:text-yellow-600' : 'text-gray-400 hover:text-yellow-500'}
                                 >
-                                  {property.approval_status === 'approved'
-                                    ? 'Đã duyệt'
-                                    : property.approval_status === 'rejected'
-                                    ? 'Từ chối'
-                                    : 'Chờ duyệt'}
-                                </Badge>
+                                  <Star className={`h-5 w-5 ${property.is_featured ? 'fill-current' : ''}`} />
+                                </Button>
                               </TableCell>
                               <TableCell className="text-right">
                                 <div className="flex justify-end gap-2">
@@ -444,78 +627,242 @@ export default function PropertiesManagement() {
           </CardContent>
         </Card>
 
-        {/* View Property Dialog */}
+        {/* View Property Dialog - Enhanced */}
         <Dialog open={viewDialogOpen} onOpenChange={setViewDialogOpen}>
-          <DialogContent className="max-w-2xl">
-            <DialogHeader>
-              <DialogTitle>Chi tiết tin đăng</DialogTitle>
+          <DialogContent className="max-w-4xl max-h-[90vh] p-0 overflow-hidden">
+            <DialogHeader className="p-6 pb-0">
+              <DialogTitle className="text-xl font-bold">Chi tiết tin đăng</DialogTitle>
               <VisuallyHidden>
                 <DialogDescription>Xem thông tin chi tiết của tin đăng</DialogDescription>
               </VisuallyHidden>
             </DialogHeader>
             {selectedProperty && (
-              <div className="space-y-4">
-                <div>
-                  <Label className="font-semibold">Tiêu đề:</Label>
-                  <p className="mt-1">{selectedProperty.title}</p>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label className="font-semibold">Giá:</Label>
-                    <p className="mt-1 text-blue-600 font-medium">
-                      {formatPrice(selectedProperty.price)}
-                    </p>
-                  </div>
-                  <div>
-                    <Label className="font-semibold">Diện tích:</Label>
-                    <p className="mt-1">{selectedProperty.area} m²</p>
-                  </div>
-                </div>
-                <div>
-                  <Label className="font-semibold">Địa điểm:</Label>
-                  <p className="mt-1">{selectedProperty.location}</p>
-                </div>
-                <div>
-                  <Label className="font-semibold">Mục đích:</Label>
-                  <p className="mt-1">
-                    <Badge variant="outline">{selectedProperty.type}</Badge>
-                  </p>
-                </div>
-                <div>
-                  <Label className="font-semibold">Loại bất động sản:</Label>
-                  <p className="mt-1">{selectedProperty.categories?.name || 'N/A'}</p>
-                </div>
-                <div>
-                  <Label className="font-semibold">Người đăng:</Label>
-                  <p className="mt-1">{selectedProperty.owner?.full_name} ({selectedProperty.owner?.email})</p>
-                </div>
-                <div>
-                  <Label className="font-semibold">Trạng thái:</Label>
-                  <p className="mt-1">
-                    <Badge
-                      variant={
-                        selectedProperty.approval_status === 'approved'
-                          ? 'default'
-                          : selectedProperty.approval_status === 'rejected'
-                          ? 'destructive'
-                          : 'secondary'
+              <ScrollArea className="max-h-[calc(90vh-80px)]">
+                <div className="p-6 pt-4 space-y-6">
+                  {/* Image Gallery */}
+                  <div className="space-y-3">
+                    <Label className="text-sm font-semibold text-muted-foreground flex items-center gap-2">
+                      <ImageIcon className="h-4 w-4" />
+                      Hình ảnh ({(selectedProperty.property_images?.length || 0) + (selectedProperty.image_url ? 1 : 0)} ảnh)
+                    </Label>
+                    {(() => {
+                      const allImages = [
+                        ...(selectedProperty.image_url ? [selectedProperty.image_url] : []),
+                        ...(selectedProperty.property_images?.map(img => img.image_url) || [])
+                      ];
+                      
+                      if (allImages.length === 0) {
+                        return (
+                          <div className="bg-muted rounded-lg h-48 flex items-center justify-center">
+                            <div className="text-center text-muted-foreground">
+                              <ImageIcon className="h-12 w-12 mx-auto mb-2 opacity-50" />
+                              <p>Không có hình ảnh</p>
+                            </div>
+                          </div>
+                        );
                       }
-                    >
-                      {selectedProperty.approval_status === 'approved'
-                        ? 'Đã duyệt'
-                        : selectedProperty.approval_status === 'rejected'
-                        ? 'Từ chối'
-                        : 'Chờ duyệt'}
-                    </Badge>
-                  </p>
-                </div>
-                {selectedProperty.rejection_reason && (
-                  <div>
-                    <Label className="font-semibold text-red-600">Lý do từ chối:</Label>
-                    <p className="mt-1 text-red-600">{selectedProperty.rejection_reason}</p>
+                      
+                      return (
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                          {allImages.slice(0, 6).map((url, index) => (
+                            <div key={index} className="relative group bg-muted rounded-lg h-32 flex items-center justify-center overflow-hidden border">
+                              <img
+                                src={url}
+                                alt={`Ảnh ${index + 1}`}
+                                className="max-w-full max-h-full object-contain cursor-pointer hover:opacity-90 transition-opacity"
+                                onClick={() => window.open(url, '_blank')}
+                              />
+                              {index === 0 && (
+                                <Badge className="absolute top-2 left-2 text-xs">Ảnh chính</Badge>
+                              )}
+                            </div>
+                          ))}
+                          {allImages.length > 6 && (
+                            <div className="bg-muted rounded-lg h-32 flex items-center justify-center">
+                              <span className="text-muted-foreground font-medium">+{allImages.length - 6} ảnh</span>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })()}
                   </div>
-                )}
-              </div>
+
+                  <Separator />
+
+                  {/* Title & Status */}
+                  <div className="space-y-2">
+                    <div className="flex items-start justify-between gap-4">
+                      <h3 className="text-lg font-semibold leading-tight">{selectedProperty.title}</h3>
+                      <Badge
+                        variant={
+                          selectedProperty.approval_status === 'approved'
+                            ? 'default'
+                            : selectedProperty.approval_status === 'rejected'
+                            ? 'destructive'
+                            : 'secondary'
+                        }
+                        className="shrink-0"
+                      >
+                        {selectedProperty.approval_status === 'approved'
+                          ? 'Đã duyệt'
+                          : selectedProperty.approval_status === 'rejected'
+                          ? 'Từ chối'
+                          : 'Chờ duyệt'}
+                      </Badge>
+                    </div>
+                    <div className="flex items-center gap-2 text-muted-foreground text-sm">
+                      <MapPin className="h-4 w-4" />
+                      <span>{selectedProperty.location}</span>
+                    </div>
+                  </div>
+
+                  {/* Price & Key Info */}
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div className="bg-blue-50 dark:bg-blue-950/30 rounded-lg p-4">
+                      <p className="text-sm text-muted-foreground mb-1">Giá</p>
+                      <p className="text-xl font-bold text-blue-600">{formatPrice(selectedProperty.price)}</p>
+                    </div>
+                    <div className="bg-green-50 dark:bg-green-950/30 rounded-lg p-4">
+                      <div className="flex items-center gap-2 text-muted-foreground text-sm mb-1">
+                        <Maximize className="h-4 w-4" />
+                        <span>Diện tích</span>
+                      </div>
+                      <p className="text-xl font-bold text-green-600">{selectedProperty.area} m²</p>
+                    </div>
+                    {selectedProperty.bedrooms !== undefined && selectedProperty.bedrooms > 0 && (
+                      <div className="bg-orange-50 dark:bg-orange-950/30 rounded-lg p-4">
+                        <div className="flex items-center gap-2 text-muted-foreground text-sm mb-1">
+                          <Bed className="h-4 w-4" />
+                          <span>Phòng ngủ</span>
+                        </div>
+                        <p className="text-xl font-bold text-orange-600">{selectedProperty.bedrooms}</p>
+                      </div>
+                    )}
+                    {selectedProperty.bathrooms !== undefined && selectedProperty.bathrooms > 0 && (
+                      <div className="bg-purple-50 dark:bg-purple-950/30 rounded-lg p-4">
+                        <div className="flex items-center gap-2 text-muted-foreground text-sm mb-1">
+                          <Bath className="h-4 w-4" />
+                          <span>Phòng tắm</span>
+                        </div>
+                        <p className="text-xl font-bold text-purple-600">{selectedProperty.bathrooms}</p>
+                      </div>
+                    )}
+                  </div>
+
+                  <Separator />
+
+                  {/* Details Grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-3">
+                      <div>
+                        <Label className="text-sm text-muted-foreground">Loại giao dịch</Label>
+                        <p className="mt-1">
+                          <Badge variant="outline" className="font-medium">{selectedProperty.type}</Badge>
+                        </p>
+                      </div>
+                      <div>
+                        <Label className="text-sm text-muted-foreground">Loại bất động sản</Label>
+                        <p className="mt-1 font-medium">{selectedProperty.categories?.name || 'Chưa phân loại'}</p>
+                      </div>
+                      {selectedProperty.district && (
+                        <div>
+                          <Label className="text-sm text-muted-foreground">Quận/Huyện</Label>
+                          <p className="mt-1 font-medium">{selectedProperty.district}</p>
+                        </div>
+                      )}
+                      {selectedProperty.ward && (
+                        <div>
+                          <Label className="text-sm text-muted-foreground">Phường/Xã</Label>
+                          <p className="mt-1 font-medium">{selectedProperty.ward}</p>
+                        </div>
+                      )}
+                    </div>
+                    
+                    <div className="space-y-3">
+                      <div>
+                        <Label className="text-sm text-muted-foreground flex items-center gap-2">
+                          <User className="h-4 w-4" />
+                          Người đăng
+                        </Label>
+                        <p className="mt-1 font-medium">{selectedProperty.owner?.full_name || 'N/A'}</p>
+                        <p className="text-sm text-muted-foreground">{selectedProperty.owner?.email}</p>
+                        {selectedProperty.owner?.phone && (
+                          <p className="text-sm text-muted-foreground">{selectedProperty.owner.phone}</p>
+                        )}
+                      </div>
+                      <div>
+                        <Label className="text-sm text-muted-foreground flex items-center gap-2">
+                          <Calendar className="h-4 w-4" />
+                          Ngày tạo
+                        </Label>
+                        <p className="mt-1 font-medium">
+                          {new Date(selectedProperty.created_at).toLocaleDateString('vi-VN', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                          })}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Description */}
+                  {selectedProperty.description && (
+                    <>
+                      <Separator />
+                      <div>
+                        <Label className="text-sm font-semibold text-muted-foreground">Mô tả chi tiết</Label>
+                        <div className="mt-2 p-4 bg-muted/50 rounded-lg">
+                          <p className="text-sm whitespace-pre-wrap leading-relaxed">{selectedProperty.description}</p>
+                        </div>
+                      </div>
+                    </>
+                  )}
+
+                  {/* Rejection Reason */}
+                  {selectedProperty.rejection_reason && (
+                    <div className="bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800 rounded-lg p-4">
+                      <Label className="text-sm font-semibold text-red-600 flex items-center gap-2">
+                        <XCircle className="h-4 w-4" />
+                        Lý do từ chối
+                      </Label>
+                      <p className="mt-2 text-red-600">{selectedProperty.rejection_reason}</p>
+                    </div>
+                  )}
+
+                  {/* Action Buttons for Pending Properties */}
+                  {selectedProperty.approval_status === 'pending' && (
+                    <>
+                      <Separator />
+                      <div className="flex gap-3 justify-end">
+                        <Button
+                          variant="destructive"
+                          onClick={() => {
+                            setViewDialogOpen(false);
+                            setRejectDialogOpen(true);
+                          }}
+                          className="gap-2"
+                        >
+                          <XCircle className="h-4 w-4" />
+                          Từ chối
+                        </Button>
+                        <Button
+                          onClick={() => {
+                            handleApprove(selectedProperty.id);
+                            setViewDialogOpen(false);
+                          }}
+                          className="gap-2 bg-green-600 hover:bg-green-700"
+                        >
+                          <CheckCircle className="h-4 w-4" />
+                          Duyệt tin
+                        </Button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </ScrollArea>
             )}
           </DialogContent>
         </Dialog>

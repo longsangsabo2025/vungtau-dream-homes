@@ -121,11 +121,11 @@ export default function Favorites() {
 
                 return (
                   <Card key={favorite.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                    <div className="relative aspect-video">
+                    <div className="relative aspect-video bg-muted flex items-center justify-center">
                       <img
                         src={property.image_url || '/placeholder.jpg'}
                         alt={property.title}
-                        className="w-full h-full object-cover"
+                        className="max-w-full max-h-full object-contain"
                       />
                       <Badge 
                         className="absolute top-2 sm:top-3 left-2 sm:left-3 text-xs"

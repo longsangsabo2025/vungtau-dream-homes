@@ -279,9 +279,9 @@ export default function AgentsManagement() {
 
   const filteredAgents = agents.filter(
     (agent) =>
-      agent.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      agent.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      agent.phone.includes(searchTerm)
+      (agent.full_name?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+      (agent.email?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+      (agent.phone || '').includes(searchTerm)
   );
 
   return (
