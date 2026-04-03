@@ -272,7 +272,7 @@ const PropertyDetail = () => {
   const pageTitle = `${property.title} - ${property.location} | VungTauLand`
   const pageDescription = `${property.type} ${property.title} tại ${property.location}, Vũng Tàu. Diện tích ${property.area}m², ${property.bedrooms} phòng ngủ, ${property.bathrooms} phòng tắm. Giá ${property.listing_type === 'sale' ? 'bán' : 'thuê'}: ${property.price?.toLocaleString('vi-VN')} ${property.listing_type === 'sale' ? 'VNĐ' : 'VNĐ/tháng'}. Liên hệ ngay để xem nhà!`
   const pageKeywords = `${property.type} ${property.location}, bất động sản ${property.location}, ${property.listing_type === 'sale' ? 'mua bán' : 'cho thuê'} ${property.type}, ${property.bedrooms} phòng ngủ, ${property.bathrooms} phòng tắm, ${property.area}m2, vũng tàu`
-  const pageUrl = `https://vungtauland.com/property/${property.id}`
+  const pageUrl = `https://vungtauland.store/property/${property.id}`
 
   return (
     <div className="min-h-screen flex flex-col bg-background">

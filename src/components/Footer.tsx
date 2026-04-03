@@ -1,10 +1,10 @@
-import { Building, Mail, Phone, MapPin, Facebook, Youtube } from "lucide-react";
+import { Building, Mail, Phone, MapPin, Facebook, Youtube, ExternalLink } from "lucide-react";
 
 const Footer = () => {
   return (
     <footer className="bg-muted border-t">
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* About */}
           <div>
             <div className="flex items-center space-x-2.5 mb-4">
@@ -21,13 +21,17 @@ const Footer = () => {
             </p>
             <div className="flex space-x-3">
               <a
-                href="#"
+                href="https://facebook.com/longsang.org"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex h-9 w-9 items-center justify-center rounded-lg bg-secondary text-secondary-foreground hover:bg-secondary-light transition-colors"
               >
                 <Facebook className="h-5 w-5" />
               </a>
               <a
-                href="#"
+                href="https://youtube.com/@dungdaydi"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex h-9 w-9 items-center justify-center rounded-lg bg-destructive text-destructive-foreground hover:opacity-90 transition-opacity"
               >
                 <Youtube className="h-5 w-5" />
@@ -67,24 +71,79 @@ const Footer = () => {
             <h3 className="text-sm font-semibold mb-4">Hỗ trợ</h3>
             <ul className="space-y-3">
               <li>
-                <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <a href="/guide" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                   Hướng dẫn đăng tin
                 </a>
               </li>
               <li>
-                <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <a href="/rules" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                   Quy định đăng tin
                 </a>
               </li>
               <li>
-                <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <a href="/faq" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                   Câu hỏi thường gặp
                 </a>
               </li>
               <li>
-                <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <a href="/contact" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                   Liên hệ
                 </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Ecosystem */}
+          <div>
+            <h3 className="text-sm font-semibold mb-4">Hệ sinh thái LongSang</h3>
+            <ul className="space-y-3">
+              <li>
+                <a
+                  href="https://longsang.org"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors inline-flex items-center gap-1.5"
+                >
+                  Long Sang Forge
+                  <ExternalLink className="h-3 w-3" />
+                </a>
+                <p className="text-xs text-muted-foreground/70">AI & Tech Solutions</p>
+              </li>
+              <li>
+                <a
+                  href="https://ainewbievn.shop"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors inline-flex items-center gap-1.5"
+                >
+                  AINewbieVN
+                  <ExternalLink className="h-3 w-3" />
+                </a>
+                <p className="text-xs text-muted-foreground/70">Cộng đồng AI Việt Nam</p>
+              </li>
+              <li>
+                <a
+                  href="https://saboarena.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors inline-flex items-center gap-1.5"
+                >
+                  SABO Arena
+                  <ExternalLink className="h-3 w-3" />
+                </a>
+                <p className="text-xs text-muted-foreground/70">Billiards & E-Sports</p>
+              </li>
+              <li>
+                <a
+                  href="https://youtube.com/@dungdaydi"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors inline-flex items-center gap-1.5"
+                >
+                  ĐỨNG DẬY ĐI
+                  <ExternalLink className="h-3 w-3" />
+                </a>
+                <p className="text-xs text-muted-foreground/70">Podcast AI & Phát triển bản thân</p>
               </li>
             </ul>
           </div>
@@ -121,14 +180,25 @@ const Footer = () => {
               © 2024 VungTauLand. Bản quyền thuộc về Công ty Bất Động Sản Vũng Tàu.
             </p>
             <div className="flex gap-6">
-              <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+              <a href="/terms" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                 Điều khoản dịch vụ
               </a>
-              <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+              <a href="/privacy" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                 Chính sách bảo mật
               </a>
             </div>
           </div>
+          <p className="text-xs text-muted-foreground/60 text-center mt-4">
+            Powered by{" "}
+            <a
+              href="https://longsang.org"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-primary transition-colors"
+            >
+              LongSang
+            </a>
+          </p>
         </div>
       </div>
     </footer>

@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://vungtauland.com/</loc>
-    <lastmod>2025-12-28</lastmod>
+    <loc>https://vungtauland.store/</loc>
+    <lastmod>2026-04-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>1</priority>
   </url>
   <url>
-    <loc>https://vungtauland.com/mua-ban</loc>
-    <lastmod>2025-12-28</lastmod>
+    <loc>https://vungtauland.store/mua-ban</loc>
+    <lastmod>2026-04-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://vungtauland.com/cho-thue</loc>
-    <lastmod>2025-12-28</lastmod>
+    <loc>https://vungtauland.store/cho-thue</loc>
+    <lastmod>2026-04-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://vungtauland.com/tin-tuc</loc>
-    <lastmod>2025-12-28</lastmod>
+    <loc>https://vungtauland.store/tin-tuc</loc>
+    <lastmod>2026-04-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://vungtauland.com/dang-tin</loc>
-    <lastmod>2025-12-28</lastmod>
+    <loc>https://vungtauland.store/dang-tin</loc>
+    <lastmod>2026-04-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

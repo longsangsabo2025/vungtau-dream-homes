@@ -15,7 +15,7 @@ export class SitemapGenerator {
   private baseUrl: string;
   private urls: SitemapUrl[] = [];
 
-  constructor(baseUrl: string = 'https://vungtauland.com') {
+  constructor(baseUrl: string = 'https://vungtauland.store') {
     this.baseUrl = baseUrl.replace(/\/$/, ''); // Remove trailing slash
   }
 

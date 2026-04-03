@@ -35,7 +35,7 @@ export function SEO({
   noIndex = false,
   canonical,
 }: SEOProps) {
-  const currentUrl = url || (typeof window !== 'undefined' ? window.location.href : 'https://vungtauland.com');
+  const currentUrl = url || (typeof window !== 'undefined' ? window.location.href : 'https://vungtauland.store');
   const canonicalUrl = canonical || currentUrl;
 
   // Generate property-specific structured data
@@ -74,8 +74,8 @@ export function SEO({
     "@type": "RealEstateAgent",
     "name": "VungTauLand",
     "description": "Nền tảng bất động sản uy tín tại Vũng Tàu",
-    "url": "https://vungtauland.com",
-    "logo": "https://vungtauland.com/logo.png",
+    "url": "https://vungtauland.store",
+    "logo": "https://vungtauland.store/logo.png",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Vũng Tàu",
@@ -112,7 +112,7 @@ export function SEO({
       <meta property="og:url" content={currentUrl} />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
-      <meta property="og:image" content={image.startsWith('http') ? image : `https://vungtauland.com${image}`} />
+      <meta property="og:image" content={image.startsWith('http') ? image : `https://vungtauland.store${image}`} />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:locale" content="vi_VN" />
@@ -124,7 +124,7 @@ export function SEO({
       <meta name="twitter:url" content={currentUrl} />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={image.startsWith('http') ? image : `https://vungtauland.com${image}`} />
+      <meta name="twitter:image" content={image.startsWith('http') ? image : `https://vungtauland.store${image}`} />
       
       {/* Additional SEO */}
       <meta name="language" content="vi" />

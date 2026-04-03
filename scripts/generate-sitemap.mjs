@@ -12,9 +12,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const SUPABASE_URL = 'https://rxjsdoylkflzsxlyccqh.supabase.co';
-const SUPABASE_ACCESS_TOKEN = 'sbp_d9fd9f159ba3a08854384eedc801d9d3bc7d9c77';
+const SUPABASE_ACCESS_TOKEN = process.env.SUPABASE_ACCESS_TOKEN;
 const PROJECT_REF = 'rxjsdoylkflzsxlyccqh';
-const BASE_URL = 'https://vungtauland.com';
+const BASE_URL = 'https://vungtauland.store';
 
 async function getServiceKey() {
   const response = await fetch(`https://api.supabase.com/v1/projects/${PROJECT_REF}/api-keys?reveal=true`, {

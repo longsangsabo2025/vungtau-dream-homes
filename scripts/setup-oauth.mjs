@@ -38,7 +38,6 @@ const oauthConfig = {
   
   // Additional redirect URLs
   redirectUrls: [
-    'https://vungtauland.com',
     'https://vungtauland.store',
     'http://localhost:5173',
     'http://localhost:8080'

@@ -8,7 +8,14 @@ import { useLocation } from 'react-router-dom';
 
 // Google Analytics Measurement ID
 // Thay thế bằng ID thực của bạn từ Google Analytics 4
-const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID || 'G-XXXXXXXXXX';
+const env = import.meta.env as Record<string, string | undefined>;
+
+const GA_MEASUREMENT_ID = (
+  env.VITE_GA_ID ||
+  env.NEXT_PUBLIC_GA_ID ||
+  env.VITE_GA_MEASUREMENT_ID ||
+  ''
+).trim();
 
 declare global {
   interface Window {
@@ -23,9 +30,12 @@ declare global {
 export function initGA() {
   if (typeof window === 'undefined') return;
   
-  // Không init nếu là dev mode và không có ID
-  if (GA_MEASUREMENT_ID === 'G-XXXXXXXXXX') {
-    console.log('[GA] Analytics disabled - no measurement ID');
+  if (!GA_MEASUREMENT_ID) {
+    console.log('[GA] Disabled - no measurement ID configured');
+    return;
+  }
+
+  if (window.gtag) {
     return;
   }
 
@@ -55,7 +65,7 @@ export function initGA() {
  */
 export function trackPageView(url: string, title?: string) {
   if (typeof window === 'undefined' || !window.gtag) return;
-  if (GA_MEASUREMENT_ID === 'G-XXXXXXXXXX') return;
+  if (!GA_MEASUREMENT_ID) return;
 
   window.gtag('config', GA_MEASUREMENT_ID, {
     page_location: url,
@@ -71,7 +81,7 @@ export function trackEvent(
   parameters?: Record<string, any>
 ) {
   if (typeof window === 'undefined' || !window.gtag) return;
-  if (GA_MEASUREMENT_ID === 'G-XXXXXXXXXX') return;
+  if (!GA_MEASUREMENT_ID) return;
 
   window.gtag('event', eventName, parameters);
 }

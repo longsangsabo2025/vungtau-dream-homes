@@ -19,7 +19,7 @@ export function PropertyStructuredData({ property }: PropertyStructuredDataProps
     "@type": "RealEstateListing",
     "name": property.title,
     "description": property.description || `${property.title} tại ${property.location}`,
-    "url": `https://vungtauland.com/property/${property.id}`,
+    "url": `https://vungtauland.store/property/${property.id}`,
     "image": property.image_url,
     "offers": {
       "@type": "Offer",

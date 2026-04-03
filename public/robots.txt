@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemaps
-Sitemap: https://vungtauland.com/sitemap.xml
+Sitemap: https://vungtauland.store/sitemap.xml
 
 # Disallow admin pages
 Disallow: /admin/

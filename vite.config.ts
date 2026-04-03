@@ -1,11 +1,14 @@
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "node:path";
 import { componentTagger } from "lovable-tagger";
 import { VitePWA } from 'vite-plugin-pwa';
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => ({
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), "");
+
+  return {
   server: {
     host: "::",
     port: 5175,
@@ -87,6 +90,11 @@ export default defineConfig(({ mode }) => ({
       }
     })
   ].filter(Boolean),
+  define: {
+    "import.meta.env.SENTRY_DSN": JSON.stringify(env.SENTRY_DSN || ""),
+    "import.meta.env.NEXT_PUBLIC_SENTRY_DSN": JSON.stringify(env.NEXT_PUBLIC_SENTRY_DSN || ""),
+    "import.meta.env.NEXT_PUBLIC_GA_ID": JSON.stringify(env.NEXT_PUBLIC_GA_ID || ""),
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
@@ -122,4 +130,5 @@ export default defineConfig(({ mode }) => ({
   esbuild: {
     drop: mode === 'production' ? ['console', 'debugger'] : [],
   },
-}));
+  };
+});

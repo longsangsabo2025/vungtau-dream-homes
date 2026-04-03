@@ -21,7 +21,7 @@ const staticPages = [
   { loc: '/dang-tin', changefreq: 'monthly', priority: 0.7 },
 ];
 
-const baseUrl = 'https://vungtauland.com';
+const baseUrl = 'https://vungtauland.store';
 
 function generateSitemap() {
   const urls = staticPages.map(page => {

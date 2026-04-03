@@ -34,8 +34,8 @@ const BuySell = () => {
         title="Mua Bán Nhà Đất Vũng Tàu - Villa, Căn Hộ, Đất Nền Uy Tín | VungTauLand"
         description="🏡 Mua bán bất động sản Vũng Tàu uy tín. Villa mặt biển, căn hộ cao cấp, đất nền sổ hồng từ 1-50 tỷ. Pháp lý rõ ràng, hỗ trợ vay ngân hàng. Hotline: 0977.888.999"
         keywords="mua nhà vũng tàu, bán nhà vũng tàu, đất nền vũng tàu, villa vũng tàu, căn hộ vũng tàu, bất động sản vũng tàu, sổ hồng vũng tàu, nhà mặt biển vũng tàu"
-        url="https://vungtauland.com/mua-ban"
-        canonical="https://vungtauland.com/mua-ban"
+        url="https://vungtauland.store/mua-ban"
+        canonical="https://vungtauland.store/mua-ban"
         type="website"
       />
       <Header />

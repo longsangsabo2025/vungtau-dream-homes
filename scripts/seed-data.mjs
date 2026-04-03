@@ -5,8 +5,13 @@
 
 import { createClient } from '@supabase/supabase-js';
 
+if (!process.env.SUPABASE_ACCESS_TOKEN) {
+  console.error('Missing SUPABASE_ACCESS_TOKEN env var');
+  process.exit(1);
+}
+
 const SUPABASE_URL = 'https://rxjsdoylkflzsxlyccqh.supabase.co';
-const SUPABASE_ACCESS_TOKEN = 'sbp_d9fd9f159ba3a08854384eedc801d9d3bc7d9c77';
+const SUPABASE_ACCESS_TOKEN = process.env.SUPABASE_ACCESS_TOKEN;
 const PROJECT_REF = 'rxjsdoylkflzsxlyccqh';
 
 async function getServiceKey() {

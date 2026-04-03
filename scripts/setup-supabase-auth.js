@@ -11,8 +11,8 @@ const magicLinkTemplate = fs.readFileSync('./supabase/email-templates/magic-link
 const inviteTemplate = fs.readFileSync('./supabase/email-templates/invite-user.html', 'utf8');
 
 const authConfig = {
-  site_url: 'https://vungtauland.com',
-  uri_allow_list: 'http://localhost:5175,http://localhost:5176,https://vungtauland.com,https://*.vercel.app',
+  site_url: 'https://vungtauland.store',
+  uri_allow_list: 'http://localhost:5175,http://localhost:5176,https://vungtauland.store,https://*.vercel.app',
   mailer_subjects_confirmation: '🏠 Xác nhận email - Chào mừng đến VungTauLand!',
   mailer_subjects_recovery: '🔐 Đặt lại mật khẩu - VungTauLand',
   mailer_subjects_magic_link: '✨ Đăng nhập nhanh - VungTauLand',

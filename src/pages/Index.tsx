@@ -76,8 +76,8 @@ const Index = () => {
         title="VungTauLand - Bất Động Sản Vũng Tàu #1 | Mua Bán Nhà Đất Uy Tín"
         description="🏡 Nền tảng bất động sản uy tín #1 tại Vũng Tàu. Mua bán nhà đất, villa mặt biển, căn hộ, đất nền sổ hồng. 10,000+ tin đăng chính chủ, giá tốt nhất thị trường. Hotline: 0977.888.999"
         keywords="bất động sản vũng tàu, nhà đất vũng tàu, mua bán nhà vũng tàu, cho thuê nhà vũng tàu, villa mặt biển, căn hộ vũng tàu, đất nền vũng tàu, sổ hồng vũng tàu, môi giới bất động sản vũng tàu"
-        url="https://vungtauland.com"
-        canonical="https://vungtauland.com"
+        url="https://vungtauland.store"
+        canonical="https://vungtauland.store"
         type="website"
       />
       <Header />

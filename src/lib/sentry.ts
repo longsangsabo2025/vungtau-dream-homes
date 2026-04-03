@@ -1,7 +1,13 @@
 import * as Sentry from "@sentry/react";
 
 export const initSentry = () => {
-  const dsn = import.meta.env.VITE_SENTRY_DSN;
+  const env = import.meta.env as Record<string, string | undefined>;
+  const dsn = (
+    env.SENTRY_DSN ||
+    env.NEXT_PUBLIC_SENTRY_DSN ||
+    env.VITE_SENTRY_DSN ||
+    ""
+  ).trim();
   const isProduction = import.meta.env.PROD;
   const isLocalPreview = window.location.hostname === 'localhost' && window.location.port === '4173';
   
@@ -9,7 +15,7 @@ export const initSentry = () => {
   const shouldEnable = !!dsn && (isProduction || isLocalPreview);
   
   if (!shouldEnable) {
-    console.log('[Sentry] Disabled - no DSN or not in production/preview');
+    console.log('[Sentry] Disabled - no DSN configured or not in production/preview');
     return;
   }
 

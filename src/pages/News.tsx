@@ -96,7 +96,7 @@ const News = () => {
         title="Tin tức bất động sản Vũng Tàu - VungTauLand"
         description="Cập nhật tin tức mới nhất về thị trường BĐS Vũng Tàu, dự án mới, chính sách, xu hướng đầu tư..."
         keywords="tin tức bds vũng tàu, thị trường bds vũng tàu, dự án vũng tàu, đầu tư vũng tàu"
-        url="https://vungtauland.com/tin-tuc"
+        url="https://vungtauland.store/tin-tuc"
       />
       <Header />
       

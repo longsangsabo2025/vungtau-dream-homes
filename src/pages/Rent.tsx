@@ -34,7 +34,7 @@ const Rent = () => {
         title="Cho thuê nhà đất Vũng Tàu - VungTauLand"
         description="Tìm nhà cho thuê, căn hộ cho thuê, phòng trọ tại Vũng Tàu. Giá tốt, vị trí đẹp, cập nhật liên tục."
         keywords="cho thuê nhà vũng tàu, thuê căn hộ vũng tàu, phòng trọ vũng tàu, homestay vũng tàu"
-        url="https://vungtauland.com/cho-thue"
+        url="https://vungtauland.store/cho-thue"
       />
       <Header />
       
