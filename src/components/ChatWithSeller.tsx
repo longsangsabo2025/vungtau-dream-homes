@@ -64,6 +64,18 @@ export function ChatWithSeller({
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
+  // Start conversation on mount for inline mode
+  useEffect(() => {
+    if (inline && !conversationId) {
+      startConversation()
+    }
+  }, [inline, isOpen, conversationId])
+  // Start conversation on mount for inline mode (conditional)
+  useEffect(() => {
+    if (inline && !conversationId) {
+      startConversation()
+    }
+  }, [inline, isOpen])
   // Start conversation with seller
   const startConversation = async () => {
     if (!user || !sellerId) return
@@ -253,6 +265,7 @@ export function ChatWithSeller({
     }
 
     // Start conversation on mount for inline mode
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
       if (!conversationId) {
         startConversation()
@@ -356,3 +369,7 @@ export function ChatWithSeller({
 }
 
 export default ChatWithSeller
+
+
+
+

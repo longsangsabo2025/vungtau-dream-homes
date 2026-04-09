@@ -47,9 +47,7 @@ export function initGA() {
 
   // Initialize dataLayer
   window.dataLayer = window.dataLayer || [];
-  window.gtag = function gtag() {
-    window.dataLayer.push(arguments);
-  };
+  window.gtag = function gtag(...args: any[]) { window.dataLayer.push(args); };
 
   window.gtag('js', new Date());
   window.gtag('config', GA_MEASUREMENT_ID, {
@@ -176,3 +174,4 @@ function getPriceRange(price: number): string {
   if (price < 10000000000) return '5b_10b';
   return 'over_10b';
 }
+

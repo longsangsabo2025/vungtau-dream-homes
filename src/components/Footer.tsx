@@ -1,4 +1,12 @@
-import { Building, Mail, Phone, MapPin, Facebook, Youtube, ExternalLink } from "lucide-react";
+import { Building, Mail, Phone, MapPin, ExternalLink } from "lucide-react";
+
+const FacebookIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+);
+
+const YoutubeIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19.1c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.43zM9.75 15.02V8.48l5.75 3.27-5.75 3.27z"/></svg>
+);
 
 const Footer = () => {
   return (
@@ -26,7 +34,7 @@ const Footer = () => {
                 rel="noopener noreferrer"
                 className="flex h-9 w-9 items-center justify-center rounded-lg bg-secondary text-secondary-foreground hover:bg-secondary-light transition-colors"
               >
-                <Facebook className="h-5 w-5" />
+                <FacebookIcon className="h-5 w-5" />
               </a>
               <a
                 href="https://youtube.com/@dungdaydi"
@@ -34,7 +42,7 @@ const Footer = () => {
                 rel="noopener noreferrer"
                 className="flex h-9 w-9 items-center justify-center rounded-lg bg-destructive text-destructive-foreground hover:opacity-90 transition-opacity"
               >
-                <Youtube className="h-5 w-5" />
+                <YoutubeIcon className="h-5 w-5" />
               </a>
             </div>
           </div>
