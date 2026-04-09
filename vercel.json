@@ -14,7 +14,7 @@
       "destination": "/api/robots.txt"
     },
     {
-      "source": "/(.*)",
+      "source": "/((?!google).*)",
       "destination": "/index.html"
     }
   ],
